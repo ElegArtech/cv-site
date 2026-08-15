@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face { font-family: "Bricolage Grotesque"; font-style: normal; font-weight: 400 800; font-display: swap; src: url("fonts/bricolage-grotesque-latin.woff2") format("woff2"); }
+@font-face { font-family: "DM Sans"; font-style: normal; font-weight: 300 700; font-display: swap; src: url("fonts/dm-sans-latin.woff2") format("woff2"); }
+@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 400 700; font-display: swap; src: url("fonts/jetbrains-mono-latin.woff2") format("woff2"); }
+html, body { margin: 0; padding: 0; background: #0f1729; }
+a { color: #3ab5b5; text-decoration: none; }
+a:hover { color: #e8c778; }
+::selection { background: #2d8f8f; color: #fff; }
+@keyframes blink { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
+</style>
+</helmet>
+<div data-root="1" style="background: #0f1729; color: #e6edf5; font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif; transition: background 0.9s ease; min-height: 100vh; padding-bottom: 28px;">
+
+  <div style="position: fixed; right: 22px; top: 50%; transform: translateY(-50%); z-index: 50; display: flex; flex-direction: column; gap: 14px; align-items: flex-end;">
+    <sc-for list="{{ acts }}" as="a" hint-placeholder-count="6">
+      <button onClick="{{ a.go }}" style="display: flex; align-items: center; gap: 9px; background: none; border: none; cursor: pointer; padding: 0; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: {{ a.col }};">
+        <span style="opacity: {{ a.labelOp }}; transition: opacity 0.3s;">{{ a.label }}</span>
+        <span style="width: {{ a.barW }}; height: 2px; border-radius: 2px; background: {{ a.barBg }}; transition: width 0.3s, background 0.3s;"></span>
+      </button>
+    </sc-for>
+  </div>
+
+  <section data-act="hero" data-screen-label="Acte 1 — Hero" style="position: relative; min-height: 100vh; display: flex; align-items: center; box-sizing: border-box; padding: 80px 8vw; overflow: hidden;">
+    <img src="assets/photo_alex.png" alt="" aria-hidden="true" style="position: absolute; right: -3%; bottom: 0; height: 96%; opacity: {{ photoOpacity }}; filter: grayscale(70%) contrast(1.05); -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 35%, rgba(0,0,0,0)); mask-image: linear-gradient(to left, rgba(0,0,0,1) 35%, rgba(0,0,0,0)); pointer-events: none;" />
+    <div style="position: relative; max-width: 940px;">
+      <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #5a6b82;"><span style="color: #3ab5b5;">~/alexandre-berge</span> $ ./launch --profile</p>
+      <h1 style="margin: 24px 0 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(52px, 8vw, 104px); line-height: 1; letter-spacing: -0.03em; color: #ffffff; min-height: 1em;"><span data-typedname="1">Alexandre Berge</span><span style="display: inline-block; width: 0.45em; height: 0.78em; background: #2d8f8f; margin-left: 6px; vertical-align: -0.08em; animation: blink 1.1s steps(1) infinite;"></span></h1>
+      <p data-heroline="1" style="margin: 22px 0 0; font-size: clamp(19px, 2.2vw, 26px); font-weight: 600; color: #3ab5b5;">Responsable Département Informatique</p>
+      <p data-heroline="1" style="margin: 6px 0 0; font-size: 16px; color: #8b9bb4;">CPAM des Hauts-de-Seine · SI &amp; Transformation digitale · Santé et protection sociale</p>
+      <dl data-heroline="1" style="display: grid; grid-template-columns: repeat(4, auto); gap: 44px; margin: 52px 0 0; justify-content: start;">
+        <sc-for list="{{ metrics }}" as="m" hint-placeholder-count="4">
+          <div style="margin: 0;">
+            <dt style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%);">{{ m.label }}</dt>
+            <dd data-count="{{ m.target }}" data-suffix="{{ m.suffix }}" style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: clamp(30px, 3vw, 42px); font-weight: 700; letter-spacing: -0.03em; color: #e8c778;">{{ m.value }}</dd>
+            <dd style="margin: 5px 0 0; font-size: 13px; color: #8b9bb4;">{{ m.label }}</dd>
+          </div>
+        </sc-for>
+      </dl>
+      <div data-heroline="1" style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 52px;">
+        <a href="assets/cv-alexandre-berge.pdf" download="cv-alexandre-berge.pdf" style="display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 8px; background: #2d8f8f; color: #ffffff; font-size: 14px; font-weight: 600;" style-hover="background: #3ab5b5; color: #ffffff;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
+          Télécharger le CV
+        </a>
+        <a href="https://www.linkedin.com/in/bergealexandre" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.22); color: #e6edf5; font-size: 14px; font-weight: 600;" style-hover="border-color: #3ab5b5; color: #3ab5b5;">LinkedIn</a>
+        <a href="https://github.com/ElegAlex" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.22); color: #e6edf5; font-size: 14px; font-weight: 600;" style-hover="border-color: #3ab5b5; color: #3ab5b5;">GitHub</a>
+      </div>
+      <p style="margin: 64px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; color: #5a6b82;">↓ SCROLL</p>
+    </div>
+  </section>
+
+  <section data-act="profil" data-screen-label="Acte 2 — Profil" style="position: relative; height: 220vh;">
+    <div style="position: sticky; top: 0; height: 100vh; display: flex; align-items: center; box-sizing: border-box; padding: 0 8vw;">
+      <div style="max-width: 900px;">
+        <p style="margin: 0 0 26px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.16em; color: #2d8f8f;">02 / PROFIL ▮</p>
+        <p data-hl="1" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: clamp(26px, 3.4vw, 44px); line-height: 1.35; letter-spacing: -0.01em;">
+          <sc-for list="{{ words }}" as="w" hint-placeholder-count="20"><span data-w="1" style="opacity: 0.18; transition: opacity 0.25s, color 0.25s;">{{ w }}&#32;</span></sc-for>
+        </p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-top: 48px; max-width: 860px;">
+          <sc-for list="{{ pillars }}" as="p" hint-placeholder-count="4">
+            <div style="background: rgba(23,32,58,0.85); border: 1px solid #2d3a50; border-radius: 10px; padding: 18px;">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #3ab5b5;">{{ p.key }}</div>
+              <div style="margin-top: 8px; font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700; color: #e8c778;">{{ p.value }}</div>
+              <div style="margin-top: 3px; font-size: 12.5px; color: #8b9bb4;">{{ p.label }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-act="experiences" data-screen-label="Acte 3 — Expériences" data-hwrap="1" style="position: relative; height: 400vh;">
+    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; justify-content: center;">
+      <div style="box-sizing: border-box; padding: 0 8vw 26px;">
+        <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.16em; color: #2d8f8f;">03 / EXPÉRIENCES ▮ <span style="color: #5a6b82;">— scroll pour avancer dans le temps</span></p>
+      </div>
+      <div data-htrack="1" style="display: flex; gap: 3vw; padding: 0 8vw; will-change: transform;">
+        <sc-for list="{{ xps }}" as="x" hint-placeholder-count="4">
+          <article style="flex-shrink: 0; width: min(620px, 76vw); background: #17203a; border: 1px solid #2d3a50; border-radius: 16px; padding: 34px 38px; box-sizing: border-box;">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 12.5px;">
+              <span style="color: #e8c778;">{{ x.period }}</span>
+              <span style="color: #5a6b82;">{{ x.index }}</span>
+            </div>
+            <h3 style="margin: 16px 0 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(22px, 2.4vw, 32px); line-height: 1.15; color: #ffffff;">{{ x.role }}</h3>
+            <p style="margin: 8px 0 0; font-size: 15px; font-weight: 600; color: #3ab5b5;">{{ x.org }}</p>
+            <p style="margin: 4px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5a6b82;">// {{ x.context }}</p>
+            <ul style="list-style: none; margin: 22px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px;">
+              <sc-for list="{{ x.items }}" as="it" hint-placeholder-count="3">
+                <li style="display: flex; gap: 10px; font-size: 14.5px; line-height: 1.55; color: #a3b3c9;"><span style="color: #2d8f8f; font-family: 'JetBrains Mono', monospace; flex-shrink: 0;">▸</span><span>{{ it }}</span></li>
+              </sc-for>
+            </ul>
+          </article>
+        </sc-for>
+      </div>
+      <div style="display: flex; gap: 8px; padding: 30px 8vw 0;">
+        <sc-for list="{{ dots }}" as="d" hint-placeholder-count="4">
+          <span data-dot="1" style="width: 26px; height: 3px; border-radius: 3px; background: #2d3a50; transition: background 0.3s;"></span>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section data-act="projets" data-screen-label="Acte 4 — Projets" style="position: relative; box-sizing: border-box; padding: 120px 8vw 140px;">
+    <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.16em; color: #2d8f8f;">04 / PROJETS ▮</p>
+    <h2 style="margin: 14px 0 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(34px, 4vw, 52px); letter-spacing: -0.02em; color: #ffffff;">Ce que je construis.</h2>
+    <div style="max-width: 900px; margin-top: 56px;">
+      <article style="position: sticky; top: 90px; background: linear-gradient(135deg, #17203a, #101a33); border: 1px solid rgba(58,181,181,0.35); border-radius: 18px; padding: 40px 44px; box-shadow: 0 24px 60px -24px rgba(0,0,0,0.6); margin-bottom: 26px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+          <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 36px; color: #ffffff;">Orchestr-A</h3>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 5px 11px; border-radius: 999px; border: 1px solid rgba(232,199,120,0.4); color: #e8c778;">en développement actif</span>
+        </div>
+        <p style="margin: 12px 0 0; font-size: 17px; font-weight: 600; color: #3ab5b5;">Gestion de projets et ressources pour collectivités territoriales</p>
+        <p style="margin: 14px 0 0; font-size: 15px; line-height: 1.65; color: #a3b3c9; max-width: 640px;">Application de gestion de projets et de ressources humaines destinée aux collectivités territoriales, construite en monorepo. Architecte et développeur principal.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px;">
+          <sc-for list="{{ orchestraStack }}" as="t" hint-placeholder-count="5">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 11px; border-radius: 5px; background: rgba(45,143,143,0.18); border: 1px solid rgba(58,181,181,0.28); color: #3ab5b5;">{{ t }}</span>
+          </sc-for>
+        </div>
+        <a href="https://github.com/ElegAlex/Orchestr-A" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 8px; margin-top: 26px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #3ab5b5;" style-hover="color: #e8c778;">→ github.com/ElegAlex/Orchestr-A</a>
+      </article>
+      <article style="position: sticky; top: 122px; background: #141e38; border: 1px solid #2d3a50; border-radius: 18px; padding: 34px 44px; box-shadow: 0 24px 60px -24px rgba(0,0,0,0.7); margin-bottom: 26px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+          <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 27px; color: #ffffff;">OPSTRACKER</h3>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 5px 11px; border-radius: 999px; border: 1px solid rgba(58,181,181,0.3); color: #3ab5b5;">en production interne</span>
+        </div>
+        <p style="margin: 10px 0 0; font-size: 15px; color: #a3b3c9;">Suivi d'opérations IT et monitoring helpdesk — pilotage par les indicateurs.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px;">
+          <sc-for list="{{ opstrackerStack }}" as="t" hint-placeholder-count="5">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 11px; border-radius: 5px; background: rgba(45,143,143,0.12); border: 1px solid #2d3a50; color: #8b9bb4;">{{ t }}</span>
+          </sc-for>
+        </div>
+        <a href="https://github.com/ElegAlex/OPSTRACKER" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 8px; margin-top: 22px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #3ab5b5;" style-hover="color: #e8c778;">→ github.com/ElegAlex/OPSTRACKER</a>
+      </article>
+      <p style="margin: 10px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #5a6b82;">// archive : <a href="https://www.depotdoc.fr" target="_blank" rel="noopener noreferrer" style="color: #8b9bb4;" style-hover="color: #3ab5b5;">depotdoc.fr</a> — 360 k usages/an, adopté par 30 % du réseau national Assurance Maladie</p>
+    </div>
+  </section>
+
+  <section data-act="competences" data-screen-label="Acte 5 — Compétences" style="box-sizing: border-box; padding: 120px 8vw;">
+    <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.16em; color: #2d8f8f;">05 / COMPÉTENCES &amp; FORMATION ▮</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-top: 44px; max-width: 1100px;">
+      <sc-for list="{{ skillGroups }}" as="g" hint-placeholder-count="6">
+        <div data-rv="1" style="background: rgba(23,32,58,0.85); border: 1px solid #2d3a50; border-radius: 12px; padding: 22px;">
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #3ab5b5;">{{ g.key }}:</div>
+          <div style="margin-top: 6px; font-weight: 700; font-size: 16px; color: #e6edf5;">{{ g.title }}</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px;">
+            <sc-for list="{{ g.tags }}" as="t" hint-placeholder-count="4">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 3px 9px; border-radius: 4px; background: rgba(45,143,143,0.12); color: #8b9bb4;">{{ t }}</span>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin-top: 34px; max-width: 1100px;">
+      <sc-for list="{{ creds }}" as="c" hint-placeholder-count="3">
+        <div data-rv="1" style="border: 1px dashed #2d3a50; border-radius: 12px; padding: 20px;">
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #e8c778;">{{ c.period }}</div>
+          <div style="margin-top: 6px; font-weight: 700; font-size: 15px; color: #e6edf5;">{{ c.title }}</div>
+          <div style="margin-top: 3px; font-size: 12.5px; color: #8b9bb4;">{{ c.org }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section data-act="contact" data-screen-label="Acte 6 — Contact" style="min-height: 92vh; display: flex; align-items: center; box-sizing: border-box; padding: 80px 8vw;">
+    <div>
+      <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #5a6b82;"><span style="color: #e8c778;">POST</span> /contact <span style="color: #2d8f8f;">HTTP/1.1</span></p>
+      <h2 style="margin: 24px 0 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(52px, 8vw, 110px); letter-spacing: -0.03em; line-height: 1; color: #ffffff;">Parlons-en.</h2>
+      <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 48px;">
+        <a href="mailto:contact@alexandre-berge.fr" style="display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 8px; background: #2d8f8f; color: #ffffff; font-size: 14px; font-weight: 600;" style-hover="background: #3ab5b5; color: #ffffff;">contact@alexandre-berge.fr</a>
+        <a href="tel:+33665576478" style="display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.22); color: #e6edf5; font-size: 14px; font-weight: 600;" style-hover="border-color: #3ab5b5; color: #3ab5b5;">06 65 57 64 78</a>
+        <a href="https://www.linkedin.com/in/bergealexandre" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.22); color: #e6edf5; font-size: 14px; font-weight: 600;" style-hover="border-color: #3ab5b5; color: #3ab5b5;">LinkedIn</a>
+        <a href="https://github.com/ElegAlex" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.22); color: #e6edf5; font-size: 14px; font-weight: 600;" style-hover="border-color: #3ab5b5; color: #3ab5b5;">GitHub</a>
+      </div>
+      <p style="margin: 56px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5a6b82;">// blogs : <a href="https://www.elegartech.fr" target="_blank" rel="noopener noreferrer" style="color: #8b9bb4;" style-hover="color: #3ab5b5;">elegartech.fr</a> · <a href="https://communs-numeriques.fr" target="_blank" rel="noopener noreferrer" style="color: #8b9bb4;" style-hover="color: #3ab5b5;">communs-numeriques.fr</a> — Paris 13e · © 2026</p>
+    </div>
+  </section>
+
+  <div style="position: fixed; bottom: 0; left: 0; right: 0; z-index: 60; display: flex; align-items: center; justify-content: space-between; height: 26px; padding: 0 14px; background: rgba(11,18,32,0.92); backdrop-filter: blur(6px); border-top: 1px solid #1f2b47; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #8b9bb4;">
+    <div style="display: flex; align-items: center; gap: 16px;">
+      <span style="color: #3ab5b5;">⎇ main</span>
+      <span><span style="color: #e8c778;">●</span> en poste — CPAM 92</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 16px;">
+      <span data-scrollpct="1">0%</span>
+      <span>UTF-8 · FR</span>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;photoOpacity&quot;: {&quot;editor&quot;: &quot;range&quot;, &quot;default&quot;: 0.13, &quot;min&quot;: 0, &quot;max&quot;: 0.5, &quot;step&quot;: 0.02, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Hero&quot;}}">
+class Component extends DCLogic {
+  state = { active: 'hero' };
+  actDefs = [
+    { id: 'hero', label: 'HERO', bg: '#0f1729' },
+    { id: 'profil', label: 'PROFIL', bg: '#111c33' },
+    { id: 'experiences', label: 'EXPÉRIENCES', bg: '#0b1220' },
+    { id: 'projets', label: 'PROJETS', bg: '#131f3a' },
+    { id: 'competences', label: 'COMPÉTENCES', bg: '#0d1526' },
+    { id: 'contact', label: 'CONTACT', bg: '#0a0f1d' },
+  ];
+  getScroller() {
+    const root = document.querySelector('[data-root]');
+    let el = root && root.parentElement;
+    while (el) {
+      const oy = getComputedStyle(el).overflowY;
+      if (el.scrollHeight > el.clientHeight + 10 && (oy === 'auto' || oy === 'scroll')) return el;
+      el = el.parentElement;
+    }
+    return document.scrollingElement || document.documentElement;
+  }
+  goTo(id) {
+    const sec = document.querySelector('[data-act="' + id + '"]');
+    if (!sec) return;
+    const sc = this.getScroller();
+    const top = sec.getBoundingClientRect().top - (sc.getBoundingClientRect ? sc.getBoundingClientRect().top : 0) + sc.scrollTop + 2;
+    sc.scrollTo({ top: top, behavior: 'smooth' });
+  }
+  componentDidMount() {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const root = document.querySelector('[data-root]');
+    // active act observer
+    this.io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          const id = e.target.getAttribute('data-act');
+          this.setState({ active: id });
+          const def = this.actDefs.find((a) => a.id === id);
+          if (root && def) root.style.background = def.bg;
+        }
+      });
+    }, { rootMargin: '-40% 0px -40% 0px', threshold: 0 });
+    document.querySelectorAll('[data-act]').forEach((s) => this.io.observe(s));
+    // reveals
+    this.rv = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'none'; this.rv.unobserve(e.target); }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('[data-rv]').forEach((el, i) => {
+      if (reduced) return;
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(18px)';
+      el.style.transition = 'opacity 0.6s ease ' + (i % 5) * 0.06 + 's, transform 0.6s ease ' + (i % 5) * 0.06 + 's';
+      this.rv.observe(el);
+    });
+    // typed name
+    const nameEl = document.querySelector('[data-typedname]');
+    const heroLines = document.querySelectorAll('[data-heroline]');
+    const fullName = 'Alexandre Berge';
+    if (nameEl && !reduced) {
+      nameEl.textContent = '';
+      heroLines.forEach((el) => { el.style.opacity = '0'; el.style.transform = 'translateY(14px)'; el.style.transition = 'opacity 0.7s ease, transform 0.7s ease'; });
+      let i = 0;
+      this.typeTimer = setInterval(() => {
+        nameEl.textContent = fullName.slice(0, ++i);
+        if (i >= fullName.length) {
+          clearInterval(this.typeTimer);
+          heroLines.forEach((el, j) => setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'none'; }, j * 130));
+          this.runCounts();
+        }
+      }, 55);
+    } else { this.runCounts(); }
+    // scroll-driven: horizontal track, word highlight, scroll %
+    const onScroll = () => {
+      if (this.raf) return;
+      this.raf = requestAnimationFrame(() => {
+        this.raf = null;
+        const vh = window.innerHeight;
+        // scroll %
+        const pct = document.querySelector('[data-scrollpct]');
+        const rootEl = document.querySelector('[data-root]');
+        if (pct && rootEl) {
+          const rr = rootEl.getBoundingClientRect();
+          const max = rr.height - vh;
+          if (max > 0) pct.textContent = Math.min(100, Math.max(0, Math.round((-rr.top / max) * 100))) + '%';
+        }
+        // horizontal experiences
+        const wrap = document.querySelector('[data-hwrap]');
+        const track = document.querySelector('[data-htrack]');
+        if (wrap && track && !reduced) {
+          const r = wrap.getBoundingClientRect();
+          const total = r.height - vh;
+          const p = Math.min(1, Math.max(0, -r.top / total));
+          const dist = track.scrollWidth - window.innerWidth + window.innerWidth * 0.16;
+          track.style.transform = 'translateX(' + (-p * Math.max(0, dist)) + 'px)';
+          const dots = document.querySelectorAll('[data-dot]');
+          const idx = Math.min(dots.length - 1, Math.floor(p * dots.length));
+          dots.forEach((d, i) => { d.style.background = i <= idx ? '#3ab5b5' : '#2d3a50'; });
+        }
+        // word highlight in profil
+        const hl = document.querySelector('[data-hl]');
+        if (hl) {
+          const sec = document.querySelector('[data-act="profil"]');
+          const r2 = sec.getBoundingClientRect();
+          const total2 = r2.height - vh;
+          const p2 = Math.min(1, Math.max(0, -r2.top / total2 * 1.4));
+          const ws = hl.querySelectorAll('[data-w]');
+          const lit = Math.floor(p2 * ws.length);
+          ws.forEach((w, i) => {
+            w.style.opacity = i < lit ? '1' : '0.18';
+            w.style.color = i < lit ? '#e6edf5' : '#8b9bb4';
+          });
+        }
+      });
+    };
+    this.onScroll = onScroll;
+    window.addEventListener('scroll', onScroll, { passive: true });
+    document.addEventListener('scroll', onScroll, { capture: true, passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    onScroll();
+    this.kickTimer = setTimeout(onScroll, 400);
+  }
+  runCounts() {
+    if (this.counted) return;
+    this.counted = true;
+    document.querySelectorAll('[data-count]').forEach((el) => {
+      const target = parseInt(el.getAttribute('data-count'), 10);
+      const suffix = el.getAttribute('data-suffix') || '';
+      const t0 = performance.now();
+      const tick = (t) => {
+        const p = Math.min(1, (t - t0) / 1100);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(target * eased).toLocaleString('fr-FR') + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+  }
+  componentWillUnmount() {
+    if (this.io) this.io.disconnect();
+    if (this.rv) this.rv.disconnect();
+    if (this.typeTimer) clearInterval(this.typeTimer);
+    if (this.onScroll) {
+      window.removeEventListener('scroll', this.onScroll);
+      document.removeEventListener('scroll', this.onScroll, { capture: true });
+      window.removeEventListener('resize', this.onScroll);
+    }
+    if (this.kickTimer) clearTimeout(this.kickTimer);
+  }
+  renderVals() {
+    const active = this.state.active;
+    return {
+      acts: this.actDefs.map((a) => {
+        const on = a.id === active;
+        return {
+          label: a.label,
+          go: () => this.goTo(a.id),
+          col: on ? '#3ab5b5' : '#5a6b82',
+          labelOp: on ? 1 : 0.55,
+          barW: on ? '34px' : '16px',
+          barBg: on ? '#3ab5b5' : '#2d3a50',
+        };
+      }),
+      photoOpacity: this.props.photoOpacity ?? 0.13,
+      metrics: [
+        { value: '17+', target: 17, suffix: '+', label: 'années de management' },
+        { value: '45', target: 45, suffix: '', label: 'collaborateurs encadrés' },
+        { value: '40+', target: 40, suffix: '+', label: 'applications pilotées' },
+        { value: '1 400', target: 1400, suffix: '', label: 'postes utilisateurs' },
+      ],
+      words: "De 12 ans d'opérations en protection sociale au pilotage d'une DSI : gouvernance, infrastructure, développement, IA. Je structure les organisations IT pour qu'elles passent de centres de coûts à leviers de transformation métier.".split(' '),
+      pillars: [
+        { key: 'MANAGEMENT', value: '45 collab.', label: '3 services · 800 k€ de budget' },
+        { key: 'INFRASTRUCTURE', value: '55 VM', label: '6 clusters VMware · 24 sites' },
+        { key: 'DÉVELOPPEMENT', value: '30+ apps', label: 'NestJS · Symfony · PostgreSQL' },
+        { key: 'IA & DATA', value: 'RAG', label: 'Gouvernance IA · graphes · BI' },
+      ],
+      xps: [
+        { index: '04 / 04', period: 'jan. 2026 → aujourd\u2019hui', role: 'Responsable Département Informatique', org: 'CPAM des Hauts-de-Seine', context: '1,7 M assurés · 45 collaborateurs · 3 services', items: [
+          'Direction de 3 services : Développement, Support/Infra, Correspondants IT + Data/BI',
+          'Roadmap DSI 2026, comitologie et référentiel applicatif centralisé',
+          'Stratégie IA : gouvernance, cas d\u2019usage métiers, mutualisation inter-organismes',
+        ]},
+        { index: '03 / 04', period: 'nov. 2024 → déc. 2025', role: 'Responsable du service informatique', org: 'DRSM Île-de-France → CPAM de Paris', context: '24 collaborateurs · budget 800 k€', items: [
+          'Fusion régionale : 1 155 postes migrés, 8 CPAM coordonnées, 0 interruption',
+          'Support : 81 % de résolution au 1er contact, 8 500 tickets/an',
+          'Infra : 24 sites, 55 VM, 6 clusters VMware, Centreon, Veeam',
+        ]},
+        { index: '02 / 04', period: 'sep. 2020 → oct. 2024', role: 'Responsable Informatique & Appui au Pilotage', org: 'CPAM de la Charente', context: '10 collaborateurs · 400 postes · 40 serveurs', items: [
+          'Création de depotdoc.fr — 30 k usages/mois, −50 % de flux papier',
+          'Migrations Alma Linux 9, open source (GLPI, Axelor), IA interne (RAG, graphe)',
+        ]},
+        { index: '01 / 04', period: '2008 → 2020', role: 'Parcours Management Opérationnel', org: 'CPAM Charente · CARSAT Centre · RSI', context: '3 organismes · 12 ans', items: [
+          'Jusqu\u2019à 25 collaborateurs managés, pôle régional 1,3 M feuilles de soins/an',
+          'Transformation accueil guichet → rendez-vous, +10 % de productivité',
+        ]},
+      ],
+      dots: [1, 2, 3, 4],
+      orchestraStack: ['NestJS 11', 'Next.js 16', 'PostgreSQL', 'Redis', 'Turborepo'],
+      opstrackerStack: ['Symfony', 'PHP', 'PostgreSQL', 'Redis', 'Docker'],
+      skillGroups: [
+        { key: 'direction', title: 'Direction & Gouvernance', tags: ['Leadership IT', 'ITIL', 'Budgets & ROI'] },
+        { key: 'transformation', title: 'Pilotage & Transformation', tags: ['Projets', 'Conduite du changement', 'DevOps CI/CD'] },
+        { key: 'ia', title: 'Intelligence Artificielle', tags: ['RAG', 'LLM', 'Gouvernance IA', 'Stratégie data'] },
+        { key: 'infra', title: 'Architecture & Infrastructure', tags: ['VMware', 'Linux/Windows', 'Centreon', 'Veeam'] },
+        { key: 'support', title: 'Support & Services', tags: ['ITSM', 'Helpdesk', 'KPI'] },
+        { key: 'opensource', title: 'Open Source', tags: ['GLPI', 'Axelor', 'Communs numériques'] },
+      ],
+      creds: [
+        { period: '2024 — 2025', title: 'Master 2 Executive MSIC', org: 'Université Paris 1 Panthéon-Sorbonne' },
+        { period: '2013 — 2014', title: 'Master 2 DTSE', org: 'Université Toulouse 1 Capitole' },
+        { period: 'Certification', title: 'ITIL 4 Foundation', org: 'Gestion des services IT' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>
