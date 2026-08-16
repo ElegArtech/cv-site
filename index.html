@@ -61,9 +61,27 @@ a:hover { color: #e8c778; }
   grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr)) !important;
 }
 
-/* La navigation latérale fixe chevauche le contenu sous cette largeur. */
-@media (max-width: 900px) {
+/* Le sommaire latéral fixe chevauche le contenu sous cette largeur. Au-dessus
+   de 1100px seulement, il reste assez de place pour lui réserver une colonne
+   sans rogner la carte active de l'acte 3 (voir la règle plus bas). */
+@media (max-width: 1100px) {
   [data-sidenav] { display: none !important; }
+}
+
+/* Acte 3 : les cartes défilent horizontalement sur toute la largeur et
+   passaient derrière le sommaire fixe, jusqu'à 720px de recouvrement, rendant
+   les deux illisibles. On lui réserve sa colonne et on adoucit la coupe par un
+   court dégradé. */
+@media (min-width: 1101px) {
+  [data-act="experiences"] > div {
+    /* Le conteneur porte overflow:hidden : le rétrécir suffit à écarter les
+       cartes de la colonne du sommaire (22px de marge + 102px de large).
+       Le déplacement horizontal étant calculé sur window.innerWidth et non
+       sur cette largeur, l'animation n'est pas affectée. */
+    width: calc(100% - 140px);
+    -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 90px), transparent 100%);
+    mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 90px), transparent 100%);
+  }
 }
 
 @media (max-width: 760px) {
