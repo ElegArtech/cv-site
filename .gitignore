@@ -20,3 +20,7 @@ build/
 .env
 .env.local
 *.log
+
+# Document de travail maître : ne pas publier (le dépôt est servi par GitHub Pages)
+CV_Alexandre_Berge_SOCLE.docx
+*.docx

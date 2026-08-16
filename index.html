@@ -274,6 +274,9 @@ a:hover { color: #e8c778; }
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #e8c778;">{{ c.period }}</div>
           <div style="margin-top: 6px; font-weight: 700; font-size: 15px; color: #e6edf5;">{{ c.title }}</div>
           <div style="margin-top: 3px; font-size: 12.5px; color: #8b9bb4;">{{ c.org }}</div>
+          <sc-for list="{{ c.notes }}" as="n" hint-placeholder-count="0">
+            <div style="margin-top: 10px; font-size: 12px; line-height: 1.5; color: #5a6b82;">{{ n }}</div>
+          </sc-for>
         </div>
       </sc-for>
     </div>
@@ -289,7 +292,7 @@ a:hover { color: #e8c778; }
         <a href="https://www.linkedin.com/in/bergealexandre" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.22); color: #e6edf5; font-size: 14px; font-weight: 600;" style-hover="border-color: #3ab5b5; color: #3ab5b5;">LinkedIn</a>
         <a href="https://github.com/ElegAlex" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.22); color: #e6edf5; font-size: 14px; font-weight: 600;" style-hover="border-color: #3ab5b5; color: #3ab5b5;">GitHub</a>
       </div>
-      <p style="margin: 56px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5a6b82;">// blogs : <a href="https://www.elegartech.fr" target="_blank" rel="noopener noreferrer" style="color: #8b9bb4;" style-hover="color: #3ab5b5;">elegartech.fr</a> · <a href="https://communs-numeriques.fr" target="_blank" rel="noopener noreferrer" style="color: #8b9bb4;" style-hover="color: #3ab5b5;">communs-numeriques.fr</a> — Paris 13e · © 2026</p>
+      <p style="margin: 56px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5a6b82;">// blogs : <a href="https://www.elegartech.fr" target="_blank" rel="noopener noreferrer" style="color: #8b9bb4;" style-hover="color: #3ab5b5;">elegartech.fr</a> · <a href="https://communs-numeriques.fr" target="_blank" rel="noopener noreferrer" style="color: #8b9bb4;" style-hover="color: #3ab5b5;">communs-numeriques.fr</a> · <a href="https://elegartech.substack.com" target="_blank" rel="noopener noreferrer" style="color: #8b9bb4;" style-hover="color: #3ab5b5;">elegartech.substack.com</a> — Paris 13e · © 2026</p>
     </div>
   </section>
 
@@ -471,9 +474,9 @@ class Component extends DCLogic {
       }),
       photoOpacity: this.props.photoOpacity ?? 0.13,
       metrics: [
-        { value: '17+', target: 17, suffix: '+', label: 'années de management' },
+        { value: '18', target: 18, suffix: '', label: 'années de management' },
         { value: '45', target: 45, suffix: '', label: 'collaborateurs encadrés' },
-        { value: '40+', target: 40, suffix: '+', label: 'applications pilotées' },
+        { value: '30+', target: 30, suffix: '+', label: 'applications pilotées' },
         { value: '1 400', target: 1400, suffix: '', label: 'postes utilisateurs' },
       ],
       words: "De 12 ans d'opérations en protection sociale au pilotage d'une DSI : gouvernance, infrastructure, développement, IA. Je structure les organisations IT pour qu'elles passent de centres de coûts à leviers de transformation métier.".split(' '),
@@ -481,13 +484,15 @@ class Component extends DCLogic {
         { key: 'MANAGEMENT', value: '45 collab.', label: '3 services · 800 k€ de budget' },
         { key: 'INFRASTRUCTURE', value: '55 VM', label: '6 clusters VMware · 24 sites' },
         { key: 'DÉVELOPPEMENT', value: '30+ apps', label: 'NestJS · Symfony · PostgreSQL' },
-        { key: 'IA & DATA', value: 'RAG', label: 'Gouvernance IA · graphes · BI' },
+        { key: 'IA & DATA', value: '3 organismes', label: 'Acculturation IA · RAG · gouvernance' },
       ],
       xps: [
         { index: '04 / 04', period: 'jan. 2026 → aujourd\u2019hui', role: 'Responsable Département Informatique', org: 'CPAM des Hauts-de-Seine', context: '1,7 M assurés · 45 collaborateurs · 3 services', items: [
           'Direction de 3 services : Développement, Support/Infra, Correspondants IT + Data/BI',
           'Roadmap DSI 2026, comitologie et référentiel applicatif centralisé',
           'Stratégie IA : gouvernance, cas d\u2019usage métiers, mutualisation inter-organismes',
+          'Refonte du helpdesk : backlog ramené de 775 à moins de 80 tickets en 3 mois',
+          '3 outils internes livrés en production en 6 mois, dont le pilotage du helpdesk',
         ]},
         { index: '03 / 04', period: 'nov. 2024 → déc. 2025', role: 'Responsable du service informatique', org: 'DRSM Île-de-France → CPAM de Paris', context: '24 collaborateurs · budget 800 k€', items: [
           'Fusion régionale : 1 155 postes migrés, 8 CPAM coordonnées, 0 interruption',
@@ -497,6 +502,7 @@ class Component extends DCLogic {
         { index: '02 / 04', period: 'sep. 2020 → oct. 2024', role: 'Responsable Informatique & Appui au Pilotage', org: 'CPAM de la Charente', context: '10 collaborateurs · 400 postes · 40 serveurs', items: [
           'Création de depotdoc.fr — 30 k usages/mois, −50 % de flux papier',
           'Migrations Alma Linux 9, open source (GLPI, Axelor), IA interne (RAG, graphe)',
+          'Comptes rendus de CA : 3 semaines → 3 jours, POC fondateur de la stratégie IA',
         ]},
         { index: '01 / 04', period: '2008 → 2020', role: 'Parcours Management Opérationnel', org: 'CPAM Charente · CARSAT Centre · RSI', context: '3 organismes · 12 ans', items: [
           'Jusqu\u2019à 25 collaborateurs managés, pôle régional 1,3 M feuilles de soins/an',
@@ -508,16 +514,18 @@ class Component extends DCLogic {
       opstrackerStack: ['Symfony', 'PHP', 'PostgreSQL', 'Redis', 'Docker'],
       skillGroups: [
         { key: 'direction', title: 'Direction & Gouvernance', tags: ['Leadership IT', 'ITIL', 'Budgets & ROI'] },
-        { key: 'transformation', title: 'Pilotage & Transformation', tags: ['Projets', 'Conduite du changement', 'DevOps CI/CD'] },
+        { key: 'transformation', title: 'Pilotage & Transformation', tags: ['Projets', 'Conduite du changement', 'Scrum / Kanban', 'Management de transition', 'DevOps CI/CD'] },
         { key: 'ia', title: 'Intelligence Artificielle', tags: ['RAG', 'LLM', 'Gouvernance IA', 'Stratégie data'] },
-        { key: 'infra', title: 'Architecture & Infrastructure', tags: ['VMware', 'Linux/Windows', 'Centreon', 'Veeam'] },
-        { key: 'support', title: 'Support & Services', tags: ['ITSM', 'Helpdesk', 'KPI'] },
+        { key: 'developpement', title: 'Développement applicatif', tags: ['Symfony / PHP', 'TypeScript / React', 'Go', 'Python', 'PostgreSQL', 'Git / GitLab'] },
+        { key: 'infra', title: 'Architecture & Infrastructure', tags: ['VMware', 'Proxmox', 'Linux/Windows', 'Centreon', 'Veeam', 'PCA / PRA'] },
+        { key: 'support', title: 'Support & Services', tags: ['ITSM', 'Helpdesk', 'SLA', 'KPI'] },
         { key: 'opensource', title: 'Open Source', tags: ['GLPI', 'Axelor', 'Communs numériques'] },
       ],
       creds: [
-        { period: '2024 — 2025', title: 'Master 2 Executive MSIC', org: 'Université Paris 1 Panthéon-Sorbonne' },
-        { period: '2013 — 2014', title: 'Master 2 DTSE', org: 'Université Toulouse 1 Capitole' },
-        { period: 'Certification', title: 'ITIL 4 Foundation', org: 'Gestion des services IT' },
+        { period: '2024 — 2025', title: 'Master 2 Executive MSIC', org: 'Université Paris 1 Panthéon-Sorbonne', notes: ['Mémoire : « Les facteurs d’institutionnalisation des communs numériques au sein de l’administration »'] },
+        { period: '2013 — 2014', title: 'Master 2 DTSE', org: 'Université Toulouse 1 Capitole', notes: [] },
+        { period: 'Certification', title: 'ITIL 4 Foundation', org: 'Gestion des services IT', notes: [] },
+        { period: 'Langues', title: 'Anglais professionnel', org: 'Français — langue maternelle', notes: [] },
       ],
     };
   }
