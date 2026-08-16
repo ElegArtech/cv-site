@@ -61,6 +61,13 @@ a:hover { color: #e8c778; }
   grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr)) !important;
 }
 
+/* Les boutons du sommaire sont en line-height: normal : leur hauteur suivait
+   donc les métriques de la police. À l'arrivée de JetBrains Mono, le bloc
+   passait de 136 à 148px et, comme il est centré verticalement, remontait de
+   6px en fin de chargement. Une hauteur de ligne explicite le fige dès la
+   première frame, quelle que soit la police active. */
+[data-sidenav] button { line-height: 13px; }
+
 /* Le sommaire latéral fixe chevauche le contenu sous cette largeur. Au-dessus
    de 1100px seulement, il reste assez de place pour lui réserver une colonne
    sans rogner la carte active de l'acte 3 (voir la règle plus bas). */
