@@ -36,11 +36,101 @@ a { color: #3ab5b5; text-decoration: none; }
 a:hover { color: #e8c778; }
 ::selection { background: #2d8f8f; color: #fff; }
 @keyframes blink { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
+
+/* ==========================================================================
+   Adaptation aux petits écrans.
+   La mise en page est portée par des attributs style="" inline : ces règles
+   doivent donc être en !important pour pouvoir les surcharger.
+   ========================================================================== */
+
+/* Deux blocs de contenu sont des éléments flex porteurs d'un max-width. Sans
+   min-width:0, leur taille minimale automatique reste leur min-content, et ils
+   débordent horizontalement au lieu de rétrécir. C'est l'origine du décalage
+   de toute la page. */
+[data-act="hero"] > div,
+[data-act="profil"] > div > div { min-width: 0 !important; }
+
+/* Grilles auto-fit : quand la largeur disponible est indéfinie (parent flex),
+   Chrome résout le nombre de colonnes contre le max-width — le min-content
+   valait ici 4x180 + 3x14 = 762px. min() borne chaque colonne à la largeur
+   réellement disponible. */
+[data-act="profil"] > div > div > div {
+  grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr)) !important;
+}
+[data-act="competences"] > div {
+  grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr)) !important;
+}
+
+/* La navigation latérale fixe chevauche le contenu sous cette largeur. */
+@media (max-width: 900px) {
+  [data-sidenav] { display: none !important; }
+}
+
+@media (max-width: 760px) {
+  /* Marges latérales : 8vw devient trop étroit en bas de gamme. */
+  [data-act="hero"],
+  [data-act="contact"] { padding: 76px 22px !important; }
+  [data-act="projets"] { padding: 88px 22px 96px !important; }
+  [data-act="competences"] { padding: 88px 22px !important; }
+  [data-act="profil"] > div,
+  [data-act="experiences"] > div > div:first-child,
+  [data-act="experiences"] [data-htrack],
+  [data-act="experiences"] > div > div:last-child { padding-left: 22px !important; padding-right: 22px !important; }
+
+  /* Le minimum des clamp() dépassait la largeur de l'écran : le titre était
+     tronqué. On repasse sur une base vw avec un plancher atteignable. */
+  [data-act="hero"] h1 { font-size: clamp(34px, 10.5vw, 104px) !important; }
+  [data-act="hero"] h1 + p { font-size: clamp(17px, 4.8vw, 26px) !important; }
+
+  /* 4 colonnes fixes ne se replient jamais : la 4e métrique sortait de l'écran. */
+  [data-act="hero"] dl {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 26px 18px !important;
+    margin-top: 40px !important;
+  }
+  [data-act="hero"] dl dd[data-count] { font-size: 30px !important; }
+
+  /* La photo occupait tout l'écran derrière le texte. */
+  [data-act="hero"] > img {
+    height: 62% !important;
+    right: -22% !important;
+    opacity: 0.07 !important;
+  }
+
+  /* Acte 2 : le conteneur est bloqué à height:100vh. Empilés sur une colonne,
+     le paragraphe et les 4 encarts dépassaient la hauteur d'écran et se
+     retrouvaient coupés. On densifie plutôt que de casser le sticky. */
+  [data-act="profil"] p[data-hl] {
+    font-size: clamp(19px, 5.1vw, 30px) !important;
+    line-height: 1.28 !important;
+  }
+  [data-act="profil"] > div > div > div {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    margin-top: 30px !important;
+  }
+  [data-act="profil"] > div > div > div > div { padding: 13px !important; }
+
+  /* Cartes : le rembourrage desktop mange la largeur utile. */
+  [data-act="experiences"] [data-htrack] article { padding: 24px 22px !important; }
+  [data-act="projets"] article { padding: 26px 22px !important; }
+  [data-act="projets"] article h3 { font-size: 27px !important; }
+}
+
+/* Barre d'état fixe en bas : le groupe de droite n'a plus la place. */
+@media (max-width: 560px) {
+  [data-statusbar] > div:last-child { display: none !important; }
+}
+
+/* NB : pas de « html, body { overflow-x: hidden } » comme filet de sécurité.
+   Cela transforme la racine en conteneur de défilement et casse les
+   position:sticky dont dépendent les actes 2, 3 et 4. Le débordement est
+   corrigé à la source ci-dessus. */
 </style>
 </helmet>
 <div data-root="1" style="background: #0f1729; color: #e6edf5; font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif; transition: background 0.9s ease; min-height: 100vh; padding-bottom: 28px;">
 
-  <div style="position: fixed; right: 22px; top: 50%; transform: translateY(-50%); z-index: 50; display: flex; flex-direction: column; gap: 14px; align-items: flex-end;">
+  <div data-sidenav="1" style="position: fixed; right: 22px; top: 50%; transform: translateY(-50%); z-index: 50; display: flex; flex-direction: column; gap: 14px; align-items: flex-end;">
     <sc-for list="{{ acts }}" as="a" hint-placeholder-count="6">
       <button onClick="{{ a.go }}" style="display: flex; align-items: center; gap: 9px; background: none; border: none; cursor: pointer; padding: 0; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: {{ a.col }};">
         <span style="opacity: {{ a.labelOp }}; transition: opacity 0.3s;">{{ a.label }}</span>
@@ -203,7 +293,7 @@ a:hover { color: #e8c778; }
     </div>
   </section>
 
-  <div style="position: fixed; bottom: 0; left: 0; right: 0; z-index: 60; display: flex; align-items: center; justify-content: space-between; height: 26px; padding: 0 14px; background: rgba(11,18,32,0.92); backdrop-filter: blur(6px); border-top: 1px solid #1f2b47; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #8b9bb4;">
+  <div data-statusbar="1" style="position: fixed; bottom: 0; left: 0; right: 0; z-index: 60; display: flex; align-items: center; justify-content: space-between; height: 26px; padding: 0 14px; background: rgba(11,18,32,0.92); backdrop-filter: blur(6px); border-top: 1px solid #1f2b47; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #8b9bb4;">
     <div style="display: flex; align-items: center; gap: 16px;">
       <span style="color: #3ab5b5;">⎇ main</span>
       <span><span style="color: #e8c778;">●</span> en poste — CPAM 92</span>
