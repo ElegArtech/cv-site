@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<title>Rationarium — aperçu</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- React est servi en local, comme sur le site principal : loadReactUmd() de
+     support.js court-circuite alors le CDN unpkg. Le runtime est partagé avec
+     la racine — ne pas en dupliquer une copie ici. -->
+<script src="../vendor/react.production.min.js"></script>
+<script src="../vendor/react-dom.production.min.js"></script>
+<script src="../support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans+Condensed:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Serif:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;background:#F1F2F4;color:#14161C;font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+a{color:#1B2A9B;}a:hover{color:#121D75;}
+::selection{background:#E7EAF8;}
+html{scroll-behavior:smooth;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes frameUp{from{opacity:0;transform:translateY(64px)}to{opacity:1;transform:none}}
+@keyframes riseIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}}
+</style>
+</helmet>
+<div style="min-width:1180px">
+<header data-screen-label="En-tête" data-fx="header" style="position:sticky;top:0;z-index:50;background:#FFFFFF;border-bottom:1px solid #D5D8DE;transition:box-shadow .25s ease">
+  <div style="max-width:1140px;margin:0 auto;display:flex;align-items:center;gap:32px;padding:14px 20px">
+    <div style="font-family:'IBM Plex Serif',Georgia,serif;font-size:22px;font-weight:600;letter-spacing:.2px">Rationarium</div>
+    <nav style="display:flex;gap:24px;font-size:14px;font-weight:500;margin-left:auto">
+      <a href="#probleme" style="color:#5B6270;text-decoration:none;transition:color .15s ease" style-hover="color:#14161C">Le problème</a>
+      <a href="#principe" style="color:#5B6270;text-decoration:none;transition:color .15s ease" style-hover="color:#14161C">Le principe</a>
+      <a href="#ecrans" style="color:#5B6270;text-decoration:none;transition:color .15s ease" style-hover="color:#14161C">Les écrans</a>
+      <a href="#roles" style="color:#5B6270;text-decoration:none;transition:color .15s ease" style-hover="color:#14161C">À qui ça sert</a>
+    </nav>
+    <a href="#cta" style="background:#1B2A9B;color:#FFFFFF;text-decoration:none;font-size:14px;font-weight:600;padding:10px 18px;border-radius:3px" style-hover="background:#121D75">Demander une démo</a>
+  </div>
+</header>
+
+<section data-screen-label="Héros" style="background:#101A6E;color:#FFFFFF;padding:88px 20px 0">
+  <div style="max-width:1140px;margin:0 auto">
+    <div style="max-width:760px">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#8FA9FF;margin-bottom:20px;animation:fadeUp .55s ease both">Pilotage de projets &amp; ressources</div>
+      <h1 style="font-family:'IBM Plex Serif',Georgia,serif;font-weight:600;font-size:52px;line-height:1.12;margin:0 0 22px;text-wrap:pretty;animation:fadeUp .6s ease .1s both">Vos projets, vos équipes et leur temps, enfin au même endroit.</h1>
+      <p style="font-size:19px;line-height:1.6;color:#C9D0E8;margin:0 0 32px;max-width:640px;text-wrap:pretty;animation:fadeUp .6s ease .2s both">Rationarium réunit le suivi des projets, la planification des ressources et la disponibilité réelle des équipes dans une seule application — la vision globale se lit à l'écran, elle ne se reconstruit plus à la main.</p>
+      <div style="display:flex;gap:14px;margin-bottom:56px;animation:fadeUp .6s ease .3s both">
+        <a href="#cta" style="background:#FFFFFF;color:#101A6E;text-decoration:none;font-size:15px;font-weight:600;padding:13px 24px;border-radius:3px;transition:transform .18s ease,box-shadow .18s ease" style-hover="transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.3)">Demander une démo</a>
+        <a href="#ecrans" style="border:1px solid #8FA9FF;color:#FFFFFF;text-decoration:none;font-size:15px;font-weight:600;padding:13px 24px;border-radius:3px;transition:background .18s ease" style-hover="background:rgba(143,169,255,.14)">Voir les écrans</a>
+      </div>
+    </div>
+    <div style="position:relative;width:1100px;height:640px;margin:0 auto">
+      <div data-par="0.05" style="animation:frameUp .9s cubic-bezier(.22,.61,.36,1) .35s both;will-change:transform;position:absolute;left:70px;bottom:0;width:880px;height:600px;z-index:1;border:1px solid #2A2F3B;border-bottom:none;border-radius:3px 3px 0 0;overflow:hidden;box-shadow:0 -8px 40px rgba(0,0,0,.35);background:#FFFFFF">
+        <span style="position:absolute;top:10px;right:10px;z-index:2;background:rgba(16,26,110,.92);color:#FFFFFF;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;border-radius:3px">Portefeuille</span>
+        <iframe src="mockups/portefeuille-projets.html" title="Portefeuille de projets" style="width:1440px;height:982px;border:none;transform:scale(0.6111);transform-origin:top left;pointer-events:none"></iframe>
+      </div>
+      <div data-par="0.08" style="animation:frameUp 1s cubic-bezier(.22,.61,.36,1) .5s both;will-change:transform;position:absolute;left:0;bottom:0;width:520px;height:320px;z-index:2;border:1px solid #2A2F3B;border-bottom:none;border-radius:3px 3px 0 0;overflow:hidden;box-shadow:0 -10px 36px rgba(0,0,0,.4);background:#FFFFFF">
+        <span style="position:absolute;top:10px;right:10px;z-index:2;background:rgba(16,26,110,.92);color:#FFFFFF;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;border-radius:3px">Planning</span>
+        <iframe src="mockups/planning-semaine.html" title="Planning des ressources — semaine" style="width:1440px;height:886px;border:none;transform:scale(0.3611);transform-origin:top left;pointer-events:none"></iframe>
+      </div>
+      <div data-par="0.11" style="animation:frameUp 1s cubic-bezier(.22,.61,.36,1) .65s both;will-change:transform;position:absolute;right:0;bottom:220px;width:540px;height:340px;z-index:3;border:1px solid #2A2F3B;border-radius:3px;overflow:hidden;box-shadow:0 18px 48px rgba(0,0,0,.45);background:#FFFFFF">
+        <span style="position:absolute;top:10px;right:10px;z-index:2;background:rgba(16,26,110,.92);color:#FFFFFF;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;border-radius:3px">Gantt</span>
+        <iframe src="mockups/projet-gantt.html" title="Gantt du projet" style="width:1440px;height:907px;border:none;transform:scale(0.375);transform-origin:top left;pointer-events:none"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="probleme" data-screen-label="Le problème" style="padding:96px 20px 88px">
+  <div style="max-width:1140px;margin:0 auto">
+    <div data-reveal style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#1B2A9B;margin-bottom:16px">Le problème</div>
+    <h2 data-reveal style="font-family:'IBM Plex Serif',Georgia,serif;font-weight:600;font-size:36px;line-height:1.2;margin:0 0 48px;max-width:720px;text-wrap:pretty">Le suivi de projet échoue rarement par manque d'outils. Il échoue parce qu'il y en a trop.</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px">
+      <div data-reveal data-hovertrans style="background:#FFFFFF;border:1px solid #D5D8DE;border-radius:3px;padding:28px" style-hover="transform:translateY(-4px);box-shadow:0 12px 28px rgba(20,22,28,.09)">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#7E8698;margin-bottom:14px">01</div>
+        <h3 style="font-size:18px;font-weight:600;margin:0 0 10px">Des outils dissociés</h3>
+        <p style="font-size:15px;color:#5B6270;margin:0;text-wrap:pretty">Le planning ici, le backlog là, les congés ailleurs. La vision globale se reconstruit à la main, dans un tableur — et elle est toujours en retard sur la réalité.</p>
+      </div>
+      <div data-reveal data-hovertrans style="background:#FFFFFF;border:1px solid #D5D8DE;border-radius:3px;padding:28px" style-hover="transform:translateY(-4px);box-shadow:0 12px 28px rgba(20,22,28,.09)">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#7E8698;margin-bottom:14px">02</div>
+        <h3 style="font-size:18px;font-weight:600;margin:0 0 10px">Des frameworks trop rigides</h3>
+        <p style="font-size:15px;color:#5B6270;margin:0;text-wrap:pretty">Des rituels et des livrables qui prouvent surtout qu'on a respecté la méthode. Le formalisme crée des goulots d'étranglement au lieu de faire avancer le travail.</p>
+      </div>
+      <div data-reveal data-hovertrans style="background:#FFFFFF;border:1px solid #D5D8DE;border-radius:3px;padding:28px" style-hover="transform:translateY(-4px);box-shadow:0 12px 28px rgba(20,22,28,.09)">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#7E8698;margin-bottom:14px">03</div>
+        <h3 style="font-size:18px;font-weight:600;margin:0 0 10px">Une expertise exigée d'emblée</h3>
+        <p style="font-size:15px;color:#5B6270;margin:0;text-wrap:pretty">Alimenter le suivi ne devrait pas demander une maturité projet d'expert. Si la saisie est un effort, le suivi s'arrête — et le pilotage avec.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="principe" data-screen-label="Le principe" style="background:#FFFFFF;border-top:1px solid #D5D8DE;border-bottom:1px solid #D5D8DE;padding:88px 20px">
+  <div style="max-width:1140px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center">
+    <div>
+      <div data-reveal style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#1B2A9B;margin-bottom:16px">Le principe</div>
+      <h2 data-reveal style="font-family:'IBM Plex Serif',Georgia,serif;font-weight:600;font-size:34px;line-height:1.22;margin:0 0 20px;text-wrap:pretty">Une seule grille temporelle réconcilie tout ce qui occupe une personne.</h2>
+      <p style="font-size:16px;color:#5B6270;margin:0 0 16px;text-wrap:pretty">Congé, télétravail, tâche de projet, tâche hors projet, permanence, réunion : chaque occupation vit sur la même grille. La disponibilité réelle de chacun se lit directement — sans consolidation, sans double saisie.</p>
+      <p style="font-size:16px;color:#5B6270;margin:0;text-wrap:pretty">C'est ce qui permet de confronter la charge planifiée à la capacité effective des équipes, semaine après semaine, projet par projet.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div data-reveal data-hovertrans style-hover="transform:translateX(6px)" style="display:flex;align-items:center;gap:12px;border:1px solid #D5D8DE;border-left:3px solid #6A4BA6;border-radius:3px;padding:13px 18px;background:#FAFAFB"><span style="width:10px;height:10px;background:#6A4BA6;border-radius:2px;flex-shrink:0"></span><span style="font-weight:600;font-size:15px">Congé</span><span style="font-size:13px;color:#5B6270;margin-left:auto;font-family:'IBM Plex Sans Condensed',sans-serif">Absence validée ou en attente</span></div>
+      <div data-reveal data-hovertrans style-hover="transform:translateX(6px)" style="display:flex;align-items:center;gap:12px;border:1px solid #D5D8DE;border-left:3px solid #0C6E86;border-radius:3px;padding:13px 18px;background:#FAFAFB"><span style="width:10px;height:10px;background:#0C6E86;border-radius:2px;flex-shrink:0"></span><span style="font-weight:600;font-size:15px">Télétravail</span><span style="font-size:13px;color:#5B6270;margin-left:auto;font-family:'IBM Plex Sans Condensed',sans-serif">Présence à distance</span></div>
+      <div data-reveal data-hovertrans style-hover="transform:translateX(6px)" style="display:flex;align-items:center;gap:12px;border:1px solid #D5D8DE;border-left:3px solid #1B2A9B;border-radius:3px;padding:13px 18px;background:#FAFAFB"><span style="width:10px;height:10px;background:#1B2A9B;border-radius:2px;flex-shrink:0"></span><span style="font-weight:600;font-size:15px">Tâche de projet</span><span style="font-size:13px;color:#5B6270;margin-left:auto;font-family:'IBM Plex Sans Condensed',sans-serif">Rattachée à un portefeuille</span></div>
+      <div data-reveal data-hovertrans style-hover="transform:translateX(6px)" style="display:flex;align-items:center;gap:12px;border:1px solid #D5D8DE;border-left:3px solid #0F6E5C;border-radius:3px;padding:13px 18px;background:#FAFAFB"><span style="width:10px;height:10px;background:#0F6E5C;border-radius:2px;flex-shrink:0"></span><span style="font-weight:600;font-size:15px">Tâche hors projet</span><span style="font-size:13px;color:#5B6270;margin-left:auto;font-family:'IBM Plex Sans Condensed',sans-serif">Le travail récurrent compte aussi</span></div>
+      <div data-reveal data-hovertrans style-hover="transform:translateX(6px)" style="display:flex;align-items:center;gap:12px;border:1px solid #D5D8DE;border-left:3px solid #5B6270;border-radius:3px;padding:13px 18px;background:#FAFAFB"><span style="width:10px;height:10px;background:#5B6270;border-radius:2px;flex-shrink:0"></span><span style="font-weight:600;font-size:15px">Permanence</span><span style="font-size:13px;color:#5B6270;margin-left:auto;font-family:'IBM Plex Sans Condensed',sans-serif">Obligations de service</span></div>
+      <div data-reveal data-hovertrans style-hover="transform:translateX(6px)" style="display:flex;align-items:center;gap:12px;border:1px solid #D5D8DE;border-left:3px solid #B8420B;border-radius:3px;padding:13px 18px;background:#FAFAFB"><span style="width:10px;height:10px;background:#B8420B;border-radius:2px;flex-shrink:0"></span><span style="font-weight:600;font-size:15px">Réunion</span><span style="font-size:13px;color:#5B6270;margin-left:auto;font-family:'IBM Plex Sans Condensed',sans-serif">Événements ponctuels</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="benefices" data-screen-label="Bénéfices" style="padding:88px 20px">
+  <div style="max-width:1140px;margin:0 auto">
+    <div data-reveal style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#1B2A9B;margin-bottom:16px">Ce que ça change</div>
+    <h2 data-reveal style="font-family:'IBM Plex Serif',Georgia,serif;font-weight:600;font-size:36px;line-height:1.2;margin:0 0 48px;max-width:720px;text-wrap:pretty">Moins de reporting, plus d'avancement.</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div data-reveal data-hovertrans style="background:#FFFFFF;border:1px solid #D5D8DE;border-radius:3px;padding:28px;display:flex;gap:20px" style-hover="transform:translateY(-4px);box-shadow:0 12px 28px rgba(20,22,28,.09)">
+        <div style="width:36px;height:36px;background:#E7EAF8;color:#1B2A9B;border-radius:3px;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-weight:600;flex-shrink:0">A</div>
+        <div><h3 style="font-size:17px;font-weight:600;margin:0 0 8px">Un portefeuille consolidé, sans le demander</h3><p style="font-size:15px;color:#5B6270;margin:0;text-wrap:pretty">L'avancement, les jalons et la charge remontent de la saisie quotidienne des équipes. Le responsable de programme lit son portefeuille sans commander de rapport.</p></div>
+      </div>
+      <div data-reveal data-hovertrans style="background:#FFFFFF;border:1px solid #D5D8DE;border-radius:3px;padding:28px;display:flex;gap:20px" style-hover="transform:translateY(-4px);box-shadow:0 12px 28px rgba(20,22,28,.09)">
+        <div style="width:36px;height:36px;background:#E7EAF8;color:#1B2A9B;border-radius:3px;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-weight:600;flex-shrink:0">B</div>
+        <div><h3 style="font-size:17px;font-weight:600;margin:0 0 8px">La disponibilité réelle dans la planification</h3><p style="font-size:15px;color:#5B6270;margin:0;text-wrap:pretty">Congés, télétravail et permanences sont dans la même grille que les tâches : planifier sur une capacité fictive devient impossible.</p></div>
+      </div>
+      <div data-reveal data-hovertrans style="background:#FFFFFF;border:1px solid #D5D8DE;border-radius:3px;padding:28px;display:flex;gap:20px" style-hover="transform:translateY(-4px);box-shadow:0 12px 28px rgba(20,22,28,.09)">
+        <div style="width:36px;height:36px;background:#E7EAF8;color:#1B2A9B;border-radius:3px;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-weight:600;flex-shrink:0">C</div>
+        <div><h3 style="font-size:17px;font-weight:600;margin:0 0 8px">Une adhésion par l'ergonomie</h3><p style="font-size:15px;color:#5B6270;margin:0;text-wrap:pretty">Pas de jargon méthodologique, pas de champ obligatoire de trop. Chacun alimente son suivi en quelques gestes, au fil de l'eau.</p></div>
+      </div>
+      <div data-reveal data-hovertrans style="background:#FFFFFF;border:1px solid #D5D8DE;border-radius:3px;padding:28px;display:flex;gap:20px" style-hover="transform:translateY(-4px);box-shadow:0 12px 28px rgba(20,22,28,.09)">
+        <div style="width:36px;height:36px;background:#E7EAF8;color:#1B2A9B;border-radius:3px;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-weight:600;flex-shrink:0">D</div>
+        <div><h3 style="font-size:17px;font-weight:600;margin:0 0 8px">Le cadre s'adapte au projet, pas l'inverse</h3><p style="font-size:15px;color:#5B6270;margin:0;text-wrap:pretty">Kanban, jalons, Gantt : chaque projet choisit sa lecture. Aucun rituel n'est imposé pour produire de beaux livrables.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="ecrans" data-screen-label="Tour des écrans" style="background:#FFFFFF;border-top:1px solid #D5D8DE;border-bottom:1px solid #D5D8DE;padding:88px 20px">
+  <div style="max-width:1140px;margin:0 auto">
+    <div data-reveal style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#1B2A9B;margin-bottom:16px">Les écrans</div>
+    <h2 data-reveal style="font-family:'IBM Plex Serif',Georgia,serif;font-weight:600;font-size:36px;line-height:1.2;margin:0 0 12px;text-wrap:pretty">L'application, telle qu'elle est.</h2>
+    <p data-reveal style="font-size:16px;color:#5B6270;margin:0 0 32px;max-width:640px;text-wrap:pretty">Ces vues sont les maquettes réelles de l'application, intégrées telles quelles. Faites-les défiler pour explorer.</p>
+    <div data-reveal style="display:flex;gap:8px;margin-bottom:20px">
+      <sc-for list="{{ tabs }}" as="tab" hint-placeholder-count="4">
+        <button onClick="{{ tab.select }}" aria-pressed="{{ tab.actif }}" style="font-size:14px;font-weight:600;padding:10px 18px;border-radius:3px;border:1px solid {{ tab.bordure }};background:{{ tab.fond }};color:{{ tab.encre }};cursor:pointer;transition:background .15s ease,color .15s ease,border-color .15s ease">{{ tab.titre }}</button>
+      </sc-for>
+    </div>
+    <div data-reveal data-fx="galerie" style="border:1px solid #D5D8DE;border-radius:3px;overflow:hidden;width:1100px;height:640px;background:#F1F2F4">
+      <iframe src="{{ ecranSrc }}" title="{{ ecranTitre }}" style="width:1440px;height:838px;border:none;transform:scale(0.7638);transform-origin:top left;pointer-events:{{ pointeur }}"></iframe>
+    </div>
+    <p style="font-size:14px;color:#5B6270;margin:14px 0 0;font-family:'IBM Plex Sans Condensed',sans-serif">{{ ecranDesc }}</p>
+  </div>
+</section>
+
+<section id="roles" data-screen-label="À qui ça sert" style="padding:88px 20px">
+  <div style="max-width:1140px;margin:0 auto">
+    <div data-reveal style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#1B2A9B;margin-bottom:16px">À qui ça sert</div>
+    <h2 data-reveal style="font-family:'IBM Plex Serif',Georgia,serif;font-weight:600;font-size:36px;line-height:1.2;margin:0 0 48px;max-width:720px;text-wrap:pretty">Deux lectures du même réel.</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div data-reveal data-hovertrans style="background:#FFFFFF;border:1px solid #D5D8DE;border-top:3px solid #1B2A9B;border-radius:3px;padding:32px" style-hover="transform:translateY(-4px);box-shadow:0 12px 28px rgba(20,22,28,.09)">
+        <h3 style="font-family:'IBM Plex Serif',Georgia,serif;font-size:22px;font-weight:600;margin:0 0 18px">Pour l'encadrement</h3>
+        <div style="display:flex;flex-direction:column;gap:14px;font-size:15px;color:#5B6270">
+          <div style="display:flex;gap:12px"><span style="color:#1B2A9B;font-weight:600">—</span><span>Le portefeuille de projets en une vue : statuts, jalons, charge, risques.</span></div>
+          <div style="display:flex;gap:12px"><span style="color:#1B2A9B;font-weight:600">—</span><span>Des arbitrages fondés sur la disponibilité réelle, pas sur une capacité théorique.</span></div>
+          <div style="display:flex;gap:12px"><span style="color:#1B2A9B;font-weight:600">—</span><span>Des rapports qui se construisent seuls, sans solliciter les équipes.</span></div>
+        </div>
+      </div>
+      <div data-reveal data-hovertrans style="background:#FFFFFF;border:1px solid #D5D8DE;border-top:3px solid #0F6E5C;border-radius:3px;padding:32px" style-hover="transform:translateY(-4px);box-shadow:0 12px 28px rgba(20,22,28,.09)">
+        <h3 style="font-family:'IBM Plex Serif',Georgia,serif;font-size:22px;font-weight:600;margin:0 0 18px">Pour les équipes</h3>
+        <div style="display:flex;flex-direction:column;gap:14px;font-size:15px;color:#5B6270">
+          <div style="display:flex;gap:12px"><span style="color:#0F6E5C;font-weight:600">—</span><span>Une saisie simple, au fil de l'eau — aucune maturité projet exigée.</span></div>
+          <div style="display:flex;gap:12px"><span style="color:#0F6E5C;font-weight:600">—</span><span>Le planning personnel, les congés et les tâches au même endroit.</span></div>
+          <div style="display:flex;gap:12px"><span style="color:#0F6E5C;font-weight:600">—</span><span>Pas de rituel imposé : le suivi reflète le travail, il ne le ralentit pas.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="Chiffres clés" style="background:#FFFFFF;border-top:1px solid #D5D8DE;border-bottom:1px solid #D5D8DE;padding:56px 20px">
+  <div style="max-width:1140px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:24px;text-align:center">
+    <div data-reveal><div style="font-family:'IBM Plex Serif',Georgia,serif;font-size:42px;font-weight:600;color:#1B2A9B">1</div><div style="font-size:14px;color:#5B6270">grille temporelle pour toutes les occupations</div></div>
+    <div data-reveal><div style="font-family:'IBM Plex Serif',Georgia,serif;font-size:42px;font-weight:600;color:#1B2A9B" data-count="35">35</div><div style="font-size:14px;color:#5B6270">vues couvrant tout le périmètre</div></div>
+    <div data-reveal><div style="font-family:'IBM Plex Serif',Georgia,serif;font-size:42px;font-weight:600;color:#1B2A9B">FR·EN</div><div style="font-size:14px;color:#5B6270">interface bilingue</div></div>
+    <div data-reveal><div style="font-family:'IBM Plex Serif',Georgia,serif;font-size:42px;font-weight:600;color:#1B2A9B">RGAA</div><div style="font-size:14px;color:#5B6270">accessibilité conforme, deux thèmes</div></div>
+  </div>
+</section>
+
+<section id="cta" data-screen-label="Appel à l'action" style="background:#101A6E;color:#FFFFFF;padding:96px 20px">
+  <div style="max-width:1140px;margin:0 auto;text-align:center">
+    <h2 data-reveal style="font-family:'IBM Plex Serif',Georgia,serif;font-weight:600;font-size:40px;line-height:1.18;margin:0 0 18px;text-wrap:pretty">Voyez Rationarium sur vos propres projets.</h2>
+    <p data-reveal style="font-size:17px;color:#C9D0E8;margin:0 auto 36px;max-width:560px;text-wrap:pretty">Une démonstration guidée, sur vos cas d'usage, avec vos questions. Sans engagement.</p>
+    <a href="mailto:contact@rationarium.fr?subject=Demande%20de%20d%C3%A9mo" data-reveal data-hovertrans style="display:inline-block;background:#FFFFFF;color:#101A6E;text-decoration:none;font-size:16px;font-weight:600;padding:15px 32px;border-radius:3px" style-hover="transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.3)">Demander une démo</a>
+  </div>
+</section>
+
+<footer data-screen-label="Pied de page" style="padding:28px 20px;border-top:1px solid #D5D8DE">
+  <div style="max-width:1140px;margin:0 auto;display:flex;justify-content:space-between;font-family:'IBM Plex Sans Condensed',sans-serif;font-size:13px;color:#5B6270">
+    <span>Rationarium — pilotage de projets et de ressources</span>
+    <span>Outil interne · réseau fermé · bilingue FR/EN · conforme RGAA</span>
+  </div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;galerieDefilable&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Galerie des écrans&quot;}, &quot;ecranInitial&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;Planning semaine&quot;, &quot;options&quot;: [&quot;Planning semaine&quot;, &quot;Portefeuille projets&quot;, &quot;Vue d'ensemble projet&quot;, &quot;Rapports &amp; analytics&quot;], &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Galerie des écrans&quot;}}">
+class Component extends DCLogic {
+  state = { actif: 0 };
+  ecransData() {
+    return [
+      { titre: 'Planning semaine', src: 'mockups/planning-semaine.html', desc: "Planning des ressources — la semaine d'une équipe : disponibilités, tâches projets et hors projets, télétravail et congés sur la même grille." },
+      { titre: 'Portefeuille projets', src: 'mockups/portefeuille-projets.html', desc: 'Le portefeuille consolidé — statuts, avancement et charge de chaque projet, sans demander de rapport aux équipes.' },
+      { titre: "Vue d'ensemble projet", src: 'mockups/projet-vue-ensemble.html', desc: "La fiche d'un projet — jalons, équipe, avancement et actualité au même endroit." },
+      { titre: 'Rapports & analytics', src: 'mockups/rapports-analytics.html', desc: "Les rapports — charge, capacité et tendances, construits automatiquement à partir de la saisie quotidienne." }
+    ];
+  }
+  componentDidMount() {
+    const noms = this.ecransData().map(e => e.titre);
+    const i = noms.indexOf(this.props.ecranInitial);
+    if (i > 0) this.setState({ actif: i });
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const els = Array.from(document.querySelectorAll('[data-reveal]'));
+    els.forEach(el => { el.style.opacity = '0'; el.style.transform = 'translateY(22px)'; });
+    this._io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (!en.isIntersecting) return;
+        const el = en.target;
+        this._io.unobserve(el);
+        const sibs = el.parentElement ? Array.from(el.parentElement.children).filter(c => c.hasAttribute('data-reveal')) : [el];
+        const delay = Math.max(0, sibs.indexOf(el)) * 80;
+        el.style.transition = 'opacity .55s ease, transform .55s cubic-bezier(.22,.61,.36,1)';
+        el.style.transitionDelay = delay + 'ms';
+        requestAnimationFrame(() => { el.style.opacity = '1'; el.style.transform = 'none'; });
+        setTimeout(() => {
+          el.style.transitionDelay = '';
+          el.style.transition = el.hasAttribute('data-hovertrans') ? 'transform .22s ease, box-shadow .22s ease' : '';
+        }, delay + 650);
+        const c = el.querySelector('[data-count]');
+        if (c && !c.dataset.counted) { c.dataset.counted = '1'; this.countUp(c); }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(el => this._io.observe(el));
+    const frames = Array.from(document.querySelectorAll('[data-par]'));
+    frames.forEach(f => f.addEventListener('animationend', () => { f.style.animation = 'none'; }, { once: true }));
+    const header = document.querySelector('[data-fx="header"]');
+    this._onScroll = () => {
+      if (this._tick) return;
+      this._tick = true;
+      requestAnimationFrame(() => {
+        this._tick = false;
+        const y = window.scrollY;
+        if (header) header.style.boxShadow = y > 8 ? '0 2px 14px rgba(20,22,28,.1)' : 'none';
+        frames.forEach(f => { if (f.style.animation === 'none') f.style.transform = 'translateY(' + Math.min(80, y * parseFloat(f.dataset.par)) + 'px)'; });
+      });
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+  }
+  componentWillUnmount() {
+    if (this._io) this._io.disconnect();
+    if (this._onScroll) window.removeEventListener('scroll', this._onScroll);
+  }
+  countUp(el) {
+    const cible = parseInt(el.dataset.count, 10);
+    const t0 = performance.now(), dur = 900;
+    const tick = t => {
+      const p = Math.min(1, (t - t0) / dur);
+      el.textContent = String(Math.round(cible * (1 - Math.pow(1 - p, 3))));
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+  renderVals() {
+    const ecrans = this.ecransData();
+    const actif = this.state.actif;
+    const tabs = ecrans.map((e, i) => ({
+      titre: e.titre,
+      actif: i === actif,
+      fond: i === actif ? '#1B2A9B' : '#FFFFFF',
+      encre: i === actif ? '#FFFFFF' : '#5B6270',
+      bordure: i === actif ? '#1B2A9B' : '#D5D8DE',
+      select: () => {
+        this.setState({ actif: i });
+        requestAnimationFrame(() => {
+          const g = document.querySelector('[data-fx="galerie"]');
+          if (g && !matchMedia('(prefers-reduced-motion: reduce)').matches) { g.style.animation = 'none'; void g.offsetWidth; g.style.animation = 'riseIn .4s ease'; }
+        });
+      }
+    }));
+    return {
+      tabs,
+      ecranSrc: ecrans[actif].src,
+      ecranTitre: ecrans[actif].titre,
+      ecranDesc: ecrans[actif].desc,
+      pointeur: (this.props.galerieDefilable ?? true) ? 'auto' : 'none'
+    };
+  }
+}
+</script>
+</body>
+</html>
