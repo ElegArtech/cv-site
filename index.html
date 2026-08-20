@@ -206,7 +206,9 @@ a:hover { color: #e8c778; }
     <div style="position: sticky; top: 0; height: 100vh; display: flex; align-items: center; box-sizing: border-box; padding: 0 8vw;">
       <div style="max-width: 900px;">
         <p style="margin: 0 0 26px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.16em; color: #2d8f8f;">02 / PROFIL ▮</p>
-        <p data-hl="1" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: clamp(26px, 3.4vw, 44px); line-height: 1.35; letter-spacing: -0.01em;">
+        <!-- Le terme en vh borne le paragraphe sur les écrans bas (1366x768) :
+             sans lui il dépasse le sticky 100vh et se retrouve coupé. -->
+        <p data-hl="1" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: clamp(26px, min(3.4vw, 4.4vh), 44px); line-height: 1.35; letter-spacing: -0.01em;">
           <sc-for list="{{ words }}" as="w" hint-placeholder-count="20"><span data-w="1" style="opacity: 0.18; transition: opacity 0.25s, color 0.25s;">{{ w }}&#32;</span></sc-for>
         </p>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-top: 48px; max-width: 860px;">
@@ -482,7 +484,7 @@ class Component extends DCLogic {
     { index: '01 / 04', period: '2008 → 2020', role: 'Parcours Management Opérationnel', org: 'CPAM Charente · CARSAT Centre · RSI', context: '3 organismes · 12 ans · jusqu’à 25 collaborateurs', items: [
       'Pôle mutualisé, 1,3 M feuilles de soins/an : traitement en entrée harmonisé avec les CPAM clientes de l’ex-Poitou-Charentes, −3 à 5 % de flux',
       'Management visuel : tableau de bord individuel mensuel, +15 % de productivité',
-      'Transformation accueil guichet → rendez-vous, +10 % de productivité',
+      'Accueil refondu du guichet au rendez-vous, +10 % en liquidation retraite',
       'Suivi qualité de la liquidation retraite : 11 agences, ~180 collaborateurs',
       'Premiers outils d’évaluation de l’activité conçus dès 2008',
     ], blocks: [
@@ -492,8 +494,8 @@ class Component extends DCLogic {
         'Tableau de bord individuel par collaborateur, diffusé à l’intéressé comme à l’encadrement : un management visuel qui va du macro au micro, des corrections prises à l’initiative des agents, des données qui objectivent face aux contestations',
         'Homogénéisation des pratiques de traitement en entrée sur l’ex-région Poitou-Charentes : 3 à 5 % de flux en moins sur 1,3 million de feuilles de soins',
       ]},
-      { label: 'RESPONSABLE DES AGENCES D’EURE-ET-LOIR · CARSAT CENTRE VAL DE LOIRE · 2015 – 2017 · 20 COLLABORATEURS', items: [
-        'Transformation du modèle d’accueil : passage du guichet au rendez-vous, 10 % de productivité gagnés',
+      { label: 'RESPONSABLE DES AGENCES D’EURE-ET-LOIR · CARSAT CENTRE VAL DE LOIRE · 2015 – 2017 · 25 COLLABORATEURS · 2 SITES', items: [
+        'Refonte de l’offre de service, du guichet au rendez-vous : 10 % gagnés en liquidation de prestations retraite',
         'Conception et déploiement d’un outil de suivi qualité de la liquidation retraite : 11 agences, environ 180 collaborateurs',
         'Comitologie de pilotage : adéquation charge/ressources, productivité, benchmarking',
         'Rédaction d’un guide du manager des structures retraite, déployé sur l’ensemble de l’organisme',
@@ -752,7 +754,7 @@ class Component extends DCLogic {
         { value: '30+', target: 30, suffix: '+', label: 'applications pilotées' },
         { value: '1 400', target: 1400, suffix: '', label: 'postes utilisateurs' },
       ],
-      words: "18 ans de management : 12 en opérations métier dans la protection sociale, 6 à la direction de systèmes d'information — gouvernance, infrastructure, développement, IA. Un même fil depuis 2008 : concevoir les instruments de pilotage qui rendent l'activité lisible, du terrain à la DSI.".split(' '),
+      words: "Dix-huit ans de management : douze en opérations métier de la protection sociale, six à la direction de services et départements informatiques. De ce parcours, une conviction : un SI se pilote pour ceux qui s’en servent. Et une spécialité : la transformation en environnement contraint, qu’il s’agisse de fusion d’organismes, de redressement de services ou d’adoption de l’IA générative, en maintenant le service et en embarquant les équipes.".split(' '),
       pillars: [
         { key: 'MANAGEMENT', value: '45 collab.', label: '4 services · 1 400 postes' },
         { key: 'INFRASTRUCTURE', value: '250 VM', label: '40 serveurs physiques · haute disponibilité' },
@@ -781,7 +783,7 @@ class Component extends DCLogic {
       ],
       creds: [
         { period: '2024 — 2025', title: 'Master 2 Executive MSIC', org: 'Université Paris 1 Panthéon-Sorbonne', notes: ['Mémoire : « Les facteurs d’institutionnalisation des communs numériques au sein de l’administration »'] },
-        { period: '2013 — 2014', title: 'Master 2 DTSE', org: 'Université Toulouse 1 Capitole', notes: [] },
+        { period: '2013 — 2014', title: 'Master 2 DSTE', org: 'Université Toulouse 1 Capitole', notes: [] },
         { period: 'Langues', title: 'Anglais professionnel', org: 'Français — langue maternelle', notes: [] },
       ],
     };
