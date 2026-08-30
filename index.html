@@ -3,806 +3,1739 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Alexandre Berge — DSI, transformation SI &amp; IA, management de transition</title>
-<meta name="description" content="CV en ligne d'Alexandre Berge : DSI, transformation SI et IA générative, management de transition. 18 ans de management en protection sociale, aujourd'hui à la CPAM des Hauts-de-Seine. Ouvert à un CDI ou une mission de transition, mobilité nationale.">
+<title>Alexandre Berge — Directeur de programme, transformation SI et IA</title>
+<meta name="description" content="CV en ligne d'Alexandre Berge, présenté sous forme de graphe : dix-huit ans de management dans la protection sociale, dont douze en opérations métier avant la bascule vers la direction des systèmes d'information. Parcours, réalisations, compétences, formation et publications, reliés par leurs filiations réelles.">
 <meta name="author" content="Alexandre Berge">
-<meta name="theme-color" content="#0f1729">
+<meta name="theme-color" content="#E7E4DB">
 <link rel="canonical" href="https://alexandre-berge.fr/">
 <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+
 <meta property="og:type" content="profile">
 <meta property="og:locale" content="fr_FR">
-<meta property="og:site_name" content="Alexandre Berge">
+<meta property="og:site_name" content="alexandre-berge.fr">
 <meta property="og:url" content="https://alexandre-berge.fr/">
-<meta property="og:title" content="Alexandre Berge — DSI, transformation SI &amp; IA, management de transition">
-<meta property="og:description" content="DSI · Transformation SI &amp; IA · Management de transition. CDI ou mission de transition, mobilité nationale.">
+<meta property="og:title" content="Alexandre Berge — Directeur de programme, transformation SI et IA">
+<meta property="og:description" content="Dix-huit ans de management dans la protection sociale. Un CV en graphe : chaque outil, chaque compétence rattachés au poste où ils sont nés.">
 <meta property="og:image" content="https://alexandre-berge.fr/assets/og-preview.jpg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+<meta property="profile:first_name" content="Alexandre">
+<meta property="profile:last_name" content="Berge">
 <meta name="twitter:card" content="summary_large_image">
-<!-- React est servi en local : loadReactUmd() de support.js court-circuite alors le CDN unpkg. -->
-<script src="./vendor/react.production.min.js"></script>
-<script src="./vendor/react-dom.production.min.js"></script>
-<script src="./support.js"></script>
-<script>
-  /* Le navigateur peint le hero bien avant que le composant ne monte : ses lignes
-     apparaissaient d'un bloc, puis le JS les remettait a zero transition armee, si
-     bien qu'on les voyait se fondre a zero avant de rejouer leur entree. On les
-     masque des la premiere frame — et seulement si l'animation aura bien lieu.
-     Le filet de securite decouvre le hero si le composant ne monte jamais. */
-  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.documentElement.classList.add('hero-anim');
-    setTimeout(function () { document.documentElement.classList.remove('hero-anim'); }, 4000);
+
+<link rel="preload" href="fonts/ibm-plex-serif-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/ibm-plex-sans-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+<style>
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/ibm-plex-sans-400-latin.woff2) format("woff2")}
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:500;font-display:swap;src:url(fonts/ibm-plex-sans-500-latin.woff2) format("woff2")}
+@font-face{font-family:"IBM Plex Serif";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/ibm-plex-serif-400-latin.woff2) format("woff2")}
+@font-face{font-family:"IBM Plex Mono";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/ibm-plex-mono-400-latin.woff2) format("woff2")}
+
+:root{
+  --paper:#E7E4DB;
+  --paper-deep:#DAD6CA;
+  --ink:#17191B;
+  --ink-soft:#5E5C55;
+  --ink-faint:#8E8B81;
+  --bleu:#1F4E5F;
+  --sanguine:#9C4A31;
+  --sanguine-clair:#B98170;
+  --serif:"IBM Plex Serif",Georgia,"Times New Roman",serif;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --trait:rgba(23,25,27,.13);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--paper);
+  background-image:radial-gradient(120% 90% at 50% 0%,#EFEDE6 0%,var(--paper) 45%,var(--paper-deep) 100%);
+  background-attachment:fixed;
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:15px;
+  line-height:1.6;
+}
+a{color:var(--sanguine)}
+:focus-visible{outline:2px solid var(--bleu);outline-offset:3px;border-radius:2px}
+
+/* ---------- Modes : document (sans JS), graphe, liste ---------- */
+.evitement{position:absolute;left:-9999px;top:0;background:var(--paper);color:var(--ink);padding:10px 16px;z-index:99;border:1px solid var(--ink)}
+.evitement:focus{left:12px;top:12px}
+.appli{display:flex;flex-direction:column;min-height:100vh;min-height:100svh}
+.js-seul{display:none}
+body.js .js-seul{display:flex}
+
+/* Sans JavaScript, et en vue liste : la scène disparaît, le document se déroule */
+body:not(.js) main,body.js.mode-liste main{display:none}
+body:not(.js) .page,body.js.mode-liste .page{display:block;flex:none;width:100%;max-width:860px;margin:0 auto;padding:18px 30px 0}
+body:not(.js) .identite,body.js.mode-liste .identite{border-right:0;padding-right:0;border-bottom:1px solid rgba(23,25,27,.10);padding-bottom:18px;overflow:visible}
+body:not(.js) .fantome,body.js.mode-liste .fantome{display:none}
+body:not(.js) .accroche,body.js.mode-liste .accroche{max-width:60ch}
+body:not(.js) .metriques,body.js.mode-liste .metriques{grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px 24px}
+body:not(.js) .portrait,body.js.mode-liste .portrait{margin:8px 0 0;width:150px;height:auto}
+body:not(.js) .portrait img,body.js.mode-liste .portrait img{height:auto}
+body:not(.js) .evitement,body.js.mode-liste .evitement{display:none}
+body:not(.js) footer{display:none}
+body:not(.js) .contenu .detail{display:block}
+
+/* En vue graphe, la page tient dans l'écran et le document est retiré du flux */
+body.js.mode-graphe{height:100vh;height:100svh;overflow:hidden}
+body.js.mode-graphe .contenu{display:none}
+body.js.mode-graphe .appli{height:100vh;height:100svh}
+
+/* ---------- Bandeau ---------- */
+.bandeau{
+  display:flex;align-items:center;justify-content:flex-end;gap:18px;
+  padding:14px 30px 0;height:44px;flex:none;box-sizing:border-box;
+}
+.outils{display:flex;align-items:center;gap:10px}
+button{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-soft);background:transparent;border:1px solid var(--ink-faint);
+  border-radius:2px;padding:7px 12px;cursor:pointer;
+}
+button:hover{color:var(--ink);border-color:var(--ink)}
+button[aria-pressed="true"]{color:var(--paper);background:var(--bleu);border-color:var(--bleu)}
+
+/* ---------- Colonne d'identité ---------- */
+.page{flex:1;min-height:0;display:flex;gap:8px;padding:20px 30px 0}
+.identite{
+  position:relative;overflow:hidden;display:flex;flex-direction:column;gap:16px;
+  flex:0 0 25%;min-width:320px;padding-right:26px;border-right:1px solid rgba(23,25,27,.10);
+  transition:flex-basis .8s cubic-bezier(.2,.7,.3,1),min-width .8s cubic-bezier(.2,.7,.3,1),opacity .5s ease,padding .8s ease;
+}
+body.niveau3 .identite{flex-basis:0;min-width:0;opacity:0;padding-right:0;border-right-color:transparent}
+.fantome{
+  position:absolute;left:-.06em;bottom:-.16em;z-index:0;pointer-events:none;
+  font-family:var(--serif);font-size:min(23vh,180px);line-height:.8;
+  letter-spacing:-.03em;color:var(--ink);opacity:.045;white-space:nowrap;
+}
+.identite>*:not(.fantome):not(.portrait){position:relative;z-index:1}
+.identite h1{margin:0;font-family:var(--serif);font-weight:400;font-size:clamp(34px,3.3vw,56px);line-height:.98;letter-spacing:-.02em}
+.fonction{margin:0;font-size:12px;letter-spacing:.03em;color:var(--bleu);font-weight:500}
+/* 36ch laissait 67 px de la colonne inutilisés et finissait sur une veuve de 87 px.
+   44ch occupe la colonne, balance répartit les lignes. */
+.accroche{margin:0;font-size:13.5px;line-height:1.65;color:var(--ink-soft);max-width:44ch;text-wrap:balance}
+.metriques{margin:4px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:1px 18px}
+.metriques div{padding-top:9px;border-top:1px solid rgba(23,25,27,.14)}
+.metriques dt{font-family:var(--mono);font-size:18px;color:var(--ink)}
+.metriques dd{margin:2px 0 10px;font-size:11px;line-height:1.4;color:var(--ink-faint)}
+.liens{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:7px 16px}
+.liens a{font-size:12px;color:var(--ink-soft);text-decoration:none;border-bottom:1px solid rgba(23,25,27,.25);padding-bottom:2px}
+.liens a:hover{color:var(--sanguine);border-bottom-color:var(--sanguine)}
+/* Le portrait est un WebP à canal alpha, déjà désaturé, détouré et fondu en bas.
+   Aucun traitement CSS ne doit s'y ajouter : ni filtre, ni masque, ni bordure, ni fond.
+   Il déborde à gauche de la colonne et reste sous le filigrane, d'où z-index 0. */
+.portrait{
+  margin:auto 0 0;padding:0;position:relative;z-index:0;
+  width:calc(100% + 56px);margin-left:-30px;height:min(44vh,400px);
+  /* La colonne laisse rarement les 400 px : sans min-height, le portrait
+     déborde et overflow:hidden le tranche net. Il se rétracte plutôt. */
+  min-height:0;
+}
+.portrait img{position:relative;width:100%;height:100%;object-fit:contain;object-position:bottom center;opacity:.88}
+.sq{transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.3,1)}
+.sq.cache{opacity:0;transform:translateY(9px)}
+
+/* ---------- Scène ---------- */
+main{position:relative;min-height:0;min-width:0;flex:1}
+svg#scene{width:100%;height:100%;display:block;touch-action:none;-webkit-user-select:none;user-select:none}
+svg#scene text{-webkit-user-select:none;user-select:none}
+.scene-saisie{cursor:grabbing}
+
+.arete{stroke:var(--ink);fill:none;stroke-linecap:round}
+.arete.dorsale{stroke-opacity:.52;stroke-width:2.1}
+.arete.rameau{stroke-opacity:.34;stroke-width:1.3}
+.arete.proche{stroke-opacity:.85}
+.transversale{stroke:var(--sanguine);fill:none;cursor:pointer}
+.transversale.niveau1{stroke-opacity:.42;stroke-width:1.2;stroke-dasharray:5 3.5}
+.transversale.niveau2{stroke:var(--sanguine-clair);stroke-opacity:.62;stroke-width:.8;stroke-dasharray:2 3;stroke-linecap:round}
+.transversale.proche{stroke-opacity:.92;stroke-width:1.6}
+.moment .transversale{stroke-opacity:.85}
+.moment .arete{stroke-opacity:.12}
+.fondu .transversale,.fondu .arete{transition:stroke-opacity 1.6s ease}
+.ombre{fill:var(--ink);opacity:.09}
+.anneau{fill:none;stroke:var(--bleu);stroke-opacity:.30;stroke-width:.8}
+.encoche{stroke:var(--bleu);stroke-opacity:.35;stroke-width:1;stroke-linecap:round}
+.bague{transform-box:fill-box;transform-origin:center;transition:transform .35s cubic-bezier(.2,.7,.3,1)}
+.noeud:hover .bague,.noeud.proche .bague{transform:scale(1.10)}
+.relief{fill:none;stroke:#FFFFFF;stroke-opacity:.55;stroke-width:1.1}
+.disque-majeur{fill:#DCE5E8;stroke:var(--bleu);stroke-width:1.2}
+.disque-hub{fill:var(--bleu);stroke:var(--bleu);stroke-width:1.2}
+.disque-sous{fill:var(--paper);stroke:var(--ink-faint);stroke-width:1}
+.icone{fill:none;stroke:var(--bleu);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.icone-hub{stroke:var(--paper)}
+.etiq-majeur{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;fill:var(--ink);font-weight:500}
+.etiq-sous{font-size:10.5px;fill:var(--ink-soft)}
+.noeud .bague,.noeud .ombre,.noeud .relief,.noeud .icone{pointer-events:none}
+.cible{fill:none;pointer-events:all}
+.noeud{cursor:default}
+.noeud.cliquable{cursor:pointer}
+.noeud.saisi{cursor:grabbing}
+.voile.actif .noeud:not(.proche){opacity:.22}
+.voile.actif .arete:not(.proche){stroke-opacity:.07}
+.voile.actif .transversale:not(.proche){stroke-opacity:.09}
+.noeud,.arete,.transversale{transition:opacity .3s ease,stroke-opacity .3s ease}
+.noeud .cache,.cache{opacity:0}
+.efface{opacity:0!important;pointer-events:none}
+.muet text{opacity:0}
+.noeud text{transition:opacity .35s ease}
+.petit .noeud text{transform:scale(1.5)}
+.noeud.actif .disque-sous{fill:var(--sanguine);stroke:var(--sanguine)}
+.noeud:focus{outline:none}
+body.clavier .noeud:focus .anneau{stroke:var(--bleu);stroke-opacity:1;stroke-width:2}
+body.clavier .noeud:focus .disque-sous{stroke:var(--bleu);stroke-width:2}
+
+/* ---------- Panneau ---------- */
+.panneau{
+  position:absolute;top:0;right:0;bottom:0;left:38%;
+  display:flex;flex-direction:column;gap:12px;
+  padding:6px 4px 18px 30px;border-left:1px solid rgba(23,25,27,.10);
+  opacity:0;transform:translateX(14px);transition:opacity .55s ease,transform .55s cubic-bezier(.2,.7,.3,1);
+}
+.panneau[hidden]{display:none}
+.panneau.visible{opacity:1;transform:none}
+.retour{align-self:flex-start;flex:none}
+.panneau-corps{overflow-y:auto;overscroll-behavior:contain;padding-right:22px}
+
+/* ---------- Contenu : partagé par le panneau et la vue liste ---------- */
+.page-noeud>h2{margin:0 0 6px;font-family:var(--serif);font-weight:400;font-size:30px;letter-spacing:-.01em}
+.chapeau{margin:0 0 20px;font-size:13.5px;line-height:1.65;color:var(--ink-soft);max-width:60ch}
+.fiche{padding:14px 0 16px;border-top:1px solid var(--trait);transition:background .4s ease}
+.fiche.vise{background:rgba(156,74,49,.07)}
+.fiche h3{margin:0;font-size:14px;font-weight:500;line-height:1.45}
+.fiche .meta{margin:3px 0 8px;font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint)}
+.fiche ul{margin:0;padding-left:16px}
+.fiche li{font-size:13px;line-height:1.6;color:var(--ink-soft);margin-bottom:4px;max-width:66ch}
+.fiche li a{color:var(--sanguine);text-decoration:none;border-bottom:1px solid rgba(156,74,49,.4)}
+.fiche li a:hover{border-bottom-color:var(--sanguine)}
+.fiche .familles{margin:0 0 8px;font-size:11.5px;color:var(--ink-faint);font-style:italic}
+.fiche .actions{list-style:none;padding:0;margin:8px 0 0;display:flex;flex-wrap:wrap;gap:10px 18px}
+.fiche .actions a{font-size:13px;color:var(--ink-soft);text-decoration:none;border-bottom:1px solid rgba(23,25,27,.25);padding-bottom:2px}
+.fiche .actions a:hover{color:var(--sanguine);border-bottom-color:var(--sanguine)}
+.deplier{margin-top:10px;padding:5px 10px}
+.contexte{margin:0 0 14px;font-size:13.5px;line-height:1.65;color:var(--ink-soft);max-width:62ch}
+.bloc{margin:0 0 14px}
+.bloc h4{margin:0 0 5px;font-size:12.5px;font-weight:500;letter-spacing:.02em}
+.detail{padding-top:12px}
+
+/* Panneau, niveau 2 : le détail reste replié */
+.panneau .detail{display:none}
+.panneau .fiche.deploye .detail{display:block}
+/* Panneau, niveau 3 : une seule fiche, tout entière */
+.panneau.niveau3 .page-noeud>h2,.panneau.niveau3 .page-noeud>.chapeau{display:none}
+.panneau.niveau3 .fiche:not(.actif){display:none}
+.panneau.niveau3 .fiche.actif{border-top:0;padding-top:0}
+.panneau.niveau3 .fiche.actif .resume{display:none}
+.panneau.niveau3 .fiche.actif .deplier{display:none}
+.panneau.niveau3 .fiche.actif .detail{display:block}
+.panneau.niveau3 .fiche li,.panneau.niveau3 .contexte{max-width:78ch}
+.panneau.niveau3 .fiche.actif h3{font-family:var(--serif);font-weight:400;font-size:28px;letter-spacing:-.01em;line-height:1.15}
+
+/* ---------- Vue liste et document sans JavaScript ---------- */
+.contenu{width:100%;max-width:860px;margin:0 auto;padding:8px 30px 80px}
+.contenu .page-noeud{margin:0 0 44px;scroll-margin-top:20px}
+.contenu .page-noeud>h2{font-size:26px;padding-bottom:10px;border-bottom:2px solid var(--ink);margin-bottom:14px}
+.contenu .fiche{scroll-margin-top:20px}
+.contenu .fiche.vise{background:rgba(156,74,49,.09);box-shadow:0 0 0 10px rgba(156,74,49,.09)}
+.contenu .detail{display:none}
+.contenu .fiche.deploye .detail{display:block}
+
+footer{
+  padding:8px 30px 18px;display:flex;align-items:center;justify-content:space-between;
+  gap:18px;font-size:12px;color:var(--ink-soft);
+  height:44px;flex:none;box-sizing:border-box;
+}
+#etat{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--sanguine);flex:1;text-align:right;
+  height:18px;line-height:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ---------- Écrans étroits ---------- */
+@media (max-width:1079px){
+  body.js.mode-graphe{overflow:hidden}
+  .bandeau{padding:12px 20px 0;height:42px}
+  .page{flex-direction:column;padding:14px 20px 0;gap:14px}
+  .identite{flex:none;min-width:0;padding-right:0;border-right:0;border-bottom:1px solid rgba(23,25,27,.10);padding-bottom:14px;gap:10px}
+  .identite h1{font-size:clamp(28px,7.5vw,40px)}
+  .bandeau{gap:10px}
+  .fonction{font-size:11.5px}
+  .page{gap:10px}
+  .fantome{display:none}
+  body.js.mode-graphe .accroche,body.js.mode-graphe .metriques,body.js.mode-graphe .portrait{display:none}
+  main{flex:1;min-height:46vh}
+  .panneau{
+    position:fixed;inset:0;left:0;z-index:20;border-left:0;
+    background:var(--paper);background-image:radial-gradient(120% 90% at 50% 0%,#EFEDE6 0%,var(--paper) 45%,var(--paper-deep) 100%);
+    padding:14px 20px calc(18px + env(safe-area-inset-bottom));transform:translateY(16px);
   }
+  .panneau-corps{padding-right:0}
+  footer{padding:6px 20px 14px}
+  #etat{text-align:left}
+  .contenu{padding-left:20px;padding-right:20px}
+}
+@media (max-width:560px){
+  .liens{gap:6px 12px}
+  .outils button{padding:6px 9px;font-size:10px;letter-spacing:.08em}
+  #rejoue{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .noeud,.arete,.transversale,.sq,.panneau,.identite,.bague{transition:none!important}
+}
+@media print{
+  .appli,.bandeau,footer{display:none!important}
+  body{background:#fff;font-size:11pt}
+  .contenu{display:block!important;max-width:none;padding:0}
+  .contenu .detail{display:block!important}
+  .deplier,.evitement{display:none!important}
+  .page-noeud{break-inside:avoid}
+}
+html.avant .sq{opacity:0;transform:translateY(9px)}
+</style>
+<script>
+/* Avant la première peinture : si l'apparition va être jouée, la colonne
+   d'identité part masquée. Sans ce garde-fou, la photo et le titre
+   s'affichaient une fraction de seconde avant d'être cachés puis rejoués. */
+(function () {
+  var d = document.documentElement, anime = !location.hash;
+  try {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) anime = false;
+    if (localStorage.getItem('cv-vue') === 'liste') anime = false;
+  } catch (e) {}
+  if (!anime) return;
+  d.className = 'avant';
+  setTimeout(function () { d.classList.remove('avant'); }, 6000);
+})();
 </script>
 </head>
 <body>
-<x-dc>
-<helmet>
-<style>
-@font-face { font-family: "Bricolage Grotesque"; font-style: normal; font-weight: 400 800; font-display: swap; src: url("fonts/bricolage-grotesque-latin.woff2") format("woff2"); }
-@font-face { font-family: "DM Sans"; font-style: normal; font-weight: 300 700; font-display: swap; src: url("fonts/dm-sans-latin.woff2") format("woff2"); }
-@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 400 700; font-display: swap; src: url("fonts/jetbrains-mono-latin.woff2") format("woff2"); }
-html, body { margin: 0; padding: 0; background: #0f1729; }
-a { color: #3ab5b5; text-decoration: none; }
-a:hover { color: #e8c778; }
-::selection { background: #2d8f8f; color: #fff; }
-@keyframes blink { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
-.hero-anim [data-heroline] { opacity: 0; transform: translateY(14px); }
-.hero-anim [data-typedname] { visibility: hidden; }
+<a class="evitement" href="#contenu">Aller au contenu du CV</a>
 
-/* ==========================================================================
-   Adaptation aux petits écrans.
-   La mise en page est portée par des attributs style="" inline : ces règles
-   doivent donc être en !important pour pouvoir les surcharger.
-   ========================================================================== */
+<div class="appli">
 
-/* Deux blocs de contenu sont des éléments flex porteurs d'un max-width. Sans
-   min-width:0, leur taille minimale automatique reste leur min-content, et ils
-   débordent horizontalement au lieu de rétrécir. C'est l'origine du décalage
-   de toute la page. */
-[data-act="hero"] > div,
-[data-act="profil"] > div > div { min-width: 0 !important; }
+  <header class="bandeau">
+    <div class="outils js-seul" id="outils"></div>
+  </header>
 
-/* Grilles auto-fit : quand la largeur disponible est indéfinie (parent flex),
-   Chrome résout le nombre de colonnes contre le max-width — le min-content
-   valait ici 4x180 + 3x14 = 762px. min() borne chaque colonne à la largeur
-   réellement disponible. */
-[data-act="profil"] > div > div > div {
-  grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr)) !important;
-}
-[data-act="competences"] > div {
-  grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr)) !important;
-}
-
-/* Les boutons du sommaire sont en line-height: normal : leur hauteur suivait
-   donc les métriques de la police. À l'arrivée de JetBrains Mono, le bloc
-   passait de 136 à 148px et, comme il est centré verticalement, remontait de
-   6px en fin de chargement. Une hauteur de ligne explicite le fige dès la
-   première frame, quelle que soit la police active. */
-[data-sidenav] button { line-height: 13px; }
-
-/* Le sommaire latéral fixe chevauche le contenu sous cette largeur. Au-dessus
-   de 1100px seulement, il reste assez de place pour lui réserver une colonne
-   sans rogner la carte active de l'acte 3 (voir la règle plus bas). */
-@media (max-width: 1100px) {
-  [data-sidenav] { display: none !important; }
-}
-
-/* Acte 3 : les cartes défilent horizontalement sur toute la largeur et
-   passaient derrière le sommaire fixe, jusqu'à 720px de recouvrement, rendant
-   les deux illisibles. On lui réserve sa colonne et on adoucit la coupe par un
-   court dégradé. */
-@media (min-width: 1101px) {
-  [data-act="experiences"] > div {
-    /* Le conteneur porte overflow:hidden : le rétrécir suffit à écarter les
-       cartes de la colonne du sommaire (22px de marge + 102px de large).
-       Le déplacement horizontal étant calculé sur window.innerWidth et non
-       sur cette largeur, l'animation n'est pas affectée. */
-    width: calc(100% - 140px);
-    -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 90px), transparent 100%);
-    mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 90px), transparent 100%);
-  }
-}
-
-@media (max-width: 760px) {
-  /* Marges latérales : 8vw devient trop étroit en bas de gamme. */
-  [data-act="hero"],
-  [data-act="contact"] { padding: 76px 22px !important; }
-  [data-act="projets"] { padding: 88px 22px 96px !important; }
-  [data-act="competences"] { padding: 88px 22px !important; }
-  [data-act="profil"] > div,
-  [data-act="experiences"] > div > div:first-child,
-  [data-act="experiences"] [data-htrack],
-  [data-act="experiences"] > div > div:last-child { padding-left: 22px !important; padding-right: 22px !important; }
-
-  /* Le minimum des clamp() dépassait la largeur de l'écran : le titre était
-     tronqué. On repasse sur une base vw avec un plancher atteignable. */
-  [data-act="hero"] h1 { font-size: clamp(34px, 10.5vw, 104px) !important; }
-  [data-act="hero"] h1 + p { font-size: clamp(17px, 4.8vw, 26px) !important; }
-
-  /* 4 colonnes fixes ne se replient jamais : la 4e métrique sortait de l'écran. */
-  [data-act="hero"] dl {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 26px 18px !important;
-    margin-top: 40px !important;
-  }
-  [data-act="hero"] dl dd[data-count] { font-size: 30px !important; }
-
-  /* La pilule de disponibilite passe sur deux lignes sous cette largeur : le
-     rayon plein la transformerait en pave aux bords incoherents. */
-  [data-act="hero"] p[data-avail] { border-radius: 12px !important; font-size: 11px !important; align-items: flex-start !important; }
-  [data-act="hero"] p[data-avail] > span { margin-top: 5px; }
-
-  /* La photo occupait tout l'écran derrière le texte. */
-  [data-act="hero"] > img {
-    height: 62% !important;
-    right: -22% !important;
-    opacity: 0.07 !important;
-  }
-
-  /* Acte 2 : le conteneur est bloqué à height:100vh. Empilés sur une colonne,
-     le paragraphe et les 4 encarts dépassaient la hauteur d'écran et se
-     retrouvaient coupés. On densifie plutôt que de casser le sticky. */
-  [data-act="profil"] p[data-hl] {
-    font-size: clamp(19px, 5.1vw, 30px) !important;
-    line-height: 1.28 !important;
-  }
-  [data-act="profil"] > div > div > div {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 10px !important;
-    margin-top: 30px !important;
-  }
-  [data-act="profil"] > div > div > div > div { padding: 13px !important; }
-
-  /* Fenêtre de détail : même resserrement que les cartes. */
-  [data-modal] { padding: 16px !important; }
-  [data-modal-panel] { padding: 28px 22px !important; }
-
-  /* Cartes : le rembourrage desktop mange la largeur utile. */
-  [data-act="experiences"] [data-htrack] article { padding: 24px 22px !important; }
-  [data-act="projets"] article { padding: 26px 22px !important; }
-  [data-act="projets"] article h3 { font-size: 27px !important; }
-}
-
-/* Barre d'état fixe en bas : le groupe de droite n'a plus la place. */
-@media (max-width: 560px) {
-  [data-statusbar] > div:last-child { display: none !important; }
-}
-
-/* NB : pas de « html, body { overflow-x: hidden } » comme filet de sécurité.
-   Cela transforme la racine en conteneur de défilement et casse les
-   position:sticky dont dépendent les actes 2, 3 et 4. Le débordement est
-   corrigé à la source ci-dessus. */
-</style>
-</helmet>
-<div data-root="1" style="background: #0f1729; color: #e6edf5; font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif; transition: background 0.9s ease; min-height: 100vh; padding-bottom: 28px;">
-
-  <div data-sidenav="1" style="position: fixed; right: 22px; top: 50%; transform: translateY(-50%); z-index: 50; display: flex; flex-direction: column; gap: 14px; align-items: flex-end;">
-    <sc-for list="{{ acts }}" as="a" hint-placeholder-count="6">
-      <button onClick="{{ a.go }}" style="display: flex; align-items: center; gap: 9px; background: none; border: none; cursor: pointer; padding: 0; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: {{ a.col }};">
-        <span style="opacity: {{ a.labelOp }}; transition: opacity 0.3s;">{{ a.label }}</span>
-        <span style="width: {{ a.barW }}; height: 2px; border-radius: 2px; background: {{ a.barBg }}; transition: width 0.3s, background 0.3s;"></span>
-      </button>
-    </sc-for>
-  </div>
-
-  <section data-act="hero" data-screen-label="Acte 1 — Hero" style="position: relative; min-height: 100vh; display: flex; align-items: center; box-sizing: border-box; padding: 80px 8vw; overflow: hidden;">
-    <img src="assets/photo_alex.png" alt="" aria-hidden="true" data-herophoto="1" decoding="async" style="position: absolute; right: -3%; bottom: 0; height: 96%; opacity: {{ photoOpacity }}; filter: grayscale(70%) contrast(1.05); -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 35%, rgba(0,0,0,0)); mask-image: linear-gradient(to left, rgba(0,0,0,1) 35%, rgba(0,0,0,0)); pointer-events: none;" />
-    <div style="position: relative; max-width: 940px;">
-      <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #5a6b82;"><span style="color: #3ab5b5;">~/alexandre-berge</span> $ ./launch --profile</p>
-      <h1 style="margin: 24px 0 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(52px, 8vw, 104px); line-height: 1; letter-spacing: -0.03em; color: #ffffff; min-height: 1em;"><span data-typedname="1">Alexandre Berge</span><span style="display: inline-block; width: 0.45em; height: 0.78em; background: #2d8f8f; margin-left: 6px; vertical-align: -0.08em; animation: blink 1.1s steps(1) infinite;"></span></h1>
-      <p data-heroline="1" style="margin: 22px 0 0; font-size: clamp(19px, 2.2vw, 26px); font-weight: 600; color: #3ab5b5;">DSI · Transformation SI &amp; IA · Management de transition</p>
-      <p data-heroline="1" style="margin: 6px 0 0; font-size: 16px; color: #8b9bb4;">Responsable du Département Informatique, CPAM des Hauts-de-Seine · Santé et protection sociale</p>
-      <p data-heroline="1" data-avail="1" style="margin: 18px 0 0; display: inline-flex; align-items: center; gap: 9px; padding: 7px 15px; border-radius: 999px; border: 1px solid rgba(232,199,120,0.35); background: rgba(232,199,120,0.06); font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.5; color: #e8c778;"><span style="width: 6px; height: 6px; border-radius: 50%; background: #e8c778; flex-shrink: 0;"></span>CDI ou mission de transition · mobilité nationale · disponible sous 2 mois</p>
-      <dl data-heroline="1" style="display: grid; grid-template-columns: repeat(4, auto); gap: 44px; margin: 52px 0 0; justify-content: start;">
-        <sc-for list="{{ metrics }}" as="m" hint-placeholder-count="4">
-          <div style="margin: 0;">
-            <dt style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%);">{{ m.label }}</dt>
-            <dd data-count="{{ m.target }}" data-suffix="{{ m.suffix }}" style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: clamp(30px, 3vw, 42px); font-weight: 700; letter-spacing: -0.03em; color: #e8c778;">{{ m.value }}</dd>
-            <dd style="margin: 5px 0 0; font-size: 13px; color: #8b9bb4;">{{ m.label }}</dd>
-          </div>
-        </sc-for>
+  <div class="page">
+    <aside class="identite">
+      <div class="fantome" aria-hidden="true">Berge</div>
+      <h1 class="sq" data-seq="1">Alexandre<br>Berge</h1>
+      <p class="fonction sq" data-seq="2">Directeur de programme · Transformation SI · Management de transition</p>
+      <p class="accroche sq" data-seq="3">Dix-huit ans de management dans la protection sociale, dont douze en opérations métier avant la bascule vers la direction des systèmes d'information. Un même fil depuis le début : concevoir les instruments qui rendent une activité lisible.</p>
+      <dl class="metriques sq" data-seq="4">
+        <div><dt>18 ans</dt><dd>de management</dd></div>
+        <div><dt>6 ans</dt><dd>de direction informatique</dd></div>
       </dl>
-      <div data-heroline="1" style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 52px;">
-        <a href="assets/cv-alexandre-berge.pdf" download="cv-alexandre-berge.pdf" style="display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 8px; background: #2d8f8f; color: #ffffff; font-size: 14px; font-weight: 600;" style-hover="background: #3ab5b5; color: #ffffff;">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
-          Télécharger le CV
-        </a>
-        <a href="https://www.linkedin.com/in/bergealexandre" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.22); color: #e6edf5; font-size: 14px; font-weight: 600;" style-hover="border-color: #3ab5b5; color: #3ab5b5;">LinkedIn</a>
-        <a href="https://github.com/ElegArtech" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.22); color: #e6edf5; font-size: 14px; font-weight: 600;" style-hover="border-color: #3ab5b5; color: #3ab5b5;">GitHub</a>
+      <ul class="liens sq" data-seq="5">
+        <li><a href="assets/cv-alexandre-berge.pdf" download>Télécharger le CV</a></li>
+        <li><a href="https://www.linkedin.com/in/bergealexandre" rel="me noopener">LinkedIn</a></li>
+        <li><a href="https://communs-numeriques.fr" rel="me noopener">communs-numeriques.fr</a></li>
+        <li><a href="https://elegartech.substack.com" rel="me noopener">ElegArtech</a></li>
+      </ul>
+      <div class="portrait sq" data-seq="6">
+        <img src="assets/portrait-alexandre-berge.webp" width="1100" height="1100" alt="Portrait d'Alexandre Berge" decoding="async">
       </div>
-      <p style="margin: 64px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; color: #5a6b82;">↓ SCROLL</p>
-    </div>
-  </section>
+    </aside>
 
-  <section data-act="profil" data-screen-label="Acte 2 — Profil" style="position: relative; height: 220vh;">
-    <div style="position: sticky; top: 0; height: 100vh; display: flex; align-items: center; box-sizing: border-box; padding: 0 8vw;">
-      <div style="max-width: 900px;">
-        <p style="margin: 0 0 26px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.16em; color: #2d8f8f;">02 / PROFIL ▮</p>
-        <!-- Le terme en vh borne le paragraphe sur les écrans bas (1366x768) :
-             sans lui il dépasse le sticky 100vh et se retrouve coupé. -->
-        <p data-hl="1" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: clamp(22px, min(2.6vw, 3.4vh), 34px); line-height: 1.35; letter-spacing: -0.01em;">
-          <sc-for list="{{ words }}" as="w" hint-placeholder-count="20"><span data-w="1" style="opacity: 0.18; transition: opacity 0.25s, color 0.25s;">{{ w }}&#32;</span></sc-for>
-        </p>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-top: 48px; max-width: 860px;">
-          <sc-for list="{{ pillars }}" as="p" hint-placeholder-count="4">
-            <div style="background: rgba(23,32,58,0.85); border: 1px solid #2d3a50; border-radius: 10px; padding: 18px;">
-              <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #3ab5b5;">{{ p.key }}</div>
-              <div style="margin-top: 8px; font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700; color: #e8c778;">{{ p.value }}</div>
-              <div style="margin-top: 3px; font-size: 12.5px; color: #8b9bb4;">{{ p.label }}</div>
-            </div>
-          </sc-for>
-        </div>
+    <main>
+      <svg id="scene" viewBox="0 0 1440 840" preserveAspectRatio="xMidYMid meet" role="application" aria-label="Graphe de navigation du curriculum vitæ"></svg>
+      <div class="panneau" id="panneau" hidden>
+        <button class="retour" id="retour">← Retour au graphe</button>
+        <div class="panneau-corps" id="panneau-corps"></div>
       </div>
-    </div>
-  </section>
-
-  <section data-act="experiences" data-screen-label="Acte 3 — Expériences" data-hwrap="1" style="position: relative; height: 400vh;">
-    <div style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; justify-content: center;">
-      <div style="box-sizing: border-box; padding: 0 8vw 26px;">
-        <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.16em; color: #2d8f8f;">03 / EXPÉRIENCES ▮ <span style="color: #5a6b82;">— scroll pour avancer dans le temps</span></p>
-      </div>
-      <div data-htrack="1" style="display: flex; gap: 3vw; padding: 0 8vw; will-change: transform;">
-        <sc-for list="{{ xps }}" as="x" hint-placeholder-count="4">
-          <article onClick="{{ x.open }}" style="flex-shrink: 0; width: min(620px, 76vw); background: #17203a; border: 1px solid #2d3a50; border-radius: 16px; padding: 34px 38px; box-sizing: border-box; cursor: pointer; transition: border-color 0.25s;" style-hover="border-color: #3d5273;">
-            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 12.5px;">
-              <span style="color: #e8c778;">{{ x.period }}</span>
-              <span style="display: flex; align-items: center; gap: 12px;">
-                <button onClick="{{ x.open }}" aria-label="{{ x.detailLabel }}" style="padding: 2px 9px; border-radius: 5px; border: 1px solid #2d3a50; background: none; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #3ab5b5;" style-hover="border-color: #3ab5b5; background: rgba(45,143,143,0.14);">détail +</button>
-                <span style="color: #5a6b82;">{{ x.index }}</span>
-              </span>
-            </div>
-            <h3 style="margin: 16px 0 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(22px, 2.4vw, 32px); line-height: 1.15; color: #ffffff;">{{ x.role }}</h3>
-            <p style="margin: 8px 0 0; font-size: 15px; font-weight: 600; color: #3ab5b5;">{{ x.org }}</p>
-            <p style="margin: 4px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5a6b82;">// {{ x.context }}</p>
-            <ul style="list-style: none; margin: 22px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px;">
-              <sc-for list="{{ x.items }}" as="it" hint-placeholder-count="3">
-                <li style="display: flex; gap: 10px; font-size: 14.5px; line-height: 1.55; color: #a3b3c9;"><span style="color: #2d8f8f; font-family: 'JetBrains Mono', monospace; flex-shrink: 0;">▸</span><span>{{ it }}</span></li>
-              </sc-for>
-            </ul>
-          </article>
-        </sc-for>
-      </div>
-      <div style="display: flex; gap: 8px; padding: 30px 8vw 0;">
-        <sc-for list="{{ dots }}" as="d" hint-placeholder-count="4">
-          <span data-dot="1" style="width: 26px; height: 3px; border-radius: 3px; background: #2d3a50; transition: background 0.3s;"></span>
-        </sc-for>
-      </div>
-    </div>
-  </section>
-
-  <section data-act="projets" data-screen-label="Acte 4 — Projets" style="position: relative; box-sizing: border-box; padding: 120px 8vw 140px;">
-    <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.16em; color: #2d8f8f;">04 / PROJETS ▮</p>
-    <h2 style="margin: 14px 0 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(34px, 4vw, 52px); letter-spacing: -0.02em; color: #ffffff;">Ce que je construis.</h2>
-    <div style="max-width: 900px; margin-top: 56px;">
-      <article style="position: sticky; top: 90px; background: linear-gradient(135deg, #17203a, #101a33); border: 1px solid rgba(58,181,181,0.35); border-radius: 18px; padding: 40px 44px; box-shadow: 0 24px 60px -24px rgba(0,0,0,0.6); margin-bottom: 26px;">
-        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
-          <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 36px; color: #ffffff;">Rationarium</h3>
-          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 5px 11px; border-radius: 999px; border: 1px solid rgba(232,199,120,0.4); color: #e8c778;">en développement actif</span>
-        </div>
-        <p style="margin: 12px 0 0; font-size: 17px; font-weight: 600; color: #3ab5b5;">Pilotage des projets et des ressources en collectivité territoriale</p>
-        <p style="margin: 14px 0 0; font-size: 15px; line-height: 1.65; color: #a3b3c9; max-width: 640px;">Le suivi de projet échoue rarement par manque d’outils : il échoue parce qu’il y en a trop. Une seule grille temporelle réconcilie donc tout ce qui occupe une personne — congé, télétravail, tâche de projet, permanence, réunion — sur une organisation en directions, départements et services.</p>
-        <p style="margin: 12px 0 0; font-size: 15px; line-height: 1.65; color: #a3b3c9; max-width: 640px;">Outil interne, réseau fermé, bilingue et conforme RGAA. Architecte et développeur principal.</p>
-        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px;">
-          <sc-for list="{{ rationariumStack }}" as="t" hint-placeholder-count="6">
-            <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 11px; border-radius: 5px; background: rgba(45,143,143,0.18); border: 1px solid rgba(58,181,181,0.28); color: #3ab5b5;">{{ t }}</span>
-          </sc-for>
-        </div>
-        <a href="rationarium/" style="display: inline-flex; align-items: center; gap: 8px; margin-top: 26px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #3ab5b5;" style-hover="color: #e8c778;">→ voir l’aperçu du produit et les écrans</a>
-      </article>
-      <article style="position: sticky; top: 122px; background: #141e38; border: 1px solid #2d3a50; border-radius: 18px; padding: 34px 44px; box-shadow: 0 24px 60px -24px rgba(0,0,0,0.7); margin-bottom: 26px;">
-        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
-          <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 27px; color: #ffffff;">Codicillus</h3>
-          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 5px 11px; border-radius: 999px; border: 1px solid #2d3a50; color: #8b9bb4;">dépôt privé</span>
-        </div>
-        <p style="margin: 10px 0 0; font-size: 15px; font-weight: 600; color: #3ab5b5;">Base de connaissances documentaire interne, auto-hébergée</p>
-        <p style="margin: 12px 0 0; font-size: 15px; line-height: 1.65; color: #a3b3c9; max-width: 640px;">Un patrimoine éparpillé — procédures, cartographies en tableur, PDF, liens — remplacé par un point d’entrée unique et cherchable, où chaque note affiche un signal de fraîcheur qui dit si elle est encore digne de confiance. Le corpus se lit aussi comme un graphe : applications, serveurs, équipements et contacts reliés par des relations qualifiées, d’où se lisent les dépendances et les points de défaillance unique.</p>
-        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px;">
-          <sc-for list="{{ codicillusStack }}" as="t" hint-placeholder-count="5">
-            <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 11px; border-radius: 5px; background: rgba(45,143,143,0.12); border: 1px solid #2d3a50; color: #8b9bb4;">{{ t }}</span>
-          </sc-for>
-        </div>
-      </article>
-      <p style="margin: 10px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #5a6b82;">// archive : <a href="https://www.depotdoc.fr" target="_blank" rel="noopener noreferrer" style="color: #8b9bb4;" style-hover="color: #3ab5b5;">depotdoc.fr</a> — 360 k usages/an, adopté par 30 % du réseau national Assurance Maladie</p>
-    </div>
-  </section>
-
-  <section data-act="competences" data-screen-label="Acte 5 — Compétences" style="box-sizing: border-box; padding: 120px 8vw;">
-    <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.16em; color: #2d8f8f;">05 / COMPÉTENCES, FORMATION &amp; ÉCRITS ▮</p>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-top: 44px; max-width: 1100px;">
-      <sc-for list="{{ skillGroups }}" as="g" hint-placeholder-count="6">
-        <div data-rv="1" style="background: rgba(23,32,58,0.85); border: 1px solid #2d3a50; border-radius: 12px; padding: 22px;">
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #3ab5b5;">{{ g.key }}:</div>
-          <div style="margin-top: 6px; font-weight: 700; font-size: 16px; color: #e6edf5;">{{ g.title }}</div>
-          <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px;">
-            <sc-for list="{{ g.tags }}" as="t" hint-placeholder-count="4">
-              <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 3px 9px; border-radius: 4px; background: rgba(45,143,143,0.12); color: #8b9bb4;">{{ t }}</span>
-            </sc-for>
-          </div>
-        </div>
-      </sc-for>
-    </div>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin-top: 34px; max-width: 1100px;">
-      <sc-for list="{{ creds }}" as="c" hint-placeholder-count="3">
-        <div data-rv="1" style="border: 1px dashed #2d3a50; border-radius: 12px; padding: 20px;">
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #e8c778;">{{ c.period }}</div>
-          <div style="margin-top: 6px; font-weight: 700; font-size: 15px; color: #e6edf5;">{{ c.title }}</div>
-          <div style="margin-top: 3px; font-size: 12.5px; color: #8b9bb4;">{{ c.org }}</div>
-          <sc-for list="{{ c.notes }}" as="n" hint-placeholder-count="0">
-            <div style="margin-top: 10px; font-size: 12px; line-height: 1.5; color: #5a6b82;">{{ n }}</div>
-          </sc-for>
-        </div>
-      </sc-for>
-    </div>
-    <p style="margin: 48px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.16em; color: #2d8f8f;">// PUBLICATIONS</p>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 18px; max-width: 1100px;">
-      <sc-for list="{{ pubs }}" as="pb" hint-placeholder-count="2">
-        <a href="{{ pb.href }}" target="_blank" rel="noopener noreferrer" data-rv="1" style="display: block; background: rgba(23,32,58,0.85); border: 1px solid #2d3a50; border-radius: 12px; padding: 22px; color: inherit;" style-hover="border-color: #3ab5b5;">
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #e8c778;">{{ pb.kind }}</div>
-          <div style="margin-top: 8px; font-weight: 700; font-size: 16px; color: #e6edf5;">{{ pb.title }}</div>
-          <div style="margin-top: 5px; font-size: 13px; line-height: 1.5; color: #8b9bb4;">{{ pb.desc }}</div>
-          <div style="margin-top: 14px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #3ab5b5;">→ {{ pb.host }}</div>
-        </a>
-      </sc-for>
-    </div>
-  </section>
-
-  <section data-act="contact" data-screen-label="Acte 6 — Contact" style="min-height: 92vh; display: flex; align-items: center; box-sizing: border-box; padding: 80px 8vw;">
-    <div>
-      <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #5a6b82;"><span style="color: #e8c778;">POST</span> /contact <span style="color: #2d8f8f;">HTTP/1.1</span></p>
-      <h2 style="margin: 24px 0 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(52px, 8vw, 110px); letter-spacing: -0.03em; line-height: 1; color: #ffffff;">Parlons-en.</h2>
-      <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 48px;">
-        <a href="mailto:contact@alexandre-berge.fr" style="display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 8px; background: #2d8f8f; color: #ffffff; font-size: 14px; font-weight: 600;" style-hover="background: #3ab5b5; color: #ffffff;">contact@alexandre-berge.fr</a>
-        <a href="tel:+33665576478" style="display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.22); color: #e6edf5; font-size: 14px; font-weight: 600;" style-hover="border-color: #3ab5b5; color: #3ab5b5;">06 65 57 64 78</a>
-        <a href="https://www.linkedin.com/in/bergealexandre" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.22); color: #e6edf5; font-size: 14px; font-weight: 600;" style-hover="border-color: #3ab5b5; color: #3ab5b5;">LinkedIn</a>
-        <a href="https://github.com/ElegArtech" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.22); color: #e6edf5; font-size: 14px; font-weight: 600;" style-hover="border-color: #3ab5b5; color: #3ab5b5;">GitHub</a>
-      </div>
-      <p style="margin: 56px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5a6b82;">// Paris 13e · © 2026</p>
-    </div>
-  </section>
-
-  <sc-if value="{{ modal }}">
-    <div role="dialog" aria-modal="true" aria-labelledby="xp-detail-title" data-modal="1" style="position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; padding: 4vh 4vw; box-sizing: border-box;">
-      <div onClick="{{ closeModal }}" style="position: absolute; inset: 0; background: rgba(6,10,20,0.84); backdrop-filter: blur(3px);"></div>
-      <div style="position: relative; width: min(860px, 100%); max-height: 92vh; display: flex;">
-      <button onClick="{{ closeModal }}" aria-label="Fermer le détail" style="position: absolute; top: 16px; right: 18px; z-index: 2; width: 32px; height: 32px; border-radius: 8px; border: 1px solid #2d3a50; background: rgba(11,18,32,0.75); cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 14px; line-height: 1; color: #8b9bb4;" style-hover="border-color: #3ab5b5; color: #3ab5b5;">✕</button>
-      <div data-modal-panel="1" tabindex="-1" style="flex: 1 1 auto; min-width: 0; max-height: 92vh; overflow-y: auto; overscroll-behavior: contain; background: #131d35; border: 1px solid #2d3a50; border-radius: 18px; padding: 36px 40px; box-sizing: border-box; box-shadow: 0 40px 90px -30px rgba(0,0,0,0.85); outline: none;">
-        <p style="margin: 0; padding-right: 46px; font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #e8c778;">{{ modal.period }}</p>
-        <h3 id="xp-detail-title" style="margin: 14px 0 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(24px, 3vw, 34px); line-height: 1.15; color: #ffffff;">{{ modal.role }}</h3>
-        <p style="margin: 8px 0 0; font-size: 15px; font-weight: 600; color: #3ab5b5;">{{ modal.org }}</p>
-        <p style="margin: 4px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5a6b82;">// {{ modal.context }}</p>
-        <sc-for list="{{ modal.blocks }}" as="b" hint-placeholder-count="3">
-          <div style="margin-top: 30px;">
-            <p style="margin: 0 0 12px; padding-bottom: 9px; border-bottom: 1px solid #22304d; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; color: #3ab5b5;">{{ b.label }}</p>
-            <ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px;">
-              <sc-for list="{{ b.items }}" as="it" hint-placeholder-count="3">
-                <li style="display: flex; gap: 10px; font-size: 14.5px; line-height: 1.6; color: #a3b3c9;"><span style="color: #2d8f8f; font-family: 'JetBrains Mono', monospace; flex-shrink: 0;">▸</span><span>{{ it }}</span></li>
-              </sc-for>
-            </ul>
-          </div>
-        </sc-for>
-        <p style="margin: 30px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #5a6b82;">échap pour fermer</p>
-      </div>
-      </div>
-    </div>
-  </sc-if>
-
-  <div data-statusbar="1" style="position: fixed; bottom: 0; left: 0; right: 0; z-index: 60; display: flex; align-items: center; justify-content: space-between; height: 26px; padding: 0 14px; background: rgba(11,18,32,0.92); backdrop-filter: blur(6px); border-top: 1px solid #1f2b47; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #8b9bb4;">
-    <div style="display: flex; align-items: center; gap: 16px;">
-      <span style="color: #3ab5b5;">⎇ main</span>
-      <span><span style="color: #e8c778;">●</span> en poste — CPAM 92</span>
-    </div>
-    <div style="display: flex; align-items: center; gap: 16px;">
-      <span data-scrollpct="1">0%</span>
-      <span>UTF-8 · FR</span>
-    </div>
+    </main>
   </div>
+
+  <div class="contenu" id="contenu">
+
+    <section class="page-noeud" id="parcours" data-icone="route" aria-labelledby="t-parcours">
+      <h2 id="t-parcours">Parcours</h2>
+      <p class="chapeau">Dix-huit ans de management, dont douze en opérations métier avant la bascule vers la direction des systèmes d'information.</p>
+
+      <article class="fiche" id="p-cpam92">
+        <h3>Responsable du département informatique</h3>
+        <p class="meta">CPAM des Hauts-de-Seine · 2026 → · 45 collaborateurs, 1 400 postes</p>
+        <ul class="resume">
+          <li>Direction de quatre services : développement, support, infrastructure, correspondants fonctionnels et data.</li>
+          <li>Trois outils internes livrés en six mois, dont le pilotage du helpdesk.</li>
+          <li>Backlog du helpdesk ramené de 775 à moins de 80 tickets en trois mois.</li>
+          <li>Gouvernance IA à trois niveaux et roadmap DSI 2026.</li>
+        </ul>
+        <div class="detail">
+          <p class="contexte">Direction d'un département de quarante-cinq personnes réparties en quatre services, sur un parc de mille quatre cents postes. Prise de fonction marquée par la structuration de la gouvernance et par l'accélération de la production applicative.</p>
+          <section class="bloc"><h4>Direction et gouvernance</h4><ul>
+            <li>Direction de quatre services : développement, support, infrastructure, correspondants fonctionnels et data décisionnelle.</li>
+            <li>Mise en place de la comitologie et élaboration de la roadmap DSI 2026.</li>
+            <li>Création d'un référentiel applicatif centralisé, avec cartographie et circuits de validation.</li>
+          </ul></section>
+          <section class="bloc"><h4>Production applicative</h4><ul>
+            <li>Pilotage du cycle de vie d'un portefeuille de plus de trente applications locales, et contribution aux programmes nationaux.</li>
+            <li>Trois outils internes livrés en production en six mois, dont le pilotage du helpdesk qui donne aux managers de proximité une lecture directe de leurs indicateurs.</li>
+            <li>Refonte complète de deux outils issus du poste précédent : les premières versions ont servi d'expression de besoin consolidée, puis la stack a été reconstruite sur les plans technique, économique et sécurité.</li>
+            <li>Business analyse consolidée et développement assisté par IA.</li>
+          </ul></section>
+          <section class="bloc"><h4>Stratégie et acculturation IA</h4><ul>
+            <li>Définition de la stratégie IA du département, avec cadrage des cas d'usage métiers et mutualisation inter-organismes.</li>
+            <li>Gouvernance à trois niveaux : comité stratégique, comité de priorisation décisionnaire, réseau de référents IA en service métier.</li>
+            <li>Ateliers d'acculturation auprès d'une cinquantaine de collaborateurs sur cinq services, avec effet observé sur la proposition de projets et le prototypage.</li>
+            <li>Projet de chatbot d'assistance documentaire en RAG, avancé et non finalisé.</li>
+          </ul></section>
+          <section class="bloc"><h4>Support et infrastructure</h4><ul>
+            <li>Refonte de l'organisation du helpdesk : backlog ramené de 775 tickets à moins de 80 en trois mois.</li>
+            <li>Architecture de quarante serveurs physiques et deux cent cinquante serveurs virtuels, en haute disponibilité, supervisée par PRTG.</li>
+            <li>Structuration du knowledge management : convergence des bases documentaires et capitalisation des savoirs critiques.</li>
+          </ul></section>
+        </div>
+      </article>
+
+      <article class="fiche" id="p-drsm">
+        <h3>Responsable du service informatique</h3>
+        <p class="meta">DRSM Île-de-France, puis CPAM de Paris · 2024 – 2025 · 24 collaborateurs</p>
+        <ul class="resume">
+          <li>Pilotage IT de la fusion régionale : 1 155 postes migrés, huit CPAM coordonnées, aucune interruption de service.</li>
+          <li>Mandat conduit en contexte d'absorption, avec maintien du niveau de service.</li>
+          <li>81 % de résolution en niveau 1 sur 8 500 tickets par an.</li>
+        </ul>
+        <div class="detail">
+          <p class="contexte">Mandat conduit en contexte d'absorption. La disparition des DRSM était actée publiquement dès la prise de poste, ce qui a fait de l'accompagnement des équipes une composante permanente du pilotage, au même titre que la migration technique.</p>
+          <section class="bloc"><h4>Fusion régionale</h4><ul>
+            <li>Pilotage IT de la fusion de la DRSM vers la CPAM : migration de 1 155 postes, coordination de huit CPAM, aucune interruption de service.</li>
+            <li>Accompagnement et réassurance des équipes sur toute la durée, avec projection sur leurs activités futures et maintien du niveau de service.</li>
+          </ul></section>
+          <section class="bloc"><h4>Direction et portefeuille</h4><ul>
+            <li>Direction de deux services : développement et infrastructure d'une part, support d'autre part.</li>
+            <li>Pilotage d'un portefeuille de quarante applications sur stack Symfony.</li>
+            <li>Helpdesk multiniveaux avec SLA contractualisés.</li>
+          </ul></section>
+          <section class="bloc"><h4>Outils et pilotage</h4><ul>
+            <li>Développement et mise en production de deux outils internes, repris ensuite à la CPAM des Hauts-de-Seine : la gestion des campagnes de déploiement IT, éprouvée lors de la migration régionale, et la gestion de projet et de planification.</li>
+            <li>Roadmap SI, nouvelle comitologie, qualification des KPI et création des outils de pilotage.</li>
+            <li>Ateliers d'acculturation IA auprès d'une quinzaine de collaborateurs de tous niveaux.</li>
+          </ul></section>
+          <section class="bloc"><h4>Résultats et infrastructure</h4><ul>
+            <li>81 % de résolution en niveau 1, délais moyens améliorés de 20 %, sur 8 500 tickets par an.</li>
+            <li>Vingt-quatre sites, cinquante-cinq machines virtuelles, six clusters, VMware, supervision Centreon, sauvegarde VEEAM.</li>
+            <li>Catalogue de services ITIL, cartographies applicatives et cartographie des compétences via base de données graphe.</li>
+          </ul></section>
+        </div>
+      </article>
+
+      <article class="fiche" id="p-charente-si">
+        <h3>Responsable informatique et pôle appui au pilotage</h3>
+        <p class="meta">CPAM de la Charente · 2020 – 2024 · 10 collaborateurs, 400 postes</p>
+        <ul class="resume">
+          <li>Conception et déploiement de depotdoc.fr, adopté par 30 % du réseau national sans obligation d'usage.</li>
+          <li>Comptes rendus de conseil d'administration assistés par IA : délai ramené de trois semaines à trois jours.</li>
+          <li>Stratégie open source : déploiement de GLPI et Axelor.</li>
+        </ul>
+        <div class="detail">
+          <p class="contexte">Poste de bascule entre les fonctions métier et la direction des systèmes d'information. C'est là que sont nés depotdoc.fr, l'usage institutionnalisé de l'IA générative et la stratégie open source.</p>
+          <section class="bloc"><h4>depotdoc.fr</h4><ul>
+            <li>Conception et déploiement d'un dépôt documentaire dématérialisé.</li>
+            <li>Trente mille utilisations par mois et réduction de moitié des flux papier.</li>
+            <li>Adoption par 30 % du réseau national, sans aucune obligation d'usage.</li>
+          </ul></section>
+          <section class="bloc"><h4>Innovation IA</h4><ul>
+            <li>Rédaction des comptes rendus de conseil d'administration assistée par IA, institutionnalisée après validation de la direction : délai ramené de trois semaines à trois jours, premier jet en trois heures.</li>
+            <li>Ce POC est devenu le fondement de la stratégie IA déployée sur les postes suivants.</li>
+            <li>Mise en œuvre d'une IA interne en RAG sur base de données graphe.</li>
+            <li>Acculturation d'une trentaine de cadres, en groupes de dix au maximum, sur des cas d'usage tertiaires directs.</li>
+            <li>Intégration de l'assistance IA au développement dans l'équipe.</li>
+          </ul></section>
+          <section class="bloc"><h4>Open source et données</h4><ul>
+            <li>Déploiement de GLPI et d'Axelor, et réduction de la dépendance aux éditeurs.</li>
+            <li>Business intelligence, gouvernance des données et analyse des flux métiers.</li>
+            <li>Quarante serveurs Linux et Windows, migration vers AlmaLinux 9, haute disponibilité.</li>
+          </ul></section>
+        </div>
+      </article>
+
+      <article class="fiche" id="p-charente-agence">
+        <h3>Responsable d'agence</h3>
+        <p class="meta">CPAM de la Charente · 2017 – 2020 · 25 collaborateurs</p>
+        <ul class="resume">
+          <li>Pôle régional traitant 1,3 million de feuilles de soins par an.</li>
+          <li>Tableau de bord individuel diffusé à chaque collaborateur et à l'encadrement.</li>
+          <li>Homogénéisation des pratiques sur l'ex-région Poitou-Charentes.</li>
+        </ul>
+        <div class="detail">
+          <p class="contexte">Pilotage d'un pôle régional à fort volume, où l'instrument de mesure devient l'outil de management principal.</p>
+          <section class="bloc"><h4>Périmètre</h4><ul>
+            <li>Pôle régional traitant 1,3 million de feuilles de soins par an.</li>
+            <li>Service départemental des réclamations traitant seize mille sollicitations par an.</li>
+          </ul></section>
+          <section class="bloc"><h4>Pilotage</h4><ul>
+            <li>Conception d'outils de pilotage de la productivité et de la production à l'échelle des agences.</li>
+            <li>Tableau de bord individuel par collaborateur, diffusé à l'intéressé et à l'encadrement : management visuel du macro au micro, réactions correctives à l'initiative des agents, objectivation des données face aux contestations.</li>
+            <li>Homogénéisation des pratiques de traitement en entrée sur l'ex-région Poitou-Charentes, avec une réduction du flux global estimée entre trois et cinq pour cent.</li>
+          </ul></section>
+        </div>
+      </article>
+
+      <article class="fiche" id="p-carsat">
+        <h3>Responsable des agences d'Eure-et-Loir</h3>
+        <p class="meta">CARSAT Centre Val de Loire · 2015 – 2017 · 20 collaborateurs</p>
+        <ul class="resume">
+          <li>Passage du guichet au rendez-vous, dix pour cent de productivité gagnés.</li>
+          <li>Outil de suivi qualité de la liquidation retraite déployé sur onze agences.</li>
+          <li>Guide du manager des structures retraite diffusé à tout l'organisme.</li>
+        </ul>
+        <div class="detail">
+          <p class="contexte">Transformation du modèle d'accueil et diffusion des instruments de mesure à l'échelle d'un réseau d'agences retraite.</p>
+          <section class="bloc"><h4>Transformation</h4><ul>
+            <li>Passage du guichet au rendez-vous, avec un gain de dix pour cent de productivité.</li>
+            <li>Management multi-sites et conduite du changement auprès des équipes de terrain.</li>
+          </ul></section>
+          <section class="bloc"><h4>Outils et diffusion</h4><ul>
+            <li>Conception et déploiement d'un outil de suivi qualité de la liquidation retraite, sur onze agences et environ cent quatre-vingts collaborateurs.</li>
+            <li>Comitologie de pilotage de l'activité : adéquation charge et ressources, productivité, benchmarking.</li>
+            <li>Rédaction d'un guide du manager des structures retraite, déployé sur l'ensemble de l'organisme.</li>
+          </ul></section>
+        </div>
+      </article>
+
+      <article class="fiche" id="p-rsi">
+        <h3>Manager du pôle logistique</h3>
+        <p class="meta">RSI Poitou-Charentes · 2008 – 2015 · 5 collaborateurs</p>
+        <ul class="resume">
+          <li>Premiers outils d'évaluation de l'activité : productivité rapportée aux ressources.</li>
+          <li>Benchmarking avec des services équivalents.</li>
+          <li>Objectivation des situations comme préalable aux décisions d'organisation.</li>
+        </ul>
+        <div class="detail">
+          <p class="contexte">Premier poste de management, et origine du fil conducteur : mesurer une activité avant de décider de son organisation.</p>
+          <section class="bloc"><h4>Fondations</h4><ul>
+            <li>Optimisation des processus logistiques et démarche d'amélioration continue.</li>
+            <li>Construction des premiers outils d'évaluation de l'activité : productivité rapportée aux ressources disponibles, benchmarking avec des services équivalents.</li>
+            <li>Objectivation des situations comme préalable aux décisions d'organisation, en substitution des appréciations a priori.</li>
+          </ul></section>
+        </div>
+      </article>
+    </section>
+
+    <section class="page-noeud" id="realisations" data-icone="tools" aria-labelledby="t-realisations">
+      <h2 id="t-realisations">Réalisations</h2>
+      <p class="chapeau">Des outils conçus, mis en production et repris ailleurs. Chacun est né dans un poste précis.</p>
+
+      <article class="fiche" id="r-depotdoc">
+        <h3>depotdoc.fr</h3>
+        <p class="meta">Né à la CPAM de la Charente</p>
+        <ul class="resume">
+          <li>Dépôt documentaire dématérialisé, 30 000 utilisations par mois.</li>
+          <li>Flux papier réduits de moitié.</li>
+          <li>Adopté par 30 % du réseau national sans obligation d'usage.</li>
+        </ul>
+      </article>
+
+      <article class="fiche" id="r-cr-ca">
+        <h3>Comptes rendus de conseil d'administration</h3>
+        <p class="meta">Né à la CPAM de la Charente</p>
+        <ul class="resume">
+          <li>Rédaction assistée par IA, institutionnalisée après validation de la direction.</li>
+          <li>Délai ramené de trois semaines à trois jours, premier jet en trois heures.</li>
+          <li>POC fondateur de la stratégie IA déployée ensuite.</li>
+        </ul>
+      </article>
+
+      <article class="fiche" id="r-campagnes">
+        <h3>Gestion des campagnes de déploiement IT</h3>
+        <p class="meta">Né à la DRSM, repris à la CPAM 92</p>
+        <ul class="resume">
+          <li>Éprouvé lors de la migration régionale de 1 155 postes.</li>
+          <li>Repris et reconstruit à la CPAM des Hauts-de-Seine.</li>
+        </ul>
+      </article>
+
+      <article class="fiche" id="r-helpdesk">
+        <h3>Pilotage du helpdesk</h3>
+        <p class="meta">Né à la CPAM des Hauts-de-Seine</p>
+        <ul class="resume">
+          <li>Lecture directe des indicateurs par les managers de proximité.</li>
+          <li>Prise en charge, résolution et taux de niveau 1.</li>
+        </ul>
+      </article>
+
+      <article class="fiche" id="r-ia-interne">
+        <h3>IA interne</h3>
+        <p class="meta">Née à la CPAM de la Charente</p>
+        <ul class="resume">
+          <li>Mise en œuvre d'une IA interne en RAG sur base de données graphe.</li>
+          <li>Intégration de l'assistance IA au développement dans l'équipe.</li>
+        </ul>
+      </article>
+
+      <article class="fiche" id="r-instruments">
+        <h3>Instruments de pilotage</h3>
+        <p class="meta">Nés au RSI, repris à chaque poste</p>
+        <ul class="resume">
+          <li>Premiers outils d'évaluation de l'activité en logistique.</li>
+          <li>Suivi qualité de la liquidation retraite sur onze agences.</li>
+          <li>Tableaux de bord individuels en agence, puis outils de pilotage IT.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="page-noeud" id="competences" data-icone="stack" aria-labelledby="t-competences">
+      <h2 id="t-competences">Compétences</h2>
+      <p class="chapeau">Chaque compétence est rattachée aux postes où elle s'est construite puis exercée. Les familles du CV sont indiquées sous chaque intitulé.</p>
+
+      <article class="fiche" id="c-gouvernance">
+        <h3>Direction et gouvernance</h3>
+        <p class="meta">Exercée à la CPAM 92 et à la DRSM · nourrie par le Master MSIC</p>
+        <p class="familles">Familles : direction et gouvernance ; transformation et conduite du changement.</p>
+        <ul class="resume">
+          <li>Direction de programme, management de transition, vision produit.</li>
+          <li>Gouvernance SI, comitologie, roadmap, pilotage budgétaire.</li>
+          <li>Conduite du changement en contexte de fusion.</li>
+        </ul>
+      </article>
+
+      <article class="fiche" id="c-pilotage">
+        <h3>Pilotage et mesure</h3>
+        <p class="meta">Né au RSI · exercée à chaque poste</p>
+        <p class="familles">Familles : instruments de pilotage, KPI, tableaux de bord, appui au pilotage.</p>
+        <ul class="resume">
+          <li>KPI, tableaux de bord, management visuel du macro au micro.</li>
+          <li>Adéquation charge et ressources, benchmarking.</li>
+          <li>Objectivation des données face aux contestations.</li>
+        </ul>
+      </article>
+
+      <article class="fiche" id="c-ia">
+        <h3>Intelligence artificielle</h3>
+        <p class="meta">Née à la CPAM de la Charente · exercée à la DRSM et à la CPAM 92</p>
+        <p class="familles">Famille : intelligence artificielle.</p>
+        <ul class="resume">
+          <li>Stratégie IA et gouvernance des usages à plusieurs niveaux.</li>
+          <li>Acculturation et formation par cas d'usage sur trois organismes.</li>
+          <li>RAG, LLM, prompt engineering, développement assisté par IA.</li>
+        </ul>
+      </article>
+
+      <article class="fiche" id="c-technique">
+        <h3>Architecture et développement</h3>
+        <p class="meta">Exercée sur les trois postes informatiques</p>
+        <p class="familles">Familles : architecture et infrastructure ; développement applicatif ; support et services.</p>
+        <ul class="resume">
+          <li>VMware, Proxmox, Linux, virtualisation, clusters, haute disponibilité.</li>
+          <li>Symfony, PHP, Go, TypeScript, React, Python, SQL, CI/CD.</li>
+          <li>Pratiques ITIL 4, helpdesk multiniveaux, catalogue de services.</li>
+        </ul>
+      </article>
+
+      <article class="fiche" id="c-data">
+        <h3>Data et open source</h3>
+        <p class="meta">Exercée à la CPAM de la Charente · nourrie par le Master MSIC</p>
+        <p class="familles">Familles : data et décisionnel ; open source et souveraineté.</p>
+        <ul class="resume">
+          <li>Business intelligence, gouvernance des données, cartographie applicative.</li>
+          <li>Bases de données graphe.</li>
+          <li>Stratégie open source, GLPI, Axelor, communs numériques.</li>
+        </ul>
+      </article>
+
+      <article class="fiche" id="c-km">
+        <h3>Knowledge management et capitalisation</h3>
+        <p class="meta">Né à la CPAM de la Charente · exercé à chaque poste · nourri par le Master MSIC</p>
+        <p class="familles">Famille : knowledge management et capitalisation.</p>
+        <ul class="resume">
+          <li>Convergence des bases documentaires et capitalisation des savoirs critiques à la CPAM 92.</li>
+          <li>Catalogue de services ITIL et cartographies applicatives, serveurs, clusters et compétences en base de données graphe à la DRSM.</li>
+          <li>depotdoc.fr et IA interne en RAG sur base graphe à la CPAM de la Charente.</li>
+          <li>Codicillus, base de connaissances auto-hébergée avec signal de fraîcheur et lecture en graphe.</li>
+        </ul>
+      </article>
+
+      <article class="fiche" id="c-droit-social">
+        <h3>Droit social</h3>
+        <p class="meta">Nourrie par le Master DTSE</p>
+        <p class="familles">Famille : droit social, dialogue social.</p>
+        <ul class="resume">
+          <li>Droit et sciences du travail européen.</li>
+          <li>Dialogue social en contexte de réorganisation.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="page-noeud" id="formation" data-icone="school" aria-labelledby="t-formation">
+      <h2 id="t-formation">Formation</h2>
+      <p class="chapeau">Deux masters. Le mémoire soutenu pour le master MSIC s'est prolongé, au-delà du diplôme, dans une pratique éditoriale.</p>
+
+      <article class="fiche" id="f-msic">
+        <h3>Master 2 Executive MSIC</h3>
+        <p class="meta">Université Paris 1 Panthéon-Sorbonne · 2024 – 2025</p>
+        <ul class="resume">
+          <li>Management des systèmes d'information et des connaissances.</li>
+          <li>Mémoire de recherche sur les communs numériques dans l'administration.</li>
+        </ul>
+      </article>
+
+      <article class="fiche" id="f-memoire">
+        <h3>Mémoire de recherche</h3>
+        <p class="meta">Master 2 Executive MSIC · Paris 1 Panthéon-Sorbonne · 2025</p>
+        <ul class="resume">
+          <li>Travail de recherche du master MSIC : les facteurs d'institutionnalisation des communs numériques au sein de l'administration.</li>
+          <li>Prolongé au-delà du diplôme par le blog communs-numeriques.fr.</li>
+        </ul>
+      </article>
+
+      <article class="fiche" id="f-dtse">
+        <h3>Master 2 DTSE</h3>
+        <p class="meta">Université Toulouse 1 Capitole · 2013 – 2014</p>
+        <ul class="resume"><li>Droit et sciences du travail européen.</li></ul>
+      </article>
+    </section>
+
+    <section class="page-noeud" id="publications" data-icone="book" aria-labelledby="t-publications">
+      <h2 id="t-publications">Publications</h2>
+      <p class="chapeau">Deux espaces d'écriture, l'un sur les communs numériques, l'autre sur la transformation des organisations. Une galerie enfin, tenue à titre personnel, où l'IA sert cette fois la création d'images.</p>
+
+      <article class="fiche" id="pub-communs">
+        <h3>communs-numeriques.fr</h3>
+        <p class="meta">Blog</p>
+        <ul class="resume">
+          <li>Communs numériques, souveraineté, administration.</li>
+          <li>Diffusion du mémoire de recherche.</li>
+        </ul>
+        <ul class="actions"><li><a href="https://communs-numeriques.fr" rel="noopener">Ouvrir communs-numeriques.fr</a></li></ul>
+      </article>
+
+      <article class="fiche" id="pub-elegartech">
+        <h3>Newsletter ElegArtech</h3>
+        <p class="meta">elegartech.substack.com</p>
+        <ul class="resume"><li>Transformation numérique, IA en organisation, souveraineté.</li></ul>
+        <ul class="actions"><li><a href="https://elegartech.substack.com" rel="noopener">Ouvrir la newsletter</a></li></ul>
+      </article>
+
+      <article class="fiche" id="pub-elegartex">
+        <h3>Galerie ElegArtex</h3>
+        <p class="meta">elegartex.fr</p>
+        <ul class="resume">
+          <li>Photographie numérique générée par IA, six séries depuis 2024.</li>
+          <li>Pratique personnelle, hors du cadre professionnel.</li>
+        </ul>
+        <ul class="actions"><li><a href="https://elegartex.fr" rel="noopener">Ouvrir la galerie</a></li></ul>
+      </article>
+    </section>
+
+    <section class="page-noeud" id="developpements" data-icone="chevrons" aria-labelledby="t-developpements">
+      <h2 id="t-developpements">Développements</h2>
+      <p class="chapeau">Deux applications conçues et développées hors cadre institutionnel. Elles prolongent des problèmes rencontrés en poste, le pilotage des ressources d'un côté, la fiabilité du patrimoine documentaire de l'autre.</p>
+
+      <article class="fiche" id="dev-rationarium">
+        <h3>Rationarium</h3>
+        <p class="meta">En développement actif · TypeScript, React, TanStack, PostgreSQL</p>
+        <ul class="resume">
+          <li>Pilotage des projets et des ressources en collectivité territoriale.</li>
+          <li>Une seule grille temporelle réconcilie tout ce qui occupe une personne, sur une organisation en directions, départements et services.</li>
+          <li>Architecte et développeur principal.</li>
+        </ul>
+        <div class="detail">
+          <p class="contexte">Pilotage des projets et des ressources en collectivité territoriale.</p>
+          <section class="bloc"><h4>Le problème</h4><ul>
+            <li>Le suivi de projet échoue rarement par manque d'outils, il échoue parce qu'il y en a trop.</li>
+            <li>Une seule grille temporelle réconcilie donc tout ce qui occupe une personne, congé, télétravail, tâche de projet, permanence et réunion, sur une organisation en directions, départements et services.</li>
+          </ul></section>
+          <section class="bloc"><h4>Cadre et contraintes</h4><ul>
+            <li>Outil interne, réseau fermé, bilingue et conforme RGAA.</li>
+            <li>Stack : TypeScript, React, TanStack, PostgreSQL, Prisma, Turborepo.</li>
+            <li><a href="rationarium/">Voir l'aperçu du produit et les écrans →</a></li>
+          </ul></section>
+        </div>
+      </article>
+
+      <article class="fiche" id="dev-codicillus">
+        <h3>Codicillus</h3>
+        <p class="meta">Dépôt privé · TypeScript, SvelteKit, PostgreSQL, Docker</p>
+        <ul class="resume">
+          <li>Base de connaissances documentaire interne, auto-hébergée.</li>
+          <li>Point d'entrée unique et cherchable, avec un signal de fraîcheur sur chaque note.</li>
+          <li>Le corpus se lit aussi comme un graphe de dépendances.</li>
+        </ul>
+        <div class="detail">
+          <p class="contexte">Base de connaissances documentaire interne, auto-hébergée.</p>
+          <section class="bloc"><h4>Le problème</h4><ul>
+            <li>Un patrimoine éparpillé, procédures, cartographies en tableur, PDF et liens, remplacé par un point d'entrée unique et cherchable.</li>
+            <li>Chaque note affiche un signal de fraîcheur qui dit si elle est encore digne de confiance.</li>
+          </ul></section>
+          <section class="bloc"><h4>Le corpus comme graphe</h4><ul>
+            <li>Applications, serveurs, équipements et contacts reliés par des relations qualifiées.</li>
+            <li>Les dépendances et les points de défaillance unique se lisent directement.</li>
+            <li>Stack : TypeScript, SvelteKit, PostgreSQL, Drizzle, Docker.</li>
+          </ul></section>
+        </div>
+      </article>
+    </section>
+
+    <section class="page-noeud" id="contact" data-icone="mail" aria-labelledby="t-contact">
+      <h2 id="t-contact">Contact</h2>
+      <p class="chapeau">Ouvert à un poste de direction ou à une mission de management de transition.</p>
+      <article class="fiche" id="contact-actions">
+        <h3>Alexandre Berge</h3>
+        <p class="meta">Paris 13<sup>e</sup> · mobilité Nouvelle-Aquitaine</p>
+        <ul class="actions">
+          <li><a href="mailto:contact@alexandre-berge.fr">contact@alexandre-berge.fr</a></li>
+          <li><a href="https://www.linkedin.com/in/bergealexandre" rel="me noopener">linkedin.com/in/bergealexandre</a></li>
+          <li><a href="assets/cv-alexandre-berge.pdf" download>Télécharger le CV en PDF</a></li>
+        </ul>
+      </article>
+    </section>
+
+  </div>
+
+  <footer class="js-seul">
+    <div id="etat" role="status" aria-live="polite"></div>
+  </footer>
+
 </div>
-</x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;photoOpacity&quot;: {&quot;editor&quot;: &quot;range&quot;, &quot;default&quot;: 0.13, &quot;min&quot;: 0, &quot;max&quot;: 0.5, &quot;step&quot;: 0.02, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Hero&quot;}}">
-class Component extends DCLogic {
-  state = { active: 'hero', openXp: null };
-  actDefs = [
-    { id: 'hero', label: 'HERO', bg: '#0f1729' },
-    { id: 'profil', label: 'PROFIL', bg: '#111c33' },
-    { id: 'experiences', label: 'EXPÉRIENCES', bg: '#0b1220' },
-    { id: 'projets', label: 'PROJETS', bg: '#131f3a' },
-    { id: 'competences', label: 'COMPÉTENCES', bg: '#0d1526' },
-    { id: 'contact', label: 'CONTACT', bg: '#0a0f1d' },
-  ];
-  xpData = [
-    { index: '04 / 04', period: 'jan. 2026 → aujourd’hui', role: 'Responsable Département Informatique', org: 'CPAM des Hauts-de-Seine', context: '1,7 M assurés · 45 collaborateurs · 4 services', items: [
-      'Direction de 4 services : Développement, Support, Infrastructure, Correspondants fonctionnels et Data/BI',
-      'Roadmap DSI 2026, comitologie et référentiel applicatif centralisé',
-      'Stratégie IA : gouvernance, cas d’usage métiers, mutualisation inter-organismes',
-      'Refonte du helpdesk : backlog ramené de 775 à moins de 80 tickets en 3 mois',
-      '3 outils internes livrés en production en 6 mois, dont le pilotage du helpdesk',
-    ], blocks: [
-      { label: 'PÉRIMÈTRE', items: [
-        '4 services : Développement, Support, Infrastructure, Correspondants fonctionnels et Data/BI',
-        'Portefeuille de plus de 30 applications locales, contribution aux programmes nationaux',
-        'Architecture : 40 serveurs physiques, 250 serveurs virtuels, haute disponibilité, supervision PRTG',
-      ]},
-      { label: 'GOUVERNANCE ENGAGÉE', items: [
-        'Structuration de la gouvernance SI : mise en place de la comitologie et roadmap DSI 2026',
-        'Référentiel applicatif centralisé : cartographie et circuits de validation',
-        'Stratégie IA du département : cadrage des cas d’usage métiers, mutualisation inter-organismes',
-        'Gouvernance IA à trois niveaux : comité stratégique, comité de priorisation décisionnaire, réseau de référents en service métier',
-        'Knowledge Management : convergence des bases documentaires, capitalisation des savoirs critiques',
-      ]},
-      { label: 'PREMIERS RÉSULTATS', items: [
-        'Helpdesk réorganisé : backlog ramené de 775 tickets à moins de 80 en 3 mois',
-        'Migration Windows 10 vers Windows 11 menée à son terme sur les 1 400 postes : elle était engagée à 50 % à la prise de poste',
-        '3 outils internes livrés en production en 6 mois, dont le pilotage du helpdesk : les managers de proximité lisent directement leurs indicateurs de prise en charge, de résolution et de taux N1',
-        'Refonte de deux outils repris du poste précédent : les V1 servent d’expression de besoin consolidée, la stack est reconstruite sur les plans technique, économique et sécurité',
-        'Production applicative accélérée : business analyse consolidée, développement assisté par IA',
-        'Acculturation IA d’une cinquantaine de collaborateurs sur 5 services, techniques et fonctionnels ; effet observé sur la proposition de projets, le prototypage et l’expérimentation',
-        'Chatbot d’assistance documentaire (RAG) : avancé, non finalisé',
-      ]},
-    ]},
-    { index: '03 / 04', period: 'nov. 2024 → déc. 2025', role: 'Responsable du service informatique', org: 'DRSM Île-de-France → CPAM de Paris', context: '24 collaborateurs · budget 800 k€', items: [
-      'Fusion régionale : 1 155 postes migrés, 8 CPAM coordonnées, 0 interruption',
-      'Support ITIL : 81 % de résolution au 1er contact, SLA contractualisés, 8 500 tickets/an',
-      'Infra : 24 sites, 55 VM, 6 clusters VMware, Centreon, Veeam',
-      'Mandat en contexte d’absorption : équipes accompagnées, niveau de service tenu',
-      '2 outils internes livrés, dont le pilotage des campagnes de déploiement',
-    ], blocks: [
-      { label: 'PÉRIMÈTRE', items: [
-        '2 services dirigés : Développement et Infrastructure, Support — 24 collaborateurs, budget 800 K€',
-        'Portefeuille de 40 applications, stack Symfony ; helpdesk multiniveaux avec SLA contractualisés',
-        'Infrastructure : 24 sites, 55 machines virtuelles, 6 clusters VMware, supervision Centreon, sauvegarde VEEAM',
-      ]},
-      { label: 'FUSION RÉGIONALE', items: [
-        'Pilotage IT de la fusion DRSM vers CPAM : 1 155 postes migrés, 8 CPAM coordonnées, zéro interruption de service',
-        'Mandat conduit en contexte d’absorption : la disparition des DRSM était actée publiquement dès la prise de poste',
-        'Accompagnement et réassurance des équipes sur toute la durée, projection sur leurs activités futures, maintien du niveau de service',
-      ]},
-      { label: 'RÉSULTATS', items: [
-        'Support : 81 % de résolution en N1, délais moyens améliorés de 20 %, 8 500 tickets par an',
-        'Migration du parc de 1 300 postes de Windows 10 vers Windows 11',
-        'Gouvernance stratégique : roadmap SI, nouvelle comitologie, qualification des KPI et création des outils de pilotage',
-        '2 outils internes livrés puis repris à la CPAM des Hauts-de-Seine : la gestion des campagnes de déploiement IT, éprouvée lors de la migration régionale, et la gestion de projet et planification',
-        'Knowledge Management : catalogue de services ITIL, cartographies applicatives, serveurs, clusters et compétences via base de données graphe',
-        'Acculturation IA : ateliers auprès d’une quinzaine de collaborateurs, tous niveaux',
-      ]},
-    ]},
-    { index: '02 / 04', period: 'sep. 2020 → oct. 2024', role: 'Responsable Informatique & Appui au Pilotage', org: 'CPAM de la Charente', context: '10 collaborateurs · 400 postes · 40 serveurs', items: [
-      'Création de depotdoc.fr — 30 k usages/mois, −50 % de papier, 30 % du réseau national',
-      'Migrations Alma Linux 9, open source (GLPI, Axelor), IA interne (RAG, graphe)',
-      'Comptes rendus de CA : 3 semaines → 3 jours, POC fondateur de la stratégie IA',
-      'Acculturation IA d’une trentaine de cadres, portée par la direction',
-      'Appui au pilotage : BI, gouvernance des données, analyse des flux métiers',
-    ], blocks: [
-      { label: 'PÉRIMÈTRE', items: [
-        'Responsable Informatique et Pôle Appui au Pilotage : 10 collaborateurs, 400 postes',
-        'Architecture : 40 serveurs Linux et Windows, haute disponibilité',
-      ]},
-      { label: 'MIGRATIONS', items: [
-        'Parc de 400 postes migré de Windows 7 vers Windows 10',
-        'Serveurs migrés vers AlmaLinux 9',
-      ]},
-      { label: 'PRODUIT & OUTILS', items: [
-        'depotdoc.fr, conçu et déployé de bout en bout : dépôt de documents et envoi de formulaires pour les assurés, les entreprises, les partenaires et les professionnels de santé',
-        '30 000 utilisations par mois, 50 % de flux papier en moins, adopté par 30 % du réseau national sans aucune obligation d’usage',
-        'Stratégie open source : déploiement de GLPI et Axelor, réduction de la dépendance aux éditeurs',
-        'Appui au pilotage : outils décisionnels, gouvernance des données, analyse des flux métiers',
-      ]},
-      { label: 'INTELLIGENCE ARTIFICIELLE', items: [
-        'Comptes rendus de conseil d’administration assistés par IA, institutionnalisés après validation de la direction : délai ramené de 3 semaines à 3 jours, premier jet en 3 heures — le POC fondateur de la stratégie IA déployée ensuite',
-        'Mise en œuvre d’une IA interne : RAG et base de données graphe',
-        'Acculturation d’une trentaine de cadres, portée par la direction : groupes de 10 au maximum, cas d’usage tertiaires directs (synthèses, supports, exploitation de données)',
-        'Intégration de l’assistance IA au développement dans l’équipe',
-      ]},
-    ]},
-    { index: '01 / 04', period: '2008 → 2020', role: 'Parcours Management Opérationnel', org: 'CPAM Charente · CARSAT Centre · RSI', context: '3 organismes · 12 ans · jusqu’à 25 collaborateurs', items: [
-      'Pôle mutualisé, 1,3 M feuilles de soins/an : traitement en entrée harmonisé avec les CPAM clientes de l’ex-Poitou-Charentes, −3 à 5 % de flux',
-      'Management visuel : tableau de bord individuel mensuel, +15 % de productivité',
-      'Accueil refondu du guichet au rendez-vous, +10 % en liquidation retraite',
-      'Suivi qualité de la liquidation retraite : 11 agences, ~180 collaborateurs',
-      'Premiers outils d’évaluation de l’activité conçus dès 2008',
-    ], blocks: [
-      { label: 'RESPONSABLE D’AGENCE · CPAM DE LA CHARENTE · 2017 – 2020 · 25 COLLABORATEURS', items: [
-        'Pilotage d’un pôle régional traitant 1,3 million de feuilles de soins par an',
-        'Pilotage du service départemental des réclamations : 16 000 sollicitations par an',
-        'Tableau de bord individuel par collaborateur, diffusé à l’intéressé comme à l’encadrement : un management visuel qui va du macro au micro, des corrections prises à l’initiative des agents, des données qui objectivent face aux contestations',
-        'Homogénéisation des pratiques de traitement en entrée sur l’ex-région Poitou-Charentes : 3 à 5 % de flux en moins sur 1,3 million de feuilles de soins',
-      ]},
-      { label: 'RESPONSABLE DES AGENCES D’EURE-ET-LOIR · CARSAT CENTRE VAL DE LOIRE · 2015 – 2017 · 25 COLLABORATEURS · 2 SITES', items: [
-        'Refonte de l’offre de service, du guichet au rendez-vous : 10 % gagnés en liquidation de prestations retraite',
-        'Conception et déploiement d’un outil de suivi qualité de la liquidation retraite : 11 agences, environ 180 collaborateurs',
-        'Comitologie de pilotage : adéquation charge/ressources, productivité, benchmarking',
-        'Rédaction d’un guide du manager des structures retraite, déployé sur l’ensemble de l’organisme',
-      ]},
-      { label: 'MANAGER DU PÔLE LOGISTIQUE · RSI POITOU-CHARENTES · 2008 – 2015 · 5 COLLABORATEURS', items: [
-        'Construction des premiers outils d’évaluation de l’activité : productivité rapportée aux ressources disponibles, benchmarking avec des services équivalents',
-        'Objectivation des situations comme préalable aux décisions d’organisation, en substitution des appréciations a priori',
-      ]},
-    ]},
-  ];
-  // --- Fenêtre de détail d'une expérience -------------------------------
-  openDetail(i) {
-    if (this.state.openXp === i) return;
-    this.setState({ openXp: i }, () => {
-      const panel = document.querySelector('[data-modal-panel]');
-      if (panel) panel.focus();
-      this.armModal();
-    });
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Person",
+  "name":"Alexandre Berge",
+  "givenName":"Alexandre",
+  "familyName":"Berge",
+  "url":"https://alexandre-berge.fr/",
+  "image":"https://alexandre-berge.fr/assets/photo_alex.png",
+  "email":"mailto:contact@alexandre-berge.fr",
+  "jobTitle":"Responsable du département informatique",
+  "description":"Directeur de programme, transformation SI et IA, management de transition. Dix-huit ans de management dans la protection sociale.",
+  "address":{"@type":"PostalAddress","addressLocality":"Paris","addressCountry":"FR"},
+  "sameAs":[
+    "https://www.linkedin.com/in/bergealexandre",
+    "https://communs-numeriques.fr",
+    "https://elegartech.substack.com",
+    "https://elegartex.fr",
+    "https://github.com/ElegArtech"
+  ],
+  "knowsAbout":["Gouvernance des systèmes d'information","Transformation numérique","Intelligence artificielle générative","Pilotage et KPI","Open source et communs numériques","Droit social"],
+  "alumniOf":[
+    {"@type":"CollegeOrUniversity","name":"Université Paris 1 Panthéon-Sorbonne"},
+    {"@type":"CollegeOrUniversity","name":"Université Toulouse 1 Capitole"}
+  ],
+  "worksFor":{"@type":"Organization","name":"CPAM des Hauts-de-Seine"}
+}
+</script>
+
+<script>
+(function () {
+'use strict';
+
+/* ============================================================
+   1. Données du graphe — source : graphe-navigation-noeuds.md
+   ============================================================ */
+
+const DX = 80;
+
+/* Pictogrammes en trait fin, tracés d'après le jeu Tabler (boîte 24 × 24). */
+const ICONES = {
+  user:'<path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/>',
+  timeline:'<path d="M4 16l6 -7l5 5l5 -6"/><path d="M4 16m-1.6 0a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0 -3.2 0"/><path d="M10 9m-1.6 0a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0 -3.2 0"/><path d="M15 14m-1.6 0a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0 -3.2 0"/><path d="M20 8m-1.6 0a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0 -3.2 0"/>',
+  tools:'<path d="M3 21h4l13 -13a1.5 1.5 0 0 0 -4 -4l-13 13v4"/><path d="M14.5 5.5l4 4"/><path d="M12 8l-5 -5l-4 4l5 5"/><path d="M7 8l-1.5 1.5"/><path d="M16 12l5 5l-4 4l-5 -5"/><path d="M16 17l-1.5 1.5"/>',
+  stack:'<path d="M12 4l-8 4l8 4l8 -4l-8 -4"/><path d="M4 12l8 4l8 -4"/><path d="M4 16l8 4l8 -4"/>',
+  school:'<path d="M22 9l-10 -4l-10 4l10 4l10 -4v6"/><path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4"/>',
+  book:'<path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0"/><path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0"/><path d="M3 6l0 13"/><path d="M12 6l0 13"/><path d="M21 6l0 13"/>',
+  chevrons:'<polyline points="9,7.5 4,12 9,16.5"/><polyline points="15,7.5 20,12 15,16.5"/>',
+  certificate:'<path d="M15 15m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/><path d="M13 17.5v4.5l2 -1.5l2 1.5v-4.5"/><path d="M10 19h-5a2 2 0 0 1 -2 -2v-10c0 -1.1 .9 -2 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -1 1.73"/><path d="M6 9l12 0"/><path d="M6 12l3 0"/><path d="M6 15l2 0"/>',
+  mail:'<path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"/><path d="M3 7l9 6l9 -6"/>'
+};
+
+const NOEUDS = [
+  {id:'profil', type:'hub', x:560, y:420, r:34, icone:'user', etiq:['Profil'], etape:0},
+
+  {id:'parcours', type:'majeur', x:280, y:260, icone:'timeline', etiq:['Parcours'], long:'Parcours professionnel', retour:'au parcours', etape:1},
+  {id:'p-cpam92', type:'sous', parent:'parcours', x:425, y:195, etiq:['CPAM 92','Resp. informatique'], long:'Responsable du département informatique, CPAM des Hauts-de-Seine', etape:1},
+  {id:'p-drsm', type:'sous', parent:'parcours', x:330, y:110, etiq:['DRSM Île-de-France','Resp. SI'], long:'Responsable du service informatique, DRSM Île-de-France puis CPAM de Paris', etape:1},
+  {id:'p-charente-si', type:'sous', parent:'parcours', x:200, y:100, etiq:['CPAM Charente','Resp. informatique'], long:'Responsable informatique et pôle appui au pilotage, CPAM de la Charente', etape:1},
+  {id:'p-charente-agence', type:'sous', parent:'parcours', x:110, y:180, etiq:['CPAM Charente','Resp. agence'], long:"Responsable d'agence, CPAM de la Charente", etape:1},
+  {id:'p-carsat', type:'sous', parent:'parcours', x:95, y:305, etiq:['CARSAT Centre','Resp. agences'], long:"Responsable des agences d'Eure-et-Loir, CARSAT Centre Val de Loire", etape:1},
+  {id:'p-rsi', type:'sous', parent:'parcours', x:175, y:410, etiq:['RSI Poitou-Charentes','Manager logistique'], long:'Manager du pôle logistique, RSI Poitou-Charentes', etape:1},
+
+  {id:'realisations', type:'majeur', x:370, y:620, icone:'tools', etiq:['Réalisations'], long:'Réalisations et outils conçus', retour:'aux réalisations', etape:2},
+  {id:'r-depotdoc', type:'sous', parent:'realisations', x:225, y:560, etiq:['depotdoc.fr'], long:'Dépôt documentaire dématérialisé, 30 000 utilisations par mois', etape:2},
+  {id:'r-cr-ca', type:'sous', parent:'realisations', x:205, y:665, etiq:['Comptes rendus de CA'], long:"Rédaction des comptes rendus de conseil d'administration assistée par IA", etape:2},
+  {id:'r-campagnes', type:'sous', parent:'realisations', x:245, y:760, etiq:['Campagnes de déploiement'], long:'Outil de gestion des campagnes de déploiement IT', etape:2},
+  {id:'r-helpdesk', type:'sous', parent:'realisations', x:360, y:800, etiq:['Pilotage helpdesk'], long:'Outil de pilotage du helpdesk pour les managers de proximité', etape:2},
+  {id:'r-ia-interne', type:'sous', parent:'realisations', x:475, y:775, etiq:['IA interne'], long:'IA interne en RAG sur base de données graphe', etape:2},
+  {id:'r-instruments', type:'sous', parent:'realisations', x:530, y:660, etiq:['Instruments de pilotage'], long:"Outils d'évaluation et tableaux de bord de l'activité métier", etape:2},
+
+  /* Grappe recomposée : sept sous-nœuds, étiquettes sur deux lignes.
+     L'étiquette du majeur est forcée à gauche, sinon elle se pose sur ses propres rameaux. */
+  {id:'competences', type:'majeur', x:760, y:682, icone:'stack', etiq:['Compétences'], long:'Compétences', retour:'aux compétences', etape:3, etiquette:{ancrage:'end', dx:-37, dy:4}},
+  {id:'c-gouvernance', type:'sous', parent:'competences', x:664, y:745, etiq:['Direction et','gouvernance'], long:'Direction et gouvernance ; transformation et conduite du changement', etape:3},
+  {id:'c-pilotage', type:'sous', parent:'competences', x:711, y:786, etiq:['Pilotage','et mesure'], long:'Instruments de pilotage, KPI, tableaux de bord, appui au pilotage', etape:3},
+  {id:'c-ia', type:'sous', parent:'competences', x:831, y:772, etiq:['Intelligence','artificielle'], long:'Intelligence artificielle', etape:3},
+  {id:'c-technique', type:'sous', parent:'competences', x:873, y:659, etiq:['Architecture et','développement'], long:'Architecture et infrastructure ; développement applicatif ; support et services', etape:3},
+  {id:'c-data', type:'sous', parent:'competences', x:844, y:603, etiq:['Data et','open source'], long:'Data et décisionnel ; open source et souveraineté', etape:3},
+  {id:'c-km', type:'sous', parent:'competences', x:773, y:796, etiq:['Knowledge','management'], long:'Knowledge management et capitalisation', etape:3},
+  {id:'c-droit-social', type:'sous', parent:'competences', x:868, y:721, etiq:['Droit social'], long:'Droit social, dialogue social', etape:3},
+
+  {id:'formation', type:'majeur', x:960, y:500, icone:'school', etiq:['Formation'], long:'Formation universitaire', retour:'à la formation', etape:4},
+  {id:'f-msic', type:'sous', parent:'formation', x:1075, y:450, etiq:['Master MSIC','Panthéon-Sorbonne'], long:"Master 2 Executive management des systèmes d'information et des connaissances", etape:4},
+  {id:'f-memoire', type:'sous', parent:'formation', x:1000, y:370, etiq:['Mémoire','communs numériques'], long:"Mémoire du master MSIC : les facteurs d'institutionnalisation des communs numériques au sein de l'administration", etape:4},
+  {id:'f-dtse', type:'sous', parent:'formation', x:1060, y:580, etiq:['Master DTSE','Toulouse Capitole'], long:'Master 2 droit et sciences du travail européen', etape:4},
+
+  {id:'publications', type:'majeur', x:970, y:245, icone:'book', etiq:['Publications'], long:'Publications et écrits', retour:'aux publications', etape:5},
+  {id:'pub-communs', type:'sous', parent:'publications', x:1090, y:205, etiq:['communs-numeriques.fr'], long:'Blog consacré aux communs numériques et à la souveraineté', etape:5},
+  {id:'pub-elegartech', type:'sous', parent:'publications', x:1085, y:320, etiq:['Newsletter ElegArtech'], long:"Newsletter sur la transformation numérique et l'IA en organisation", etape:5},
+  {id:'pub-elegartex', type:'sous', parent:'publications', x:1090, y:262, etiq:['Galerie ElegArtex'], long:'Galerie de photographie numérique générée par IA, tenue à titre personnel', etape:5},
+
+  /* Position réservée dans la composition, masquée tant que le nœud ne porte aucun sous-nœud. */
+  {id:'certifications', type:'majeur', x:215, y:470, icone:'certificate', etiq:['Certifications'], long:'Certifications', retour:'aux certifications', etape:6, masque:true},
+
+  {id:'developpements', type:'majeur', x:850, y:105, icone:'chevrons', etiq:['Développements'], long:'Applications conçues hors cadre institutionnel', retour:'aux développements', etape:6},
+  {id:'dev-rationarium', type:'sous', parent:'developpements', x:955, y:50, etiq:['Rationarium'], long:'Pilotage des projets et des ressources en collectivité territoriale', etape:6},
+  {id:'dev-codicillus', type:'sous', parent:'developpements', x:980, y:170, etiq:['Codicillus'], long:'Base de connaissances documentaire interne, auto-hébergée', etape:6},
+
+  {id:'contact', type:'majeur', x:622, y:120, icone:'mail', etiq:['Contact'], long:'Contact', retour:'au contact', etape:6}
+];
+
+/* n : 1 = lien de création, 2 = lien d'exercice, de réemploi ou de formation */
+const TRANSVERSALES = [
+  {a:'r-depotdoc', b:'p-charente-si', n:1, t:'creation'},
+  {a:'r-cr-ca', b:'p-charente-si', n:1, t:'creation'},
+  {a:'r-ia-interne', b:'p-charente-si', n:1, t:'creation'},
+  {a:'r-campagnes', b:'p-drsm', n:1, t:'creation'},
+  {a:'r-campagnes', b:'p-cpam92', n:2, t:'reemploi'},
+  {a:'r-helpdesk', b:'p-cpam92', n:1, t:'creation'},
+  {a:'r-instruments', b:'p-rsi', n:1, t:'creation'},
+  {a:'r-instruments', b:'p-carsat', n:2, t:'reemploi'},
+  {a:'r-instruments', b:'p-charente-agence', n:2, t:'reemploi'},
+  {a:'r-instruments', b:'p-cpam92', n:2, t:'reemploi'},
+  {a:'c-gouvernance', b:'p-cpam92', n:1, t:'exercice'},
+  {a:'c-gouvernance', b:'p-drsm', n:2, t:'exercice'},
+  {a:'c-gouvernance', b:'f-msic', n:2, t:'formation'},
+  {a:'c-pilotage', b:'p-rsi', n:1, t:'creation'},
+  {a:'c-pilotage', b:'p-carsat', n:2, t:'exercice'},
+  {a:'c-pilotage', b:'p-charente-agence', n:2, t:'exercice'},
+  {a:'c-pilotage', b:'p-cpam92', n:2, t:'exercice'},
+  {a:'c-ia', b:'p-charente-si', n:1, t:'creation'},
+  {a:'c-ia', b:'p-drsm', n:2, t:'exercice'},
+  {a:'c-ia', b:'p-cpam92', n:2, t:'exercice'},
+  {a:'c-technique', b:'p-charente-si', n:1, t:'exercice'},
+  {a:'c-technique', b:'p-drsm', n:2, t:'exercice'},
+  {a:'c-technique', b:'p-cpam92', n:2, t:'exercice'},
+  {a:'c-data', b:'p-charente-si', n:1, t:'exercice'},
+  {a:'c-data', b:'f-msic', n:2, t:'formation'},
+  {a:'c-km', b:'p-charente-si', n:1, t:'creation'},
+  {a:'c-km', b:'dev-codicillus', n:1, t:'naissance'},
+  {a:'c-km', b:'p-drsm', n:2, t:'exercice', mot:'exercé à'},
+  {a:'c-km', b:'p-cpam92', n:2, t:'exercice', mot:'exercé à'},
+  {a:'c-km', b:'f-msic', n:2, t:'formation', mot:'nourri par'},
+  {a:'c-km', b:'r-depotdoc', n:2, t:'exercice', mot:'exercé à'},
+  {a:'c-km', b:'r-ia-interne', n:2, t:'exercice', mot:'exercé à'},
+  {a:'c-droit-social', b:'f-dtse', n:1, t:'formation'},
+  {a:'f-memoire', b:'f-msic', n:1, t:'issu'},
+  {a:'f-memoire', b:'pub-communs', n:1, t:'filiation'},
+  {a:'f-memoire', b:'c-data', n:2, t:'filiation'},
+  {a:'dev-rationarium', b:'c-pilotage', n:1, t:'creation'},
+  {a:'dev-rationarium', b:'c-technique', n:2, t:'exercice'},
+  {a:'dev-codicillus', b:'c-data', n:1, t:'creation'},
+  {a:'dev-codicillus', b:'c-technique', n:2, t:'exercice'}
+];
+
+/* Les tournures sont accordées au féminin, le sujet ordinaire étant « la compétence ».
+   Une arête peut porter un « mot » qui prend le pas, pour un sujet masculin. */
+const MOTS = {creation:'né à', naissance:'né de', reemploi:'repris à', exercice:'exercée à', formation:'nourrie par', filiation:'prolongé par', issu:'issu de'};
+
+const PAR_ID = {};
+NOEUDS.forEach(n => { n.x += DX; n.r = n.r || (n.type === 'sous' ? 6.5 : 26); n.bx = n.x; n.by = n.y; PAR_ID[n.id] = n; });
+const VISIBLES = NOEUDS.filter(n => !n.masque);
+
+const ARETES = [];
+VISIBLES.forEach(n => {
+  if (n.type === 'majeur') ARETES.push({a:'profil', b:n.id, etape:n.etape, rang:'dorsale'});
+  if (n.type === 'sous') ARETES.push({a:n.parent, b:n.id, etape:n.etape, rang:'rameau'});
+});
+
+const VOISINS = {};
+NOEUDS.forEach(n => VOISINS[n.id] = new Set());
+ARETES.forEach(e => { VOISINS[e.a].add(e.b); VOISINS[e.b].add(e.a); });
+TRANSVERSALES.forEach(e => { VOISINS[e.a].add(e.b); VOISINS[e.b].add(e.a); });
+
+/* ============================================================
+   2. Construction de la scène
+   ============================================================ */
+
+const NS = 'http://www.w3.org/2000/svg';
+const svg = document.getElementById('scene');
+const etat = document.getElementById('etat');
+const panneau = document.getElementById('panneau');
+const corps = document.getElementById('panneau-corps');
+const retour = document.getElementById('retour');
+const outils = document.getElementById('outils');
+const contenu = document.getElementById('contenu');
+const HUB = PAR_ID.profil;
+const doux = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const petit = () => !window.matchMedia('(min-width: 1080px)').matches;
+
+const el = (nom, attrs) => {
+  const e = document.createElementNS(NS, nom);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  return e;
+};
+
+const gAretes = el('g', {}), gTrans = el('g', {}), gNoeuds = el('g', {});
+svg.append(gAretes, gTrans, gNoeuds);
+svg.classList.add('voile');
+
+ARETES.forEach(e => { e.dom = el('line', {class:'arete ' + e.rang + ' cache'}); gAretes.appendChild(e.dom); });
+
+TRANSVERSALES.forEach((e, i) => {
+  e.titre = PAR_ID[e.a].etiq.join(' ') + ' — ' + (e.mot || MOTS[e.t]) + ' — ' + PAR_ID[e.b].etiq.join(' ');
+  e.dom = el('path', {class:'transversale niveau' + e.n + ' cache', 'data-i':i});
+  const t = el('title'); t.textContent = e.titre; e.dom.appendChild(t);
+  gTrans.appendChild(e.dom);
+});
+
+function placerEtiquette(n) {
+  if (n.etiquette) return {x:n.bx + n.etiquette.dx, y:n.by + n.etiquette.dy, ancrage:n.etiquette.ancrage};
+  const ancre = n.type === 'sous' ? PAR_ID[n.parent] : (n.type === 'majeur' ? HUB : null);
+  let dx = 0, dy = 1;
+  if (ancre) { dx = n.bx - ancre.bx; dy = n.by - ancre.by; }
+  const largeur = Math.max.apply(null, n.etiq.map(t => t.length)) * 5.9;
+  const lignes = n.etiq.length;
+  let x, y, ancrage;
+  if (Math.abs(dx) > Math.abs(dy) * 1.15) {
+    ancrage = dx > 0 ? 'start' : 'end';
+    x = n.bx + (dx > 0 ? n.r + 11 : -(n.r + 11));
+    y = n.by + 4 - (lignes - 1) * 6;
+  } else {
+    ancrage = 'middle';
+    x = n.bx;
+    y = dy > 0 ? n.by + n.r + 17 : n.by - n.r - 11 - (lignes - 1) * 13;
   }
-  closeDetail() {
-    const i = this.state.openXp;
-    if (i == null) return;
-    this.setState({ openXp: null }, () => {
-      this.disarmModal();
-      // Le focus revient sur la carte d'ou l'on vient, et non sur l'element
-      // actif d'avant l'ouverture : un clic sur la carte elle-meme, qui n'est
-      // pas focusable, l'aurait laisse sur <body>. preventScroll est
-      // indispensable ici — le defilement induit par un focus deplacerait le
-      // conteneur de l'acte 3, dont la position est portee par un transform.
-      const btn = document.querySelectorAll('[data-htrack] button')[i];
-      if (btn && btn.focus) btn.focus({ preventScroll: true });
-    });
+  if (ancrage === 'start' && x + largeur > 1420) { ancrage = 'end'; x = n.bx - n.r - 11; }
+  if (ancrage === 'end' && x - largeur < 20) { ancrage = 'start'; x = n.bx + n.r + 11; }
+  return {x:x, y:y, ancrage:ancrage};
+}
+
+VISIBLES.forEach(n => {
+  const g = el('g', {class:'noeud cache' + (n.type === 'hub' ? '' : ' cliquable'), 'data-id':n.id});
+  const classeDisque = n.type === 'hub' ? 'disque-hub' : n.type === 'majeur' ? 'disque-majeur' : 'disque-sous';
+  if (n.type !== 'sous') {
+    const bague = el('g', {class:'bague'});
+    bague.setAttribute('pointer-events', 'none');
+    bague.appendChild(el('circle', {class:'anneau', r:n.r + 7}));
+    for (let a = 45; a < 360; a += 90) {
+      const rad = a * Math.PI / 180, ci = Math.cos(rad), si = Math.sin(rad);
+      bague.appendChild(el('line', {class:'encoche', x1:ci * (n.r + 8.5), y1:si * (n.r + 8.5), x2:ci * (n.r + 12), y2:si * (n.r + 12)}));
+    }
+    g.appendChild(bague);
   }
-  // Le defilement de la page pilote la translation horizontale de l'acte 3 :
-  // le laisser courir sous la fenetre ferait defiler les cartes en arriere-plan.
-  // On ne peut pas figer le body — overflow ou position casseraient les sticky
-  // des actes 2 a 4, cf. la note en fin de <style> — donc on neutralise les
-  // evenements a la source, en laissant passer ceux qui visent le panneau,
-  // dont le defilement interne est confine par overscroll-behavior.
-  onModalWheel = (e) => {
-    const panel = document.querySelector('[data-modal-panel]');
-    if (panel && panel.contains(e.target)) return;
-    e.preventDefault();
+  g.appendChild(el('circle', {class:'cible', r:n.r + (n.type === 'sous' ? 16 : 11)}));
+  g.appendChild(el('circle', {class:'ombre', r:n.r, cy:2.5}));
+  g.appendChild(el('circle', {class:classeDisque, r:n.r}));
+  g.appendChild(el('path', {class:'relief', d:'M' + (-n.r + 1) + ' -1 A ' + (n.r - 1) + ' ' + (n.r - 1) + ' 0 0 1 ' + (n.r - 1) + ' -1'}));
+  if (n.icone) {
+    const gi = el('g', {class:'icone' + (n.type === 'hub' ? ' icone-hub' : ''), transform:'translate(-12 -12)'});
+    gi.innerHTML = ICONES[n.icone];
+    g.appendChild(gi);
+  }
+  const pos = placerEtiquette(n);
+  const txt = el('text', {class:n.type === 'sous' ? 'etiq-sous' : 'etiq-majeur', 'text-anchor':pos.ancrage, y:pos.y - n.by});
+  n.etiq.forEach((ligne, i) => {
+    const ts = el('tspan', {x:pos.x - n.bx, dy:i === 0 ? 0 : 13});
+    ts.textContent = ligne;
+    txt.appendChild(ts);
+  });
+  g.appendChild(txt);
+  const infobulle = el('title');
+  infobulle.textContent = n.long && n.long !== n.etiq.join(' ') ? n.etiq.join(' · ') + ' — ' + n.long : n.etiq.join(' · ');
+  g.appendChild(infobulle);
+  if (n.type !== 'hub') {
+    g.setAttribute('tabindex', '0');
+    g.setAttribute('role', 'link');
+    g.setAttribute('aria-label', 'Ouvrir ' + (n.long || n.etiq.join(' · ')));
+  }
+  n.dom = g; n.domTexte = txt; n.pos = pos;
+  gNoeuds.appendChild(g);
+});
+
+function dessiner() {
+  VISIBLES.forEach(n => n.dom.setAttribute('transform', 'translate(' + n.x + ' ' + n.y + ')'));
+  ARETES.forEach(e => {
+    const a = PAR_ID[e.a], b = PAR_ID[e.b];
+    const dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy) || 1;
+    const ux = dx / d, uy = dy / d;
+    e.dom.setAttribute('x1', a.x + ux * a.r); e.dom.setAttribute('y1', a.y + uy * a.r);
+    e.dom.setAttribute('x2', b.x - ux * b.r); e.dom.setAttribute('y2', b.y - uy * b.r);
+  });
+  TRANSVERSALES.forEach(e => {
+    const a = PAR_ID[e.a], b = PAR_ID[e.b];
+    const dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy) || 1;
+    const ux = dx / d, uy = dy / d;
+    const x1 = a.x + ux * a.r, y1 = a.y + uy * a.r, x2 = b.x - ux * b.r, y2 = b.y - uy * b.r;
+    const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+    const sens = (-uy * (mx - HUB.x) + ux * (my - HUB.y)) >= 0 ? 1 : -1;
+    const cx = mx - uy * d * .13 * sens, cy = my + ux * d * .13 * sens;
+    e.dom.setAttribute('d', 'M' + x1 + ' ' + y1 + ' Q' + cx + ' ' + cy + ' ' + x2 + ' ' + y2);
+  });
+}
+dessiner();
+
+/* ============================================================
+   3. Cadrage : viewBox déplaçable et zoomable
+   ============================================================ */
+
+const BBOX = (function () {
+  const xs = VISIBLES.map(n => n.bx), ys = VISIBLES.map(n => n.by);
+  return {
+    x0:Math.min.apply(null, xs) - 130, x1:Math.max.apply(null, xs) + 150,
+    y0:Math.min.apply(null, ys) - 60,  y1:Math.max.apply(null, ys) + 70
   };
-  onModalKey = (e) => {
-    if (this.state.openXp == null) return;
-    const panel = document.querySelector('[data-modal-panel]');
-    if (e.key === 'Escape') { e.preventDefault(); this.closeDetail(); return; }
-    if (e.key === 'Tab' && panel) {
-      const f = (document.querySelector('[data-modal]') || panel).querySelectorAll('a[href], button:not([disabled])');
-      if (!f.length) return;
-      const first = f[0], last = f[f.length - 1], cur = document.activeElement;
-      if (e.shiftKey && (cur === first || cur === panel)) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && cur === last) { e.preventDefault(); first.focus(); }
+})();
+const L_MIN = 340, L_MAX = 2200;
+let vue = {x:0, y:0, w:1440, h:840};
+
+function ratio() {
+  const r = svg.getBoundingClientRect();
+  return (r.width && r.height) ? r.height / r.width : .58;
+}
+function appliquerVue() {
+  svg.setAttribute('viewBox', vue.x + ' ' + vue.y + ' ' + vue.w + ' ' + vue.h);
+}
+function borner() {
+  const marge = vue.w * .45;
+  vue.x = Math.min(Math.max(vue.x, BBOX.x0 - marge), BBOX.x1 + marge - vue.w);
+  const margeY = vue.h * .45;
+  vue.y = Math.min(Math.max(vue.y, BBOX.y0 - margeY), BBOX.y1 + margeY - vue.h);
+}
+function poserVue(cx, cy, largeur, sansBornes) {
+  const l = Math.min(Math.max(largeur, L_MIN), L_MAX);
+  const h = l * ratio();
+  vue = {x:cx - l / 2, y:cy - h / 2, w:l, h:h};
+  if (!sansBornes) borner();
+  appliquerVue();
+}
+function cadrageBase() {
+  const a = ratio();
+  const l = Math.max(BBOX.x1 - BBOX.x0, (BBOX.y1 - BBOX.y0) / a);
+  if (petit()) return {cx:HUB.x, cy:HUB.y - 10, l:Math.min(l, 620)};
+  return {cx:(BBOX.x0 + BBOX.x1) / 2, cy:(BBOX.y0 + BBOX.y1) / 2, l:l};
+}
+let tweenVue = null, vueLibre = false;
+function recadrer(anime) {
+  vueLibre = false;
+  svg.classList.toggle('petit', petit());
+  const c = cadrageBase();
+  if (tweenVue) { cancelAnimationFrame(tweenVue); tweenVue = null; }
+  if (!anime || doux()) { poserVue(c.cx, c.cy, c.l, true); return; }
+  const d0 = {x:vue.x + vue.w / 2, y:vue.y + vue.h / 2, l:vue.w}, t0 = performance.now();
+  const pas = t => {
+    const k = Math.min(1, (t - t0) / 550), e = 1 - Math.pow(1 - k, 3);
+    poserVue(d0.x + (c.cx - d0.x) * e, d0.y + (c.cy - d0.y) * e, d0.l + (c.l - d0.l) * e, true);
+    tweenVue = k < 1 ? requestAnimationFrame(pas) : null;
+  };
+  tweenVue = requestAnimationFrame(pas);
+}
+recadrer(false);
+
+/* ============================================================
+   4. Ouverture : apparition en sept temps
+   ============================================================ */
+
+const DEPART = 1450;
+const RETARDS = [0, 380, 1030, 1650, 2150, 2560, 2900, 3220].map(v => v + DEPART);
+const SEQ = [].slice.call(document.querySelectorAll('.sq'));
+const minuteurs = [];
+let introEnCours = false;
+
+function tousLesDoms() {
+  return VISIBLES.map(n => n.dom).concat(ARETES.map(e => e.dom), TRANSVERSALES.map(e => e.dom));
+}
+function toutMontrer() {
+  document.documentElement.classList.remove('avant');
+  minuteurs.forEach(clearTimeout); minuteurs.length = 0;
+  introEnCours = false;
+  SEQ.forEach(e => e.classList.remove('cache'));
+  tousLesDoms().forEach(d => d.classList.remove('cache'));
+  svg.classList.remove('moment', 'fondu');
+}
+function jouer() {
+  minuteurs.forEach(clearTimeout); minuteurs.length = 0;
+  etat.textContent = '';
+  SEQ.forEach(e => e.classList.add('cache'));
+  svg.classList.remove('moment', 'fondu');
+  const tout = tousLesDoms();
+  tout.forEach(d => d.classList.add('cache'));
+  document.documentElement.classList.remove('avant');
+  if (doux()) { toutMontrer(); return; }
+  introEnCours = true;
+  const paraitre = (dom, t) => minuteurs.push(setTimeout(() => dom.classList.remove('cache'), t));
+  SEQ.forEach(e => paraitre(e, (+e.dataset.seq) * 200));
+  VISIBLES.forEach(n => {
+    const rang = VISIBLES.filter(m => m.etape === n.etape).indexOf(n);
+    paraitre(n.dom, RETARDS[n.etape] + rang * 75);
+  });
+  ARETES.forEach(e => {
+    const cible = PAR_ID[e.b];
+    const rang = VISIBLES.filter(m => m.etape === cible.etape).indexOf(cible);
+    paraitre(e.dom, RETARDS[cible.etape] + rang * 75 + 60);
+  });
+  TRANSVERSALES.forEach((e, i) => paraitre(e.dom, RETARDS[7] + i * 42));
+  const finTrame = RETARDS[7] + TRANSVERSALES.length * 42 + 200;
+  minuteurs.push(setTimeout(() => svg.classList.add('moment'), RETARDS[7] + 300));
+  minuteurs.push(setTimeout(() => { svg.classList.add('fondu'); svg.classList.remove('moment'); }, finTrame + 900));
+  minuteurs.push(setTimeout(() => { svg.classList.remove('fondu'); introEnCours = false; }, finTrame + 2700));
+}
+
+/* ============================================================
+   5. Survol : mise en avant du voisinage
+   ============================================================ */
+
+function surligner(id) {
+  if (!id) {
+    survole = null;
+    svg.classList.remove('actif');
+    document.querySelectorAll('.proche').forEach(e => e.classList.remove('proche'));
+    etat.textContent = '';
+    return;
+  }
+  const proches = new Set([id].concat(Array.from(VOISINS[id])));
+  VISIBLES.forEach(n => n.dom.classList.toggle('proche', proches.has(n.id)));
+  ARETES.forEach(e => e.dom.classList.toggle('proche', proches.has(e.a) && proches.has(e.b)));
+  TRANSVERSALES.forEach(e => e.dom.classList.toggle('proche', e.a === id || e.b === id));
+  svg.classList.add('actif');
+  const n = TRANSVERSALES.filter(e => e.a === id || e.b === id).length;
+  etat.textContent = PAR_ID[id].etiq.join(' · ') + (n ? '  —  ' + n + (n > 1 ? ' liens transversaux' : ' lien transversal') : '');
+}
+
+gTrans.addEventListener('pointerover', ev => {
+  const p = ev.target.closest('.transversale');
+  if (!p || saisi || ouvert) return;
+  const e = TRANSVERSALES[+p.dataset.i];
+  const proches = new Set([e.a, e.b]);
+  VISIBLES.forEach(n => n.dom.classList.toggle('proche', proches.has(n.id)));
+  ARETES.forEach(x => x.dom.classList.remove('proche'));
+  TRANSVERSALES.forEach(x => x.dom.classList.toggle('proche', x === e));
+  svg.classList.add('actif');
+  etat.textContent = e.titre;
+});
+gTrans.addEventListener('pointerout', () => { if (!saisi) surligner(null); });
+let survole = null;
+function survoler(id) {
+  if (id === survole) return;
+  survole = id;
+  surligner(id);
+}
+gNoeuds.addEventListener('pointerover', ev => {
+  const g = ev.target.closest('.noeud');
+  if (!g || saisi || ouvert) return;
+  survoler(g.dataset.id);
+});
+gNoeuds.addEventListener('pointerout', ev => {
+  if (saisi || ouvert) return;
+  const vers = ev.relatedTarget && ev.relatedTarget.closest ? ev.relatedTarget.closest('.noeud') : null;
+  if (vers) return;   /* on reste dans un nœud : le survol suivant s'en charge */
+  survoler(null);
+});
+
+/* ============================================================
+   6. Pointeur : saisie d'un nœud, déplacement de la vue, pincée
+   ============================================================ */
+
+let saisi = null, attente = null, depart = null, rappel = null;
+let geste = null, pan = null, pincee = null, tape = null;
+const pointeurs = new Map();
+
+const enUnites = ev => {
+  const p = svg.createSVGPoint();
+  p.x = ev.clientX; p.y = ev.clientY;
+  return p.matrixTransform(svg.getScreenCTM().inverse());
+};
+const echelle = () => vue.w / (svg.getBoundingClientRect().width || 1);
+
+svg.addEventListener('pointerdown', ev => {
+  pointeurs.set(ev.pointerId, {x:ev.clientX, y:ev.clientY});
+  if (pointeurs.size === 2) {
+    annulerSaisie();
+    const v = Array.from(pointeurs.values());
+    pincee = {
+      d0:Math.hypot(v[0].x - v[1].x, v[0].y - v[1].y) || 1,
+      l0:vue.w,
+      c0:{x:vue.x + vue.w / 2, y:vue.y + vue.h / 2}
+    };
+    geste = 'pincee';
+    return;
+  }
+  if (pointeurs.size > 2) return;
+
+  const g = ev.target.closest('.noeud');
+  if (g && !ouvert) {
+    geste = 'noeud';
+    depart = enUnites(ev);
+    const n = PAR_ID[g.dataset.id];
+    attente = setTimeout(() => {
+      saisi = n; attente = null;
+      if (rappel) { cancelAnimationFrame(rappel); rappel = null; }
+      surligner(null);
+      g.classList.add('saisi');
+      try { svg.setPointerCapture(ev.pointerId); } catch (e) {}
+    }, 220);
+    return;
+  }
+  if (g) { geste = 'noeud'; tape = g.dataset.id; depart = enUnites(ev); return; }
+
+  geste = 'pan';
+  pan = {sx:ev.clientX, sy:ev.clientY, vx:vue.x, vy:vue.y, bouge:false};
+  svg.classList.add('scene-saisie');
+  try { svg.setPointerCapture(ev.pointerId); } catch (e) {}
+});
+
+svg.addEventListener('pointermove', ev => {
+  if (pointeurs.has(ev.pointerId)) pointeurs.set(ev.pointerId, {x:ev.clientX, y:ev.clientY});
+
+  if (geste === 'pincee' && pointeurs.size >= 2) {
+    vueLibre = true;
+    const v = Array.from(pointeurs.values());
+    const d = Math.hypot(v[0].x - v[1].x, v[0].y - v[1].y) || 1;
+    poserVue(pincee.c0.x, pincee.c0.y, pincee.l0 * (pincee.d0 / d));
+    return;
+  }
+  if (geste === 'pan' && pan) {
+    vueLibre = true;
+    const k = echelle();
+    if (Math.abs(ev.clientX - pan.sx) + Math.abs(ev.clientY - pan.sy) > 3) pan.bouge = true;
+    vue.x = pan.vx - (ev.clientX - pan.sx) * k;
+    vue.y = pan.vy - (ev.clientY - pan.sy) * k;
+    borner(); appliquerVue();
+    return;
+  }
+  if (!saisi) return;
+  const p = enUnites(ev);
+  const dx = p.x - depart.x, dy = p.y - depart.y;
+  saisi.x = saisi.bx + dx; saisi.y = saisi.by + dy;
+  const premiers = VOISINS[saisi.id];
+  VISIBLES.forEach(n => {
+    if (n === saisi) return;
+    let k = 0;
+    if (premiers.has(n.id)) k = .34;
+    else { for (const v of premiers) if (VOISINS[v].has(n.id)) { k = .11; break; } }
+    n.x = n.bx + dx * k; n.y = n.by + dy * k;
+  });
+  dessiner();
+});
+
+function annulerSaisie() {
+  if (attente) { clearTimeout(attente); attente = null; }
+  if (saisi) { saisi.dom.classList.remove('saisi'); ramener(); }
+}
+function ramener() {
+  saisi = null;
+  const t0 = performance.now(), positions = VISIBLES.map(n => ({n:n, x:n.x, y:n.y}));
+  const pas = t => {
+    const k = Math.min(1, (t - t0) / 700), e = 1 - Math.pow(1 - k, 3);
+    positions.forEach(p => { p.n.x = p.x + (p.n.bx - p.x) * e; p.n.y = p.y + (p.n.by - p.y) * e; });
+    dessiner();
+    rappel = k < 1 ? requestAnimationFrame(pas) : null;
+  };
+  rappel = requestAnimationFrame(pas);
+}
+
+function relacher(ev) {
+  pointeurs.delete(ev.pointerId);
+  if (geste === 'pincee') { if (pointeurs.size === 0) geste = null; return; }
+  if (geste === 'pan') {
+    svg.classList.remove('scene-saisie');
+    if (pan && !pan.bouge && !ouvert) surligner(null);
+    pan = null; geste = null;
+    return;
+  }
+  if (geste === 'noeud') {
+    geste = null;
+    const cliquable = tape; tape = null;
+    if (attente) {
+      clearTimeout(attente); attente = null;
+      const g = ev.target.closest('.noeud');
+      if (g) activer(g.dataset.id);
       return;
     }
-    if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', ' '].indexOf(e.key) >= 0) {
-      if (panel && panel.contains(document.activeElement)) return;
-      e.preventDefault();
-    }
-  };
-  armModal() {
-    if (this.modalArmed) return;
-    this.modalArmed = true;
-    window.addEventListener('wheel', this.onModalWheel, { passive: false });
-    window.addEventListener('touchmove', this.onModalWheel, { passive: false });
-    window.addEventListener('keydown', this.onModalKey, true);
-  }
-  disarmModal() {
-    if (!this.modalArmed) return;
-    this.modalArmed = false;
-    window.removeEventListener('wheel', this.onModalWheel);
-    window.removeEventListener('touchmove', this.onModalWheel);
-    window.removeEventListener('keydown', this.onModalKey, true);
-  }
-  getScroller() {
-    const root = document.querySelector('[data-root]');
-    let el = root && root.parentElement;
-    while (el) {
-      const oy = getComputedStyle(el).overflowY;
-      if (el.scrollHeight > el.clientHeight + 10 && (oy === 'auto' || oy === 'scroll')) return el;
-      el = el.parentElement;
-    }
-    return document.scrollingElement || document.documentElement;
-  }
-  goTo(id) {
-    const sec = document.querySelector('[data-act="' + id + '"]');
-    if (!sec) return;
-    const sc = this.getScroller();
-    const top = sec.getBoundingClientRect().top - (sc.getBoundingClientRect ? sc.getBoundingClientRect().top : 0) + sc.scrollTop + 2;
-    sc.scrollTo({ top: top, behavior: 'smooth' });
-  }
-  componentDidMount() {
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const root = document.querySelector('[data-root]');
-    // active act observer
-    this.io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          const id = e.target.getAttribute('data-act');
-          this.setState({ active: id });
-          const def = this.actDefs.find((a) => a.id === id);
-          if (root && def) root.style.background = def.bg;
-        }
-      });
-    }, { rootMargin: '-40% 0px -40% 0px', threshold: 0 });
-    document.querySelectorAll('[data-act]').forEach((s) => this.io.observe(s));
-    // reveals
-    this.rv = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'none'; this.rv.unobserve(e.target); }
-      });
-    }, { threshold: 0.15 });
-    document.querySelectorAll('[data-rv]').forEach((el, i) => {
-      if (reduced) return;
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(18px)';
-      el.style.transition = 'opacity 0.6s ease ' + (i % 5) * 0.06 + 's, transform 0.6s ease ' + (i % 5) * 0.06 + 's';
-      this.rv.observe(el);
-    });
-    // typed name
-    const nameEl = document.querySelector('[data-typedname]');
-    const heroLines = document.querySelectorAll('[data-heroline]');
-    const fullName = 'Alexandre Berge';
-    // Fondu de la photo. Elle etait peinte a son opacite finale des la premiere
-    // frame, donc bien avant que le nom ait fini de se composer. On la fait
-    // monter au meme rythme que la frappe, et on attend que l'image soit
-    // decodee pour ne pas la voir surgir d'un bloc sur une connexion lente.
-    const photo = document.querySelector('[data-herophoto]');
-    const photoTarget = photo ? Number(getComputedStyle(photo).opacity) : 0;
-    let typedRatio = 0;
-    let photoReady = photo ? photo.complete : false;
-    const paintPhoto = () => {
-      if (photo) photo.style.opacity = String(photoReady ? photoTarget * typedRatio : 0);
-    };
-    if (nameEl && !reduced) {
-      if (photo) {
-        // Le zero doit etre commite avant d'armer la transition, sinon la photo
-        // part de son opacite finale et on la voit descendre puis remonter.
-        photo.style.transition = 'none';
-        paintPhoto();
-        void photo.offsetWidth;
-        photo.style.transition = 'opacity 0.45s ease-out';
-        if (!photoReady) photo.addEventListener('load', () => { photoReady = true; paintPhoto(); }, { once: true });
-      }
-      nameEl.textContent = '';
-      nameEl.style.visibility = 'visible';
-      heroLines.forEach((el) => { el.style.opacity = '0'; el.style.transform = 'translateY(14px)'; el.style.transition = 'opacity 0.7s ease, transform 0.7s ease'; });
-      let i = 0;
-      this.typeTimer = setInterval(() => {
-        nameEl.textContent = fullName.slice(0, ++i);
-        typedRatio = i / fullName.length;
-        paintPhoto();
-        if (i >= fullName.length) {
-          clearInterval(this.typeTimer);
-          heroLines.forEach((el, j) => setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'none'; }, j * 130));
-          this.runCounts();
-        }
-      }, 55);
-    } else { this.runCounts(); }
-    // scroll-driven: horizontal track, word highlight, scroll %
-    const onScroll = () => {
-      if (this.raf) return;
-      this.raf = requestAnimationFrame(() => {
-        this.raf = null;
-        const vh = window.innerHeight;
-        // scroll %
-        const pct = document.querySelector('[data-scrollpct]');
-        const rootEl = document.querySelector('[data-root]');
-        if (pct && rootEl) {
-          const rr = rootEl.getBoundingClientRect();
-          const max = rr.height - vh;
-          if (max > 0) pct.textContent = Math.min(100, Math.max(0, Math.round((-rr.top / max) * 100))) + '%';
-        }
-        // horizontal experiences
-        const wrap = document.querySelector('[data-hwrap]');
-        const track = document.querySelector('[data-htrack]');
-        if (wrap && track && !reduced) {
-          const r = wrap.getBoundingClientRect();
-          const total = r.height - vh;
-          const p = Math.min(1, Math.max(0, -r.top / total));
-          const dist = track.scrollWidth - window.innerWidth + window.innerWidth * 0.16;
-          track.style.transform = 'translateX(' + (-p * Math.max(0, dist)) + 'px)';
-          const dots = document.querySelectorAll('[data-dot]');
-          const idx = Math.min(dots.length - 1, Math.floor(p * dots.length));
-          dots.forEach((d, i) => { d.style.background = i <= idx ? '#3ab5b5' : '#2d3a50'; });
-        }
-        // word highlight in profil
-        const hl = document.querySelector('[data-hl]');
-        if (hl) {
-          const sec = document.querySelector('[data-act="profil"]');
-          const r2 = sec.getBoundingClientRect();
-          const total2 = r2.height - vh;
-          const p2 = Math.min(1, Math.max(0, -r2.top / total2 * 1.4));
-          const ws = hl.querySelectorAll('[data-w]');
-          const lit = Math.floor(p2 * ws.length);
-          ws.forEach((w, i) => {
-            w.style.opacity = i < lit ? '1' : '0.18';
-            w.style.color = i < lit ? '#e6edf5' : '#8b9bb4';
-          });
-        }
-      });
-    };
-    this.onScroll = onScroll;
-    window.addEventListener('scroll', onScroll, { passive: true });
-    document.addEventListener('scroll', onScroll, { capture: true, passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
-    onScroll();
-    this.kickTimer = setTimeout(onScroll, 400);
-  }
-  runCounts() {
-    if (this.counted) return;
-    this.counted = true;
-    document.querySelectorAll('[data-count]').forEach((el) => {
-      const target = parseInt(el.getAttribute('data-count'), 10);
-      const suffix = el.getAttribute('data-suffix') || '';
-      const t0 = performance.now();
-      const tick = (t) => {
-        const p = Math.min(1, (t - t0) / 1100);
-        const eased = 1 - Math.pow(1 - p, 3);
-        el.textContent = Math.round(target * eased).toLocaleString('fr-FR') + suffix;
-        if (p < 1) requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-    });
-  }
-  componentWillUnmount() {
-    if (this.io) this.io.disconnect();
-    if (this.rv) this.rv.disconnect();
-    if (this.typeTimer) clearInterval(this.typeTimer);
-    if (this.onScroll) {
-      window.removeEventListener('scroll', this.onScroll);
-      document.removeEventListener('scroll', this.onScroll, { capture: true });
-      window.removeEventListener('resize', this.onScroll);
-    }
-    if (this.kickTimer) clearTimeout(this.kickTimer);
-    this.disarmModal();
-  }
-  renderVals() {
-    const active = this.state.active;
-    return {
-      acts: this.actDefs.map((a) => {
-        const on = a.id === active;
-        return {
-          label: a.label,
-          go: () => this.goTo(a.id),
-          col: on ? '#3ab5b5' : '#5a6b82',
-          labelOp: on ? 1 : 0.55,
-          barW: on ? '34px' : '16px',
-          barBg: on ? '#3ab5b5' : '#2d3a50',
-        };
-      }),
-      photoOpacity: this.props.photoOpacity ?? 0.13,
-      metrics: [
-        { value: '18', target: 18, suffix: '', label: 'années de management' },
-        { value: '45', target: 45, suffix: '', label: 'collaborateurs encadrés' },
-        { value: '30+', target: 30, suffix: '+', label: 'applications pilotées' },
-        { value: '1 400', target: 1400, suffix: '', label: 'postes utilisateurs' },
-      ],
-      words: "Dix-huit ans de management : douze en opérations métier de la protection sociale, six à la direction de services et départements informatiques. De ce parcours, une conviction : un SI se pilote pour ceux qui s’en servent. Et une spécialité : la transformation en environnement contraint, qu’il s’agisse de fusion d’organismes, de redressement de services ou d’adoption de l’IA générative, en maintenant le service et en embarquant les équipes.".split(' '),
-      pillars: [
-        { key: 'MANAGEMENT', value: '45 collab.', label: '4 services · 1 400 postes' },
-        { key: 'INFRASTRUCTURE', value: '250 VM', label: '40 serveurs physiques · haute disponibilité' },
-        { key: 'DÉVELOPPEMENT', value: '30+ apps', label: 'Symfony · PHP · PostgreSQL' },
-        { key: 'IA & DATA', value: '3 organismes', label: 'Acculturation IA · RAG · gouvernance' },
-      ],
-      xps: this.xpData.map((x, i) => ({ ...x, open: () => this.openDetail(i), detailLabel: 'Voir le détail : ' + x.role })),
-      modal: this.state.openXp == null ? null : this.xpData[this.state.openXp],
-      closeModal: () => this.closeDetail(),
-      dots: [1, 2, 3, 4],
-      codicillusStack: ['TypeScript', 'SvelteKit', 'PostgreSQL', 'Drizzle', 'Docker'],
-      rationariumStack: ['TypeScript', 'React', 'TanStack', 'PostgreSQL', 'Prisma', 'Turborepo'],
-      skillGroups: [
-        { key: 'direction', title: 'Direction & Gouvernance', tags: ['Leadership IT', 'Gouvernance SI', 'Budgets & ROI', 'KPI & tableaux de bord'] },
-        { key: 'transformation', title: 'Pilotage & Transformation', tags: ['Projets', 'Conduite du changement', 'Scrum / Kanban', 'Management de transition', 'DevOps CI/CD'] },
-        { key: 'ia', title: 'Intelligence Artificielle', tags: ['RAG', 'LLM', 'Gouvernance IA', 'Stratégie data'] },
-        { key: 'data', title: 'Data & Décisionnel', tags: ['Business Intelligence', 'Data governance', 'Bases de données graphe', 'Cartographie applicative', 'Analyse des flux métiers'] },
-        { key: 'developpement', title: 'Développement applicatif', tags: ['Symfony / PHP', 'TypeScript / React', 'Go', 'Python', 'PostgreSQL', 'Git / GitLab'] },
-        { key: 'infra', title: 'Architecture & Infrastructure', tags: ['VMware', 'Proxmox', 'Linux/Windows', 'Migration de parc', 'Centreon', 'Veeam', 'PCA / PRA'] },
-        { key: 'support', title: 'Support & Services', tags: ['Pratiques ITIL 4', 'ITSM', 'Helpdesk multiniveaux', 'SLA', 'Catalogue de services', 'Knowledge Management'] },
-        { key: 'opensource', title: 'Open Source', tags: ['GLPI', 'Axelor', 'Communs numériques'] },
-      ],
-      pubs: [
-        { kind: 'BLOG', title: 'Communs numériques', desc: 'Communs numériques, souveraineté et systèmes d\u2019information publics.', href: 'https://communs-numeriques.fr', host: 'communs-numeriques.fr' },
-        { kind: 'NEWSLETTER', title: 'ElegArtech', desc: 'Transformation numérique, IA en organisation, souveraineté.', href: 'https://elegartech.substack.com', host: 'elegartech.substack.com' },
-      ],
-      creds: [
-        { period: '2024 — 2025', title: 'Master 2 Executive MSIC', org: 'Université Paris 1 Panthéon-Sorbonne', notes: ['Mémoire : « Les facteurs d’institutionnalisation des communs numériques au sein de l’administration »'] },
-        { period: '2013 — 2014', title: 'Master 2 DSTE', org: 'Université Toulouse 1 Capitole', notes: [] },
-        { period: 'Langues', title: 'Anglais professionnel', org: 'Français — langue maternelle', notes: [] },
-      ],
-    };
+    if (saisi) { saisi.dom.classList.remove('saisi'); ramener(); return; }
+    /* Panneau ouvert : le nœud n'est pas saisissable, mais il reste un lien. */
+    if (cliquable && ev.target.closest('.noeud')) activer(cliquable);
   }
 }
+svg.addEventListener('pointerup', relacher);
+svg.addEventListener('pointercancel', relacher);
+svg.addEventListener('pointerleave', ev => { if (geste === 'pincee') pointeurs.delete(ev.pointerId); });
+
+svg.addEventListener('wheel', ev => {
+  if (ouvert) return;
+  ev.preventDefault();
+  vueLibre = true;
+  const p = enUnites(ev);
+  const f = Math.exp(ev.deltaY * .0012);
+  const l = Math.min(Math.max(vue.w * f, L_MIN), L_MAX);
+  const kx = (p.x - vue.x) / vue.w, ky = (p.y - vue.y) / vue.h;
+  const h = l * ratio();
+  vue = {x:p.x - kx * l, y:p.y - ky * h, w:l, h:h};
+  borner(); appliquerVue();
+}, {passive:false});
+
+
+
+/* ============================================================
+   7. Panneau : le contenu vient du document, jamais dupliqué
+   ============================================================ */
+
+let ouvert = null, detailOuvert = null, tween = null, bordVB = 400;
+
+const aDetail = id => {
+  const f = document.getElementById(id);
+  return !!(f && f.querySelector('.detail'));
+};
+
+function equiper(racine) {
+  racine.querySelectorAll('.fiche').forEach(f => {
+    if (!f.querySelector('.detail') || f.querySelector('.deplier')) return;
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'deplier';
+    b.textContent = 'Voir le détail →';
+    f.insertBefore(b, f.querySelector('.detail'));
+  });
+}
+
+function construireSection(id) {
+  const c = document.getElementById(id).cloneNode(true);
+  c.querySelectorAll('.fiche[id]').forEach(f => { f.dataset.cle = f.id; });
+  c.querySelectorAll('[id]').forEach(e => e.removeAttribute('id'));
+  c.removeAttribute('id');
+  c.removeAttribute('aria-labelledby');
+  equiper(c);
+  return c;
+}
+
+/* La grappe et le bord du panneau se placent dans le repère du viewBox
+   réellement appliqué, et non d'après la taille en pixels de la scène.
+   La colonne d'identité met 0,8 s à s'ouvrir ou se refermer : toute mesure
+   prise dans la même image que le changement de classe porte encore sur
+   l'ancienne mise en page. C'est ce qui envoyait la grappe hors cadre au
+   retour depuis une fiche. Comme le viewBox peut lui-même être en cours
+   d'animation, les appelants repassent une fonction, réévaluée à chaque image. */
+function dispositionColonne(niveau) {
+  const b = vue;
+  const enfants = VISIBLES.filter(n => n.parent === ouvert);
+  const colonne = b.x + (niveau === 3 ? b.w * .045 : b.w * .095);
+  const pasY = b.h * (enfants.length > 5 ? .125 : .145);
+  const cibles = {};
+  cibles[ouvert] = {x:colonne, y:b.y + b.h * (niveau === 3 ? .07 : .11)};
+  const debutY = niveau === 3
+    ? b.y + b.h * .19
+    : Math.max(b.y + b.h * .33, b.y + b.h * .5 - (enfants.length - 1) * pasY / 2);
+  const pas3 = b.h * .088;
+  enfants.forEach((n, i) => cibles[n.id] = {x:colonne, y:debutY + i * (niveau === 3 ? pas3 : pasY)});
+  VISIBLES.forEach(n => { if (!cibles[n.id]) cibles[n.id] = {x:n.x, y:n.y}; });
+  return {cibles:cibles, bord:b.x + b.w * (niveau === 3 ? .11 : .29)};
+}
+
+function poserEtiquette(n, ancrage, dx, dy) {
+  const t = n.domTexte, lignes = n.etiq.length;
+  t.setAttribute('text-anchor', ancrage);
+  t.setAttribute('y', dy - (lignes - 1) * 6);
+  [].slice.call(t.children).forEach(ts => ts.setAttribute('x', dx));
+}
+
+function animer(cibles, duree, apres) {
+  const viser = typeof cibles === 'function' ? cibles : () => cibles;
+  if (tween) cancelAnimationFrame(tween);
+  if (doux()) {
+    const fin = viser();
+    VISIBLES.forEach(n => { const c = fin[n.id]; if (c) { n.x = c.x; n.y = c.y; } });
+    dessiner(); if (apres) apres(); return;
+  }
+  const t0 = performance.now(), dep = VISIBLES.map(n => ({n:n, x:n.x, y:n.y}));
+  const pas = t => {
+    const cible = viser();
+    const k = Math.min(1, (t - t0) / duree), e = 1 - Math.pow(1 - k, 3);
+    dep.forEach(d => {
+      const c = cible[d.n.id]; if (!c) return;
+      d.n.x = d.x + (c.x - d.x) * e; d.n.y = d.y + (c.y - d.y) * e;
+    });
+    dessiner();
+    if (k < 1) tween = requestAnimationFrame(pas); else { tween = null; if (apres) apres(); }
+  };
+  tween = requestAnimationFrame(pas);
+}
+
+function calerPanneau(vbX) {
+  if (petit()) { panneau.style.left = ''; return; }
+  if (vbX !== undefined) bordVB = vbX;
+  const ctm = svg.getScreenCTM(); if (!ctm) return;
+  const pt = svg.createSVGPoint(); pt.x = bordVB; pt.y = 0;
+  const x = pt.matrixTransform(ctm).x - svg.parentNode.getBoundingClientRect().left;
+  panneau.style.left = Math.max(0, x) + 'px';
+}
+let suivi = null;
+function suivrePanneau(duree, calcBord) {
+  if (petit()) return;
+  if (suivi) cancelAnimationFrame(suivi);
+  const t0 = performance.now();
+  const pas = t => {
+    calerPanneau(calcBord ? calcBord() : undefined);
+    suivi = (t - t0) < duree ? requestAnimationFrame(pas) : null;
+  };
+  suivi = requestAnimationFrame(pas);
+}
+
+function viser(cle) {
+  const cible = corps.querySelector('[data-cle="' + cle + '"]');
+  corps.querySelectorAll('.fiche').forEach(x => x.classList.remove('vise'));
+  if (!cible) return;
+  cible.classList.add('vise');
+  cible.scrollIntoView({behavior:doux() ? 'auto' : 'smooth', block:'start'});
+}
+
+function marquerNoeuds() {
+  VISIBLES.forEach(n => n.dom.classList.toggle('actif', n.id === detailOuvert));
+}
+
+function ouvrirNoeud(id) {
+  toutMontrer();
+  ouvert = id;
+  detailOuvert = null;
+  surligner(null);
+  panneau.classList.remove('niveau3');
+  document.body.classList.remove('niveau3');
+  corps.replaceChildren(construireSection(id));
+  corps.scrollTop = 0;
+  retour.textContent = '← Retour au graphe';
+
+  const enfants = VISIBLES.filter(n => n.parent === id);
+  const gardes = new Set([id].concat(enfants.map(n => n.id)));
+  VISIBLES.forEach(n => n.dom.classList.toggle('efface', !gardes.has(n.id)));
+  ARETES.forEach(e => e.dom.classList.toggle('efface', !(gardes.has(e.a) && gardes.has(e.b))));
+  TRANSVERSALES.forEach(e => e.dom.classList.add('efface'));
+  marquerNoeuds();
+
+  if (!petit()) {
+    recadrer(true);
+    poserEtiquette(PAR_ID[id], 'middle', 0, PAR_ID[id].r + 28);
+    enfants.forEach(n => poserEtiquette(n, 'start', n.r + 14, 4));
+    const placer = () => dispositionColonne(2);
+    calerPanneau(placer().bord);
+    suivrePanneau(1000, () => placer().bord);
+    animer(() => placer().cibles, 850);
+  }
+  panneau.hidden = false;
+  requestAnimationFrame(() => panneau.classList.add('visible'));
+  etat.textContent = PAR_ID[id].etiq[0];
+}
+
+function ouvrirDetail(cle) {
+  if (!aDetail(cle)) return;
+  detailOuvert = cle;
+  panneau.classList.add('niveau3');
+  corps.querySelectorAll('.fiche').forEach(f => f.classList.toggle('actif', f.dataset.cle === cle));
+  corps.scrollTop = 0;
+  retour.textContent = '← Retour ' + (PAR_ID[ouvert].retour || 'à ' + PAR_ID[ouvert].etiq[0]);
+  marquerNoeuds();
+  if (petit()) return;
+  /* Sur une URL ouverte directement sur une fiche, le cadrage de la grappe est
+     encore en cours d'animation. La colonne d'identité va se refermer en 0,8 s :
+     si on le laisse courir, ses dernières images mesurent une scène à demi
+     élargie et figent un viewBox trop haut. On le pose avant de refermer. */
+  if (tweenVue) recadrer(false);
+  document.body.classList.add('niveau3');
+  const majeur = PAR_ID[ouvert], enfants = VISIBLES.filter(n => n.parent === ouvert);
+  majeur.dom.classList.add('muet');
+  enfants.forEach(n => n.dom.classList.add('muet'));
+  const placer = () => dispositionColonne(3);
+  calerPanneau(placer().bord);
+  suivrePanneau(1200, () => placer().bord);
+  animer(() => placer().cibles, 750);
+}
+
+function fermerDetail() {
+  if (!detailOuvert) return;
+  detailOuvert = null;
+  panneau.classList.remove('niveau3');
+  document.body.classList.remove('niveau3');
+  corps.querySelectorAll('.fiche').forEach(f => f.classList.remove('actif'));
+  corps.scrollTop = 0;
+  retour.textContent = '← Retour au graphe';
+  marquerNoeuds();
+  if (petit()) return;
+  PAR_ID[ouvert].dom.classList.remove('muet');
+  VISIBLES.filter(n => n.parent === ouvert).forEach(n => n.dom.classList.remove('muet'));
+  const placer = () => dispositionColonne(2);
+  calerPanneau(placer().bord);
+  suivrePanneau(1200, () => placer().bord);
+  animer(() => placer().cibles, 700);
+}
+
+function fermerNoeud(immediat) {
+  if (!ouvert) return;
+  if (detailOuvert) fermerDetail();
+  ouvert = null;
+  panneau.classList.remove('visible', 'niveau3');
+  document.body.classList.remove('niveau3');
+  const rendre = () => {
+    VISIBLES.forEach(n => n.dom.classList.remove('efface', 'muet', 'actif'));
+    ARETES.forEach(e => e.dom.classList.remove('efface'));
+    TRANSVERSALES.forEach(e => e.dom.classList.remove('efface'));
+  };
+  if (immediat) { panneau.hidden = true; } else {
+    minuteurs.push(setTimeout(() => { panneau.hidden = true; }, 500));
+  }
+  VISIBLES.forEach(n => poserEtiquette(n, n.pos.ancrage, n.pos.x - n.bx, n.pos.y - n.by));
+  if (petit()) { rendre(); etat.textContent = ''; return; }
+  const cibles = {};
+  VISIBLES.forEach(n => cibles[n.id] = {x:n.bx, y:n.by});
+  animer(cibles, immediat ? 1 : 750, rendre);
+  rendre();
+  etat.textContent = '';
+}
+
+/* ============================================================
+   8. Adressage : une URL par nœud
+   ============================================================ */
+
+function aller(cle) {
+  const cible = cle ? '#' + cle : location.pathname + location.search;
+  if ((location.hash.slice(1) || '') === (cle || '')) { router(); return; }
+  history.pushState(null, '', cible);
+  router();
+}
+
+function viserListe(cle) {
+  contenu.querySelectorAll('.fiche').forEach(f => f.classList.remove('vise'));
+  if (!cle) return;
+  const t = document.getElementById(cle);
+  if (!t) return;
+  if (t.classList.contains('fiche')) t.classList.add('vise');
+  t.scrollIntoView({behavior:doux() ? 'auto' : 'smooth', block:'start'});
+}
+
+function router() {
+  const cle = decodeURIComponent((location.hash || '').replace(/^#/, ''));
+  if (document.body.classList.contains('mode-liste')) { viserListe(cle); return; }
+  const n = cle ? PAR_ID[cle] : null;
+  const maj = n ? (n.type === 'majeur' ? n.id : n.parent) : null;
+  if (!maj) { fermerNoeud(); return; }
+  if (ouvert !== maj) { fermerNoeud(true); ouvrirNoeud(maj); }
+  if (n.type === 'sous') {
+    if (aDetail(n.id)) ouvrirDetail(n.id);
+    else { fermerDetail(); viser(n.id); }
+  } else if (detailOuvert) fermerDetail();
+}
+window.addEventListener('popstate', router);
+window.addEventListener('hashchange', router);
+
+function activer(id) {
+  const n = PAR_ID[id];
+  if (!n) return;
+  if (n.type === 'hub') { if (ouvert) aller(''); return; }
+  aller(id);
+}
+
+/* ============================================================
+   9. Bascule graphe / liste, barre d'outils
+   ============================================================ */
+
+function bouton(texte, titre) {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.textContent = texte;
+  if (titre) b.title = titre;
+  return b;
+}
+const bBascule = bouton('Vue liste', 'Afficher le curriculum vitæ sous forme de document');
+const bRecadre = bouton('Recadrer', 'Replacer le graphe dans son cadre');
+const bRejoue = bouton('Rejouer', "Rejouer l'apparition du graphe");
+bBascule.id = 'bascule'; bRecadre.id = 'recadre'; bRejoue.id = 'rejoue';
+outils.append(bBascule, bRecadre, bRejoue);
+
+function poserMode(m, sansRoute) {
+  const liste = m === 'liste';
+  if (liste) toutMontrer();
+  if (liste && ouvert) fermerNoeud(true);
+  document.body.classList.toggle('mode-liste', liste);
+  document.body.classList.toggle('mode-graphe', !liste);
+  bBascule.textContent = liste ? 'Vue graphe' : 'Vue liste';
+  bBascule.setAttribute('aria-pressed', liste ? 'true' : 'false');
+  bRecadre.hidden = liste;
+  bRejoue.hidden = liste;
+  try { localStorage.setItem('cv-vue', m); } catch (e) {}
+  if (!liste) requestAnimationFrame(() => recadrer(false));
+  if (!sansRoute) router();
+}
+
+bBascule.addEventListener('click', () => {
+  poserMode(document.body.classList.contains('mode-liste') ? 'graphe' : 'liste');
+});
+bRecadre.addEventListener('click', () => recadrer(true));
+bRejoue.addEventListener('click', ev => { ev.stopPropagation(); if (ouvert) aller(''); jouer(); });
+
+/* Repli du détail dans la vue liste */
+equiper(contenu);
+contenu.addEventListener('click', ev => {
+  const b = ev.target.closest('.deplier');
+  if (!b) return;
+  const f = b.closest('.fiche');
+  const deploye = f.classList.toggle('deploye');
+  b.textContent = deploye ? 'Replier le détail ↑' : 'Voir le détail →';
+});
+
+/* Passage au niveau 3 depuis le panneau */
+corps.addEventListener('click', ev => {
+  const b = ev.target.closest('.deplier');
+  if (b) { aller(b.closest('.fiche').dataset.cle); return; }
+});
+
+retour.addEventListener('click', () => { aller(detailOuvert ? ouvert : ''); });
+
+/* ============================================================
+   10. Clavier, apparition, démarrage
+   ============================================================ */
+
+document.addEventListener('keydown', ev => {
+  if (ev.key === 'Tab') document.body.classList.add('clavier');
+  if (ev.key === 'Escape' && ouvert) { ev.preventDefault(); aller(detailOuvert ? ouvert : ''); }
+});
+document.addEventListener('pointerdown', ev => {
+  document.body.classList.remove('clavier');
+  if (introEnCours && !ev.target.closest('button')) toutMontrer();
+}, true);
+
+gNoeuds.addEventListener('keydown', ev => {
+  const g = ev.target.closest('.noeud');
+  if (g && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); activer(g.dataset.id); }
+});
+
+let attenteTaille = null, derniereTaille = null;
+new ResizeObserver(entrees => {
+  const r = entrees[0].contentRect;
+  if (derniereTaille && Math.abs(r.width - derniereTaille.w) < 4 && Math.abs(r.height - derniereTaille.h) < 4) return;
+  derniereTaille = {w:r.width, h:r.height};
+  clearTimeout(attenteTaille);
+  attenteTaille = setTimeout(() => {
+    if (document.body.classList.contains('mode-liste')) return;
+    if (ouvert) { calerPanneau(); return; }
+    if (vueLibre) poserVue(vue.x + vue.w / 2, vue.y + vue.h / 2, vue.w);
+    else recadrer(false);
+  }, 180);
+}).observe(svg.parentNode);
+
+let vueInitiale = 'graphe';
+try { if (localStorage.getItem('cv-vue') === 'liste') vueInitiale = 'liste'; } catch (e) {}
+document.body.classList.add('js');
+poserMode(vueInitiale, true);
+
+requestAnimationFrame(() => {
+  recadrer(false);
+  const cible = decodeURIComponent((location.hash || '').replace(/^#/, ''));
+  if (vueInitiale === 'graphe' && !PAR_ID[cible]) jouer(); else toutMontrer();
+  router();
+  if (petit() && !ouvert) {
+    etat.textContent = 'Glissez pour explorer · pincez pour zoomer';
+    svg.addEventListener('pointerdown', () => { etat.textContent = ''; }, {once:true});
+  }
+});
+
+})();
 </script>
 </body>
 </html>
