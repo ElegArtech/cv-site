@@ -73,7 +73,8 @@ body:not(.js) .identite,body.js.mode-liste .identite{border-right:0;padding-righ
 body:not(.js) .fantome,body.js.mode-liste .fantome{display:none}
 body:not(.js) .accroche,body.js.mode-liste .accroche{max-width:60ch}
 body:not(.js) .metriques,body.js.mode-liste .metriques{grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px 24px}
-body:not(.js) .portrait,body.js.mode-liste .portrait{margin-top:8px;margin-left:0;width:104px}
+body:not(.js) .portrait,body.js.mode-liste .portrait{margin:8px 0 0;width:150px;height:auto}
+body:not(.js) .portrait img,body.js.mode-liste .portrait img{height:auto}
 body:not(.js) .evitement,body.js.mode-liste .evitement{display:none}
 body:not(.js) footer{display:none}
 body:not(.js) .contenu .detail{display:block}
@@ -85,10 +86,9 @@ body.js.mode-graphe .appli{height:100vh;height:100svh}
 
 /* ---------- Bandeau ---------- */
 .bandeau{
-  display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;
-  padding:14px 30px 0;
+  display:flex;align-items:center;justify-content:flex-end;gap:18px;
+  padding:14px 30px 0;height:44px;flex:none;box-sizing:border-box;
 }
-.marque{font-family:var(--serif);font-size:15px;letter-spacing:.02em;text-decoration:none;color:var(--ink)}
 .outils{display:flex;align-items:center;gap:10px}
 button{
   font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
@@ -111,11 +111,12 @@ body.niveau3 .identite{flex-basis:0;min-width:0;opacity:0;padding-right:0;border
   font-family:var(--serif);font-size:min(23vh,180px);line-height:.8;
   letter-spacing:-.03em;color:var(--ink);opacity:.045;white-space:nowrap;
 }
-.identite>*:not(.fantome){position:relative;z-index:1}
-.surtitre{margin:0;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint)}
+.identite>*:not(.fantome):not(.portrait){position:relative;z-index:1}
 .identite h1{margin:0;font-family:var(--serif);font-weight:400;font-size:clamp(34px,3.3vw,56px);line-height:.98;letter-spacing:-.02em}
 .fonction{margin:0;font-size:12px;letter-spacing:.03em;color:var(--bleu);font-weight:500}
-.accroche{margin:0;font-size:13.5px;line-height:1.65;color:var(--ink-soft);max-width:36ch}
+/* 36ch laissait 67 px de la colonne inutilisés et finissait sur une veuve de 87 px.
+   44ch occupe la colonne, balance répartit les lignes. */
+.accroche{margin:0;font-size:13.5px;line-height:1.65;color:var(--ink-soft);max-width:44ch;text-wrap:balance}
 .metriques{margin:4px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:1px 18px}
 .metriques div{padding-top:9px;border-top:1px solid rgba(23,25,27,.14)}
 .metriques dt{font-family:var(--mono);font-size:18px;color:var(--ink)}
@@ -123,7 +124,17 @@ body.niveau3 .identite{flex-basis:0;min-width:0;opacity:0;padding-right:0;border
 .liens{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:7px 16px}
 .liens a{font-size:12px;color:var(--ink-soft);text-decoration:none;border-bottom:1px solid rgba(23,25,27,.25);padding-bottom:2px}
 .liens a:hover{color:var(--sanguine);border-bottom-color:var(--sanguine)}
-.portrait{margin-top:auto;margin-bottom:6px;margin-left:auto;width:118px;aspect-ratio:4/5;object-fit:cover;border:1px solid var(--ink-faint);filter:grayscale(.35) contrast(1.02)}
+/* Le portrait est un WebP à canal alpha, déjà désaturé, détouré et fondu en bas.
+   Aucun traitement CSS ne doit s'y ajouter : ni filtre, ni masque, ni bordure, ni fond.
+   Il déborde à gauche de la colonne et reste sous le filigrane, d'où z-index 0. */
+.portrait{
+  margin:auto 0 0;padding:0;position:relative;z-index:0;
+  width:calc(100% + 56px);margin-left:-30px;height:min(44vh,400px);
+  /* La colonne laisse rarement les 400 px : sans min-height, le portrait
+     déborde et overflow:hidden le tranche net. Il se rétracte plutôt. */
+  min-height:0;
+}
+.portrait img{position:relative;width:100%;height:100%;object-fit:contain;object-position:bottom center;opacity:.88}
 .sq{transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.3,1)}
 .sq.cache{opacity:0;transform:translateY(9px)}
 
@@ -197,6 +208,8 @@ body.clavier .noeud:focus .disque-sous{stroke:var(--bleu);stroke-width:2}
 .fiche .meta{margin:3px 0 8px;font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint)}
 .fiche ul{margin:0;padding-left:16px}
 .fiche li{font-size:13px;line-height:1.6;color:var(--ink-soft);margin-bottom:4px;max-width:66ch}
+.fiche li a{color:var(--sanguine);text-decoration:none;border-bottom:1px solid rgba(156,74,49,.4)}
+.fiche li a:hover{border-bottom-color:var(--sanguine)}
 .fiche .familles{margin:0 0 8px;font-size:11.5px;color:var(--ink-faint);font-style:italic}
 .fiche .actions{list-style:none;padding:0;margin:8px 0 0;display:flex;flex-wrap:wrap;gap:10px 18px}
 .fiche .actions a{font-size:13px;color:var(--ink-soft);text-decoration:none;border-bottom:1px solid rgba(23,25,27,.25);padding-bottom:2px}
@@ -240,7 +253,7 @@ footer{
 /* ---------- Écrans étroits ---------- */
 @media (max-width:1079px){
   body.js.mode-graphe{overflow:hidden}
-  .bandeau{padding:12px 20px 0}
+  .bandeau{padding:12px 20px 0;height:42px}
   .page{flex-direction:column;padding:14px 20px 0;gap:14px}
   .identite{flex:none;min-width:0;padding-right:0;border-right:0;border-bottom:1px solid rgba(23,25,27,.10);padding-bottom:14px;gap:10px}
   .identite h1{font-size:clamp(28px,7.5vw,40px)}
@@ -300,22 +313,18 @@ html.avant .sq{opacity:0;transform:translateY(9px)}
 <div class="appli">
 
   <header class="bandeau">
-    <a class="marque" href="./">alexandre-berge.fr</a>
     <div class="outils js-seul" id="outils"></div>
   </header>
 
   <div class="page">
     <aside class="identite">
       <div class="fantome" aria-hidden="true">Berge</div>
-      <p class="surtitre sq" data-seq="0">Curriculum vitæ</p>
       <h1 class="sq" data-seq="1">Alexandre<br>Berge</h1>
       <p class="fonction sq" data-seq="2">Directeur de programme · Transformation SI · Management de transition</p>
       <p class="accroche sq" data-seq="3">Dix-huit ans de management dans la protection sociale, dont douze en opérations métier avant la bascule vers la direction des systèmes d'information. Un même fil depuis le début : concevoir les instruments qui rendent une activité lisible.</p>
       <dl class="metriques sq" data-seq="4">
         <div><dt>18 ans</dt><dd>de management</dd></div>
-        <div><dt>45</dt><dd>collaborateurs encadrés</dd></div>
-        <div><dt>1 400</dt><dd>postes utilisateurs</dd></div>
-        <div><dt>30 000</dt><dd>usages mensuels de depotdoc.fr</dd></div>
+        <div><dt>6 ans</dt><dd>de direction informatique</dd></div>
       </dl>
       <ul class="liens sq" data-seq="5">
         <li><a href="assets/cv-alexandre-berge.pdf" download>Télécharger le CV</a></li>
@@ -323,7 +332,9 @@ html.avant .sq{opacity:0;transform:translateY(9px)}
         <li><a href="https://communs-numeriques.fr" rel="me noopener">communs-numeriques.fr</a></li>
         <li><a href="https://elegartech.substack.com" rel="me noopener">ElegArtech</a></li>
       </ul>
-      <img class="portrait sq" data-seq="6" src="assets/photo_alex.png" width="118" height="148" alt="Portrait d'Alexandre Berge" loading="lazy" decoding="async">
+      <div class="portrait sq" data-seq="6">
+        <img src="assets/portrait-alexandre-berge.webp" width="1100" height="1100" alt="Portrait d'Alexandre Berge" decoding="async">
+      </div>
     </aside>
 
     <main>
@@ -517,7 +528,7 @@ html.avant .sq{opacity:0;transform:translateY(9px)}
       </article>
 
       <article class="fiche" id="r-cr-ca">
-        <h3>Comptes rendus de conseil d'administration</h3>
+        <h3>Automatisation — Comptes rendus de conseil d'administration</h3>
         <p class="meta">Né à la CPAM de la Charente</p>
         <ul class="resume">
           <li>Rédaction assistée par IA, institutionnalisée après validation de la direction.</li>
@@ -527,7 +538,7 @@ html.avant .sq{opacity:0;transform:translateY(9px)}
       </article>
 
       <article class="fiche" id="r-campagnes">
-        <h3>Gestion des campagnes de déploiement IT</h3>
+        <h3>Développement — Gestion des campagnes de déploiement IT</h3>
         <p class="meta">Né à la DRSM, repris à la CPAM 92</p>
         <ul class="resume">
           <li>Éprouvé lors de la migration régionale de 1 155 postes.</li>
@@ -536,11 +547,12 @@ html.avant .sq{opacity:0;transform:translateY(9px)}
       </article>
 
       <article class="fiche" id="r-helpdesk">
-        <h3>Pilotage du helpdesk</h3>
-        <p class="meta">Né à la CPAM des Hauts-de-Seine</p>
+        <h3>Outil de pilotage du helpdesk</h3>
+        <p class="meta">Conçu et développé à la CPAM des Hauts-de-Seine</p>
         <ul class="resume">
-          <li>Lecture directe des indicateurs par les managers de proximité.</li>
-          <li>Prise en charge, résolution et taux de niveau 1.</li>
+          <li>Application interne qui donne aux managers de proximité la lecture directe de leurs indicateurs, sans passer par la DSI.</li>
+          <li>Indicateurs exposés : prise en charge, solde, délai de résolution, taux de résolution en niveau 1…</li>
+          <li>Conception, développement et mise en production assurés en interne.</li>
         </ul>
       </article>
 
@@ -623,6 +635,18 @@ html.avant .sq{opacity:0;transform:translateY(9px)}
         </ul>
       </article>
 
+      <article class="fiche" id="c-km">
+        <h3>Knowledge management et capitalisation</h3>
+        <p class="meta">Né à la CPAM de la Charente · exercé à chaque poste · nourri par le Master MSIC</p>
+        <p class="familles">Famille : knowledge management et capitalisation.</p>
+        <ul class="resume">
+          <li>Convergence des bases documentaires et capitalisation des savoirs critiques à la CPAM 92.</li>
+          <li>Catalogue de services ITIL et cartographies applicatives, serveurs, clusters et compétences en base de données graphe à la DRSM.</li>
+          <li>depotdoc.fr et IA interne en RAG sur base graphe à la CPAM de la Charente.</li>
+          <li>Codicillus, base de connaissances auto-hébergée avec signal de fraîcheur et lecture en graphe.</li>
+        </ul>
+      </article>
+
       <article class="fiche" id="c-droit-social">
         <h3>Droit social</h3>
         <p class="meta">Nourrie par le Master DTSE</p>
@@ -636,20 +660,23 @@ html.avant .sq{opacity:0;transform:translateY(9px)}
 
     <section class="page-noeud" id="formation" data-icone="school" aria-labelledby="t-formation">
       <h2 id="t-formation">Formation</h2>
-      <p class="chapeau">Deux masters, et un mémoire de recherche qui prolonge le second dans une pratique éditoriale.</p>
+      <p class="chapeau">Deux masters. Le mémoire soutenu pour le master MSIC s'est prolongé, au-delà du diplôme, dans une pratique éditoriale.</p>
 
       <article class="fiche" id="f-msic">
         <h3>Master 2 Executive MSIC</h3>
         <p class="meta">Université Paris 1 Panthéon-Sorbonne · 2024 – 2025</p>
-        <ul class="resume"><li>Management des systèmes d'information et des connaissances.</li></ul>
+        <ul class="resume">
+          <li>Management des systèmes d'information et des connaissances.</li>
+          <li>Mémoire de recherche sur les communs numériques dans l'administration.</li>
+        </ul>
       </article>
 
       <article class="fiche" id="f-memoire">
         <h3>Mémoire de recherche</h3>
-        <p class="meta">2025</p>
+        <p class="meta">Master 2 Executive MSIC · Paris 1 Panthéon-Sorbonne · 2025</p>
         <ul class="resume">
-          <li>Les facteurs d'institutionnalisation des communs numériques au sein de l'administration.</li>
-          <li>Prolongé par le blog communs-numeriques.fr.</li>
+          <li>Travail de recherche du master MSIC : les facteurs d'institutionnalisation des communs numériques au sein de l'administration.</li>
+          <li>Prolongé au-delà du diplôme par le blog communs-numeriques.fr.</li>
         </ul>
       </article>
 
@@ -662,7 +689,7 @@ html.avant .sq{opacity:0;transform:translateY(9px)}
 
     <section class="page-noeud" id="publications" data-icone="book" aria-labelledby="t-publications">
       <h2 id="t-publications">Publications</h2>
-      <p class="chapeau">Deux espaces d'écriture, l'un sur les communs numériques, l'autre sur la transformation des organisations.</p>
+      <p class="chapeau">Deux espaces d'écriture, l'un sur les communs numériques, l'autre sur la transformation des organisations. Une galerie enfin, tenue à titre personnel, où l'IA sert cette fois la création d'images.</p>
 
       <article class="fiche" id="pub-communs">
         <h3>communs-numeriques.fr</h3>
@@ -679,6 +706,65 @@ html.avant .sq{opacity:0;transform:translateY(9px)}
         <p class="meta">elegartech.substack.com</p>
         <ul class="resume"><li>Transformation numérique, IA en organisation, souveraineté.</li></ul>
         <ul class="actions"><li><a href="https://elegartech.substack.com" rel="noopener">Ouvrir la newsletter</a></li></ul>
+      </article>
+
+      <article class="fiche" id="pub-elegartex">
+        <h3>Galerie ElegArtex</h3>
+        <p class="meta">elegartex.fr</p>
+        <ul class="resume">
+          <li>Photographie numérique générée par IA, six séries depuis 2024.</li>
+          <li>Pratique personnelle, hors du cadre professionnel.</li>
+        </ul>
+        <ul class="actions"><li><a href="https://elegartex.fr" rel="noopener">Ouvrir la galerie</a></li></ul>
+      </article>
+    </section>
+
+    <section class="page-noeud" id="developpements" data-icone="chevrons" aria-labelledby="t-developpements">
+      <h2 id="t-developpements">Développements</h2>
+      <p class="chapeau">Deux applications conçues et développées hors cadre institutionnel. Elles prolongent des problèmes rencontrés en poste, le pilotage des ressources d'un côté, la fiabilité du patrimoine documentaire de l'autre.</p>
+
+      <article class="fiche" id="dev-rationarium">
+        <h3>Rationarium</h3>
+        <p class="meta">En développement actif · TypeScript, React, TanStack, PostgreSQL</p>
+        <ul class="resume">
+          <li>Pilotage des projets et des ressources en collectivité territoriale.</li>
+          <li>Une seule grille temporelle réconcilie tout ce qui occupe une personne, sur une organisation en directions, départements et services.</li>
+          <li>Architecte et développeur principal.</li>
+        </ul>
+        <div class="detail">
+          <p class="contexte">Pilotage des projets et des ressources en collectivité territoriale.</p>
+          <section class="bloc"><h4>Le problème</h4><ul>
+            <li>Le suivi de projet échoue rarement par manque d'outils, il échoue parce qu'il y en a trop.</li>
+            <li>Une seule grille temporelle réconcilie donc tout ce qui occupe une personne, congé, télétravail, tâche de projet, permanence et réunion, sur une organisation en directions, départements et services.</li>
+          </ul></section>
+          <section class="bloc"><h4>Cadre et contraintes</h4><ul>
+            <li>Outil interne, réseau fermé, bilingue et conforme RGAA.</li>
+            <li>Stack : TypeScript, React, TanStack, PostgreSQL, Prisma, Turborepo.</li>
+            <li><a href="rationarium/">Voir l'aperçu du produit et les écrans →</a></li>
+          </ul></section>
+        </div>
+      </article>
+
+      <article class="fiche" id="dev-codicillus">
+        <h3>Codicillus</h3>
+        <p class="meta">Dépôt privé · TypeScript, SvelteKit, PostgreSQL, Docker</p>
+        <ul class="resume">
+          <li>Base de connaissances documentaire interne, auto-hébergée.</li>
+          <li>Point d'entrée unique et cherchable, avec un signal de fraîcheur sur chaque note.</li>
+          <li>Le corpus se lit aussi comme un graphe de dépendances.</li>
+        </ul>
+        <div class="detail">
+          <p class="contexte">Base de connaissances documentaire interne, auto-hébergée.</p>
+          <section class="bloc"><h4>Le problème</h4><ul>
+            <li>Un patrimoine éparpillé, procédures, cartographies en tableur, PDF et liens, remplacé par un point d'entrée unique et cherchable.</li>
+            <li>Chaque note affiche un signal de fraîcheur qui dit si elle est encore digne de confiance.</li>
+          </ul></section>
+          <section class="bloc"><h4>Le corpus comme graphe</h4><ul>
+            <li>Applications, serveurs, équipements et contacts reliés par des relations qualifiées.</li>
+            <li>Les dépendances et les points de défaillance unique se lisent directement.</li>
+            <li>Stack : TypeScript, SvelteKit, PostgreSQL, Drizzle, Docker.</li>
+          </ul></section>
+        </div>
       </article>
     </section>
 
@@ -721,6 +807,7 @@ html.avant .sq{opacity:0;transform:translateY(9px)}
     "https://www.linkedin.com/in/bergealexandre",
     "https://communs-numeriques.fr",
     "https://elegartech.substack.com",
+    "https://elegartex.fr",
     "https://github.com/ElegArtech"
   ],
   "knowsAbout":["Gouvernance des systèmes d'information","Transformation numérique","Intelligence artificielle générative","Pilotage et KPI","Open source et communs numériques","Droit social"],
@@ -750,6 +837,7 @@ const ICONES = {
   stack:'<path d="M12 4l-8 4l8 4l8 -4l-8 -4"/><path d="M4 12l8 4l8 -4"/><path d="M4 16l8 4l8 -4"/>',
   school:'<path d="M22 9l-10 -4l-10 4l10 4l10 -4v6"/><path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4"/>',
   book:'<path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0"/><path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0"/><path d="M3 6l0 13"/><path d="M12 6l0 13"/><path d="M21 6l0 13"/>',
+  chevrons:'<polyline points="9,7.5 4,12 9,16.5"/><polyline points="15,7.5 20,12 15,16.5"/>',
   certificate:'<path d="M15 15m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/><path d="M13 17.5v4.5l2 -1.5l2 1.5v-4.5"/><path d="M10 19h-5a2 2 0 0 1 -2 -2v-10c0 -1.1 .9 -2 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -1 1.73"/><path d="M6 9l12 0"/><path d="M6 12l3 0"/><path d="M6 15l2 0"/>',
   mail:'<path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"/><path d="M3 7l9 6l9 -6"/>'
 };
@@ -757,7 +845,7 @@ const ICONES = {
 const NOEUDS = [
   {id:'profil', type:'hub', x:560, y:420, r:34, icone:'user', etiq:['Profil'], etape:0},
 
-  {id:'parcours', type:'majeur', x:280, y:260, icone:'timeline', etiq:['Parcours'], long:'Parcours professionnel', etape:1},
+  {id:'parcours', type:'majeur', x:280, y:260, icone:'timeline', etiq:['Parcours'], long:'Parcours professionnel', retour:'au parcours', etape:1},
   {id:'p-cpam92', type:'sous', parent:'parcours', x:425, y:195, etiq:['CPAM 92','Resp. informatique'], long:'Responsable du département informatique, CPAM des Hauts-de-Seine', etape:1},
   {id:'p-drsm', type:'sous', parent:'parcours', x:330, y:110, etiq:['DRSM Île-de-France','Resp. SI'], long:'Responsable du service informatique, DRSM Île-de-France puis CPAM de Paris', etape:1},
   {id:'p-charente-si', type:'sous', parent:'parcours', x:200, y:100, etiq:['CPAM Charente','Resp. informatique'], long:'Responsable informatique et pôle appui au pilotage, CPAM de la Charente', etape:1},
@@ -765,35 +853,43 @@ const NOEUDS = [
   {id:'p-carsat', type:'sous', parent:'parcours', x:95, y:305, etiq:['CARSAT Centre','Resp. agences'], long:"Responsable des agences d'Eure-et-Loir, CARSAT Centre Val de Loire", etape:1},
   {id:'p-rsi', type:'sous', parent:'parcours', x:175, y:410, etiq:['RSI Poitou-Charentes','Manager logistique'], long:'Manager du pôle logistique, RSI Poitou-Charentes', etape:1},
 
-  {id:'realisations', type:'majeur', x:400, y:640, icone:'tools', etiq:['Réalisations'], long:'Réalisations et outils conçus', etape:2},
-  {id:'r-depotdoc', type:'sous', parent:'realisations', x:250, y:585, etiq:['depotdoc.fr'], long:'Dépôt documentaire dématérialisé, 30 000 utilisations par mois', etape:2},
-  {id:'r-cr-ca', type:'sous', parent:'realisations', x:240, y:690, etiq:['Comptes rendus de CA'], long:"Rédaction des comptes rendus de conseil d'administration assistée par IA", etape:2},
-  {id:'r-campagnes', type:'sous', parent:'realisations', x:300, y:755, etiq:['Campagnes de déploiement'], long:'Outil de gestion des campagnes de déploiement IT', etape:2},
-  {id:'r-helpdesk', type:'sous', parent:'realisations', x:420, y:775, etiq:['Pilotage helpdesk'], long:'Outil de pilotage du helpdesk pour les managers de proximité', etape:2},
-  {id:'r-ia-interne', type:'sous', parent:'realisations', x:525, y:700, etiq:['IA interne'], long:'IA interne en RAG sur base de données graphe', etape:2},
-  {id:'r-instruments', type:'sous', parent:'realisations', x:520, y:590, etiq:['Instruments de pilotage'], long:"Outils d'évaluation et tableaux de bord de l'activité métier", etape:2},
+  {id:'realisations', type:'majeur', x:370, y:620, icone:'tools', etiq:['Réalisations'], long:'Réalisations et outils conçus', retour:'aux réalisations', etape:2},
+  {id:'r-depotdoc', type:'sous', parent:'realisations', x:225, y:560, etiq:['depotdoc.fr'], long:'Dépôt documentaire dématérialisé, 30 000 utilisations par mois', etape:2},
+  {id:'r-cr-ca', type:'sous', parent:'realisations', x:205, y:665, etiq:['Comptes rendus de CA'], long:"Rédaction des comptes rendus de conseil d'administration assistée par IA", etape:2},
+  {id:'r-campagnes', type:'sous', parent:'realisations', x:245, y:760, etiq:['Campagnes de déploiement'], long:'Outil de gestion des campagnes de déploiement IT', etape:2},
+  {id:'r-helpdesk', type:'sous', parent:'realisations', x:360, y:800, etiq:['Pilotage helpdesk'], long:'Outil de pilotage du helpdesk pour les managers de proximité', etape:2},
+  {id:'r-ia-interne', type:'sous', parent:'realisations', x:475, y:775, etiq:['IA interne'], long:'IA interne en RAG sur base de données graphe', etape:2},
+  {id:'r-instruments', type:'sous', parent:'realisations', x:530, y:660, etiq:['Instruments de pilotage'], long:"Outils d'évaluation et tableaux de bord de l'activité métier", etape:2},
 
-  {id:'competences', type:'majeur', x:760, y:690, icone:'stack', etiq:['Compétences'], long:'Compétences', etape:3},
-  {id:'c-gouvernance', type:'sous', parent:'competences', x:655, y:760, etiq:['Direction et gouvernance'], long:'Direction et gouvernance ; transformation et conduite du changement', etape:3},
-  {id:'c-pilotage', type:'sous', parent:'competences', x:760, y:792, etiq:['Pilotage et mesure'], long:'Instruments de pilotage, KPI, tableaux de bord, appui au pilotage', etape:3},
-  {id:'c-ia', type:'sous', parent:'competences', x:872, y:775, etiq:['Intelligence artificielle'], long:'Intelligence artificielle', etape:3},
-  {id:'c-technique', type:'sous', parent:'competences', x:925, y:690, etiq:['Architecture et développement'], long:'Architecture et infrastructure ; développement applicatif ; support et services', etape:3},
-  {id:'c-data', type:'sous', parent:'competences', x:880, y:595, etiq:['Data et open source'], long:'Data et décisionnel ; open source et souveraineté', etape:3},
-  {id:'c-droit-social', type:'sous', parent:'competences', x:960, y:745, etiq:['Droit social'], long:'Droit social, dialogue social', etape:3},
+  /* Grappe recomposée : sept sous-nœuds, étiquettes sur deux lignes.
+     L'étiquette du majeur est forcée à gauche, sinon elle se pose sur ses propres rameaux. */
+  {id:'competences', type:'majeur', x:760, y:682, icone:'stack', etiq:['Compétences'], long:'Compétences', retour:'aux compétences', etape:3, etiquette:{ancrage:'end', dx:-37, dy:4}},
+  {id:'c-gouvernance', type:'sous', parent:'competences', x:664, y:745, etiq:['Direction et','gouvernance'], long:'Direction et gouvernance ; transformation et conduite du changement', etape:3},
+  {id:'c-pilotage', type:'sous', parent:'competences', x:711, y:786, etiq:['Pilotage','et mesure'], long:'Instruments de pilotage, KPI, tableaux de bord, appui au pilotage', etape:3},
+  {id:'c-ia', type:'sous', parent:'competences', x:831, y:772, etiq:['Intelligence','artificielle'], long:'Intelligence artificielle', etape:3},
+  {id:'c-technique', type:'sous', parent:'competences', x:873, y:659, etiq:['Architecture et','développement'], long:'Architecture et infrastructure ; développement applicatif ; support et services', etape:3},
+  {id:'c-data', type:'sous', parent:'competences', x:844, y:603, etiq:['Data et','open source'], long:'Data et décisionnel ; open source et souveraineté', etape:3},
+  {id:'c-km', type:'sous', parent:'competences', x:773, y:796, etiq:['Knowledge','management'], long:'Knowledge management et capitalisation', etape:3},
+  {id:'c-droit-social', type:'sous', parent:'competences', x:868, y:721, etiq:['Droit social'], long:'Droit social, dialogue social', etape:3},
 
-  {id:'formation', type:'majeur', x:960, y:500, icone:'school', etiq:['Formation'], long:'Formation universitaire', etape:4},
+  {id:'formation', type:'majeur', x:960, y:500, icone:'school', etiq:['Formation'], long:'Formation universitaire', retour:'à la formation', etape:4},
   {id:'f-msic', type:'sous', parent:'formation', x:1075, y:450, etiq:['Master MSIC','Panthéon-Sorbonne'], long:"Master 2 Executive management des systèmes d'information et des connaissances", etape:4},
-  {id:'f-memoire', type:'sous', parent:'formation', x:1000, y:370, etiq:['Mémoire','communs numériques'], long:"Les facteurs d'institutionnalisation des communs numériques au sein de l'administration", etape:4},
+  {id:'f-memoire', type:'sous', parent:'formation', x:1000, y:370, etiq:['Mémoire','communs numériques'], long:"Mémoire du master MSIC : les facteurs d'institutionnalisation des communs numériques au sein de l'administration", etape:4},
   {id:'f-dtse', type:'sous', parent:'formation', x:1060, y:580, etiq:['Master DTSE','Toulouse Capitole'], long:'Master 2 droit et sciences du travail européen', etape:4},
 
-  {id:'publications', type:'majeur', x:970, y:245, icone:'book', etiq:['Publications'], long:'Publications et écrits', etape:5},
+  {id:'publications', type:'majeur', x:970, y:245, icone:'book', etiq:['Publications'], long:'Publications et écrits', retour:'aux publications', etape:5},
   {id:'pub-communs', type:'sous', parent:'publications', x:1090, y:205, etiq:['communs-numeriques.fr'], long:'Blog consacré aux communs numériques et à la souveraineté', etape:5},
   {id:'pub-elegartech', type:'sous', parent:'publications', x:1085, y:320, etiq:['Newsletter ElegArtech'], long:"Newsletter sur la transformation numérique et l'IA en organisation", etape:5},
+  {id:'pub-elegartex', type:'sous', parent:'publications', x:1090, y:262, etiq:['Galerie ElegArtex'], long:'Galerie de photographie numérique générée par IA, tenue à titre personnel', etape:5},
 
   /* Position réservée dans la composition, masquée tant que le nœud ne porte aucun sous-nœud. */
-  {id:'certifications', type:'majeur', x:215, y:470, icone:'certificate', etiq:['Certifications'], long:'Certifications', etape:6, masque:true},
+  {id:'certifications', type:'majeur', x:215, y:470, icone:'certificate', etiq:['Certifications'], long:'Certifications', retour:'aux certifications', etape:6, masque:true},
 
-  {id:'contact', type:'majeur', x:700, y:130, icone:'mail', etiq:['Contact'], long:'Contact', etape:6}
+  {id:'developpements', type:'majeur', x:850, y:105, icone:'chevrons', etiq:['Développements'], long:'Applications conçues hors cadre institutionnel', retour:'aux développements', etape:6},
+  {id:'dev-rationarium', type:'sous', parent:'developpements', x:955, y:50, etiq:['Rationarium'], long:'Pilotage des projets et des ressources en collectivité territoriale', etape:6},
+  {id:'dev-codicillus', type:'sous', parent:'developpements', x:980, y:170, etiq:['Codicillus'], long:'Base de connaissances documentaire interne, auto-hébergée', etape:6},
+
+  {id:'contact', type:'majeur', x:622, y:120, icone:'mail', etiq:['Contact'], long:'Contact', retour:'au contact', etape:6}
 ];
 
 /* n : 1 = lien de création, 2 = lien d'exercice, de réemploi ou de formation */
@@ -823,12 +919,26 @@ const TRANSVERSALES = [
   {a:'c-technique', b:'p-cpam92', n:2, t:'exercice'},
   {a:'c-data', b:'p-charente-si', n:1, t:'exercice'},
   {a:'c-data', b:'f-msic', n:2, t:'formation'},
+  {a:'c-km', b:'p-charente-si', n:1, t:'creation'},
+  {a:'c-km', b:'dev-codicillus', n:1, t:'naissance'},
+  {a:'c-km', b:'p-drsm', n:2, t:'exercice', mot:'exercé à'},
+  {a:'c-km', b:'p-cpam92', n:2, t:'exercice', mot:'exercé à'},
+  {a:'c-km', b:'f-msic', n:2, t:'formation', mot:'nourri par'},
+  {a:'c-km', b:'r-depotdoc', n:2, t:'exercice', mot:'exercé à'},
+  {a:'c-km', b:'r-ia-interne', n:2, t:'exercice', mot:'exercé à'},
   {a:'c-droit-social', b:'f-dtse', n:1, t:'formation'},
+  {a:'f-memoire', b:'f-msic', n:1, t:'issu'},
   {a:'f-memoire', b:'pub-communs', n:1, t:'filiation'},
-  {a:'f-memoire', b:'c-data', n:2, t:'filiation'}
+  {a:'f-memoire', b:'c-data', n:2, t:'filiation'},
+  {a:'dev-rationarium', b:'c-pilotage', n:1, t:'creation'},
+  {a:'dev-rationarium', b:'c-technique', n:2, t:'exercice'},
+  {a:'dev-codicillus', b:'c-data', n:1, t:'creation'},
+  {a:'dev-codicillus', b:'c-technique', n:2, t:'exercice'}
 ];
 
-const MOTS = {creation:'né à', reemploi:'repris à', exercice:'exercée à', formation:'nourrie par', filiation:'prolongé par'};
+/* Les tournures sont accordées au féminin, le sujet ordinaire étant « la compétence ».
+   Une arête peut porter un « mot » qui prend le pas, pour un sujet masculin. */
+const MOTS = {creation:'né à', naissance:'né de', reemploi:'repris à', exercice:'exercée à', formation:'nourrie par', filiation:'prolongé par', issu:'issu de'};
 
 const PAR_ID = {};
 NOEUDS.forEach(n => { n.x += DX; n.r = n.r || (n.type === 'sous' ? 6.5 : 26); n.bx = n.x; n.by = n.y; PAR_ID[n.id] = n; });
@@ -874,13 +984,14 @@ svg.classList.add('voile');
 ARETES.forEach(e => { e.dom = el('line', {class:'arete ' + e.rang + ' cache'}); gAretes.appendChild(e.dom); });
 
 TRANSVERSALES.forEach((e, i) => {
-  e.titre = PAR_ID[e.a].etiq.join(' ') + ' — ' + MOTS[e.t] + ' — ' + PAR_ID[e.b].etiq.join(' ');
+  e.titre = PAR_ID[e.a].etiq.join(' ') + ' — ' + (e.mot || MOTS[e.t]) + ' — ' + PAR_ID[e.b].etiq.join(' ');
   e.dom = el('path', {class:'transversale niveau' + e.n + ' cache', 'data-i':i});
   const t = el('title'); t.textContent = e.titre; e.dom.appendChild(t);
   gTrans.appendChild(e.dom);
 });
 
 function placerEtiquette(n) {
+  if (n.etiquette) return {x:n.bx + n.etiquette.dx, y:n.by + n.etiquette.dy, ancrage:n.etiquette.ancrage};
   const ancre = n.type === 'sous' ? PAR_ID[n.parent] : (n.type === 'majeur' ? HUB : null);
   let dx = 0, dy = 1;
   if (ancre) { dx = n.bx - ancre.bx; dy = n.by - ancre.by; }
@@ -1010,8 +1121,8 @@ function recadrer(anime) {
   vueLibre = false;
   svg.classList.toggle('petit', petit());
   const c = cadrageBase();
+  if (tweenVue) { cancelAnimationFrame(tweenVue); tweenVue = null; }
   if (!anime || doux()) { poserVue(c.cx, c.cy, c.l, true); return; }
-  if (tweenVue) cancelAnimationFrame(tweenVue);
   const d0 = {x:vue.x + vue.w / 2, y:vue.y + vue.h / 2, l:vue.w}, t0 = performance.now();
   const pas = t => {
     const k = Math.min(1, (t - t0) / 550), e = 1 - Math.pow(1 - k, 3);
@@ -1298,13 +1409,15 @@ function construireSection(id) {
   return c;
 }
 
-function bornesBase() {
-  const c = cadrageBase(), h = c.l * ratio();
-  return {x:c.cx - c.l / 2, y:c.cy - h / 2, w:c.l, h:h};
-}
-
+/* La grappe et le bord du panneau se placent dans le repère du viewBox
+   réellement appliqué, et non d'après la taille en pixels de la scène.
+   La colonne d'identité met 0,8 s à s'ouvrir ou se refermer : toute mesure
+   prise dans la même image que le changement de classe porte encore sur
+   l'ancienne mise en page. C'est ce qui envoyait la grappe hors cadre au
+   retour depuis une fiche. Comme le viewBox peut lui-même être en cours
+   d'animation, les appelants repassent une fonction, réévaluée à chaque image. */
 function dispositionColonne(niveau) {
-  const b = bornesBase();
+  const b = vue;
   const enfants = VISIBLES.filter(n => n.parent === ouvert);
   const colonne = b.x + (niveau === 3 ? b.w * .045 : b.w * .095);
   const pasY = b.h * (enfants.length > 5 ? .125 : .145);
@@ -1327,16 +1440,19 @@ function poserEtiquette(n, ancrage, dx, dy) {
 }
 
 function animer(cibles, duree, apres) {
+  const viser = typeof cibles === 'function' ? cibles : () => cibles;
   if (tween) cancelAnimationFrame(tween);
   if (doux()) {
-    VISIBLES.forEach(n => { const c = cibles[n.id]; if (c) { n.x = c.x; n.y = c.y; } });
+    const fin = viser();
+    VISIBLES.forEach(n => { const c = fin[n.id]; if (c) { n.x = c.x; n.y = c.y; } });
     dessiner(); if (apres) apres(); return;
   }
   const t0 = performance.now(), dep = VISIBLES.map(n => ({n:n, x:n.x, y:n.y}));
   const pas = t => {
+    const cible = viser();
     const k = Math.min(1, (t - t0) / duree), e = 1 - Math.pow(1 - k, 3);
     dep.forEach(d => {
-      const c = cibles[d.n.id]; if (!c) return;
+      const c = cible[d.n.id]; if (!c) return;
       d.n.x = d.x + (c.x - d.x) * e; d.n.y = d.y + (c.y - d.y) * e;
     });
     dessiner();
@@ -1354,11 +1470,14 @@ function calerPanneau(vbX) {
   panneau.style.left = Math.max(0, x) + 'px';
 }
 let suivi = null;
-function suivrePanneau(duree) {
+function suivrePanneau(duree, calcBord) {
   if (petit()) return;
   if (suivi) cancelAnimationFrame(suivi);
   const t0 = performance.now();
-  const pas = t => { calerPanneau(); suivi = (t - t0) < duree ? requestAnimationFrame(pas) : null; };
+  const pas = t => {
+    calerPanneau(calcBord ? calcBord() : undefined);
+    suivi = (t - t0) < duree ? requestAnimationFrame(pas) : null;
+  };
   suivi = requestAnimationFrame(pas);
 }
 
@@ -1396,10 +1515,10 @@ function ouvrirNoeud(id) {
     recadrer(true);
     poserEtiquette(PAR_ID[id], 'middle', 0, PAR_ID[id].r + 28);
     enfants.forEach(n => poserEtiquette(n, 'start', n.r + 14, 4));
-    const d = dispositionColonne(2);
-    calerPanneau(d.bord);
-    suivrePanneau(1000);
-    animer(d.cibles, 850);
+    const placer = () => dispositionColonne(2);
+    calerPanneau(placer().bord);
+    suivrePanneau(1000, () => placer().bord);
+    animer(() => placer().cibles, 850);
   }
   panneau.hidden = false;
   requestAnimationFrame(() => panneau.classList.add('visible'));
@@ -1412,17 +1531,22 @@ function ouvrirDetail(cle) {
   panneau.classList.add('niveau3');
   corps.querySelectorAll('.fiche').forEach(f => f.classList.toggle('actif', f.dataset.cle === cle));
   corps.scrollTop = 0;
-  retour.textContent = '← Retour à ' + PAR_ID[ouvert].etiq[0];
+  retour.textContent = '← Retour ' + (PAR_ID[ouvert].retour || 'à ' + PAR_ID[ouvert].etiq[0]);
   marquerNoeuds();
   if (petit()) return;
+  /* Sur une URL ouverte directement sur une fiche, le cadrage de la grappe est
+     encore en cours d'animation. La colonne d'identité va se refermer en 0,8 s :
+     si on le laisse courir, ses dernières images mesurent une scène à demi
+     élargie et figent un viewBox trop haut. On le pose avant de refermer. */
+  if (tweenVue) recadrer(false);
   document.body.classList.add('niveau3');
   const majeur = PAR_ID[ouvert], enfants = VISIBLES.filter(n => n.parent === ouvert);
   majeur.dom.classList.add('muet');
   enfants.forEach(n => n.dom.classList.add('muet'));
-  const d = dispositionColonne(3);
-  calerPanneau(d.bord);
-  suivrePanneau(1200);
-  animer(d.cibles, 750);
+  const placer = () => dispositionColonne(3);
+  calerPanneau(placer().bord);
+  suivrePanneau(1200, () => placer().bord);
+  animer(() => placer().cibles, 750);
 }
 
 function fermerDetail() {
@@ -1437,10 +1561,10 @@ function fermerDetail() {
   if (petit()) return;
   PAR_ID[ouvert].dom.classList.remove('muet');
   VISIBLES.filter(n => n.parent === ouvert).forEach(n => n.dom.classList.remove('muet'));
-  const d = dispositionColonne(2);
-  calerPanneau(d.bord);
-  suivrePanneau(1200);
-  animer(d.cibles, 700);
+  const placer = () => dispositionColonne(2);
+  calerPanneau(placer().bord);
+  suivrePanneau(1200, () => placer().bord);
+  animer(() => placer().cibles, 700);
 }
 
 function fermerNoeud(immediat) {

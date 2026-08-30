@@ -98,6 +98,7 @@
   .section.ouvrable:hover .fleche{color:var(--sanguine)}
   .section ul{margin:0;padding-left:16px}
   .section li{font-size:13px;line-height:1.6;color:var(--ink-soft);margin-bottom:4px}
+  .section li a{color:var(--sanguine);text-decoration:none;border-bottom:1px solid rgba(156,74,49,.4)}
   .arete{stroke:var(--ink);fill:none;stroke-linecap:round}
   .arete.dorsale{stroke-opacity:.52;stroke-width:2.1}
   .arete.rameau{stroke-opacity:.34;stroke-width:1.3}
@@ -182,6 +183,7 @@ const ICONES = {
   barres:'<line x1="4" y1="17" x2="4" y2="10"/><line x1="8" y1="17" x2="8" y2="5"/><line x1="12" y1="17" x2="12" y2="12"/><line x1="16" y1="17" x2="16" y2="7.5"/>',
   toque:'<polygon points="10,4 18.5,8 10,12 1.5,8"/><path d="M5.2 9.6v4.2s2 1.9 4.8 1.9 4.8-1.9 4.8-1.9V9.6"/>',
   livre:'<path d="M10 6.4v10"/><path d="M10 6.4C8.1 5 5.7 4.6 3 4.8v10.3c2.7-.2 5.1.2 7 1.6"/><path d="M10 6.4c1.9-1.4 4.3-1.8 7-1.6v10.3c-2.7-.2-5.1.2-7 1.6"/>',
+  chevrons:'<polyline points="7,5.5 2,10 7,14.5"/><polyline points="13,5.5 18,10 13,14.5"/>',
   enveloppe:'<rect x="2.5" y="5.2" width="15" height="9.6" rx="1"/><polyline points="2.5,6.6 10,11.4 17.5,6.6"/>'
 };
 
@@ -196,13 +198,13 @@ const NOEUDS = [
   {id:'p-carsat', type:'sous', parent:'parcours', x:95, y:305, etiq:['CARSAT Centre','Resp. agences'], etape:1},
   {id:'p-rsi', type:'sous', parent:'parcours', x:175, y:410, etiq:['RSI Poitou-Charentes','Manager logistique'], etape:1},
 
-  {id:'realisations', type:'majeur', x:400, y:640, icone:'briques', etiq:['Réalisations'], etape:2},
-  {id:'r-depotdoc', type:'sous', parent:'realisations', x:250, y:585, etiq:['depotdoc.fr'], etape:2},
-  {id:'r-cr-ca', type:'sous', parent:'realisations', x:240, y:690, etiq:['Comptes rendus de CA'], etape:2},
-  {id:'r-campagnes', type:'sous', parent:'realisations', x:300, y:755, etiq:['Campagnes de déploiement'], etape:2},
-  {id:'r-helpdesk', type:'sous', parent:'realisations', x:420, y:775, etiq:['Pilotage helpdesk'], etape:2},
-  {id:'r-ia-interne', type:'sous', parent:'realisations', x:525, y:700, etiq:['IA interne'], etape:2},
-  {id:'r-instruments', type:'sous', parent:'realisations', x:520, y:590, etiq:['Instruments de pilotage'], etape:2},
+  {id:'realisations', type:'majeur', x:370, y:620, icone:'briques', etiq:['Réalisations'], etape:2},
+  {id:'r-depotdoc', type:'sous', parent:'realisations', x:225, y:560, etiq:['depotdoc.fr'], etape:2},
+  {id:'r-cr-ca', type:'sous', parent:'realisations', x:205, y:665, etiq:['Comptes rendus de CA'], etape:2},
+  {id:'r-campagnes', type:'sous', parent:'realisations', x:245, y:760, etiq:['Campagnes de déploiement'], etape:2},
+  {id:'r-helpdesk', type:'sous', parent:'realisations', x:360, y:800, etiq:['Pilotage helpdesk'], etape:2},
+  {id:'r-ia-interne', type:'sous', parent:'realisations', x:475, y:775, etiq:['IA interne'], etape:2},
+  {id:'r-instruments', type:'sous', parent:'realisations', x:530, y:685, etiq:['Instruments de pilotage'], etape:2},
 
   {id:'competences', type:'majeur', x:760, y:690, icone:'barres', etiq:['Compétences'], etape:3},
   {id:'c-gouvernance', type:'sous', parent:'competences', x:655, y:760, etiq:['Direction et gouvernance'], etape:3},
@@ -221,7 +223,11 @@ const NOEUDS = [
   {id:'pub-communs', type:'sous', parent:'publications', x:1090, y:205, etiq:['communs-numeriques.fr'], etape:5},
   {id:'pub-elegartech', type:'sous', parent:'publications', x:1085, y:320, etiq:['Newsletter ElegArtech'], etape:5},
 
-  {id:'contact', type:'majeur', x:700, y:130, icone:'enveloppe', etiq:['Contact'], etape:6}
+  {id:'developpements', type:'majeur', x:850, y:105, icone:'chevrons', etiq:['Développements'], etape:6},
+  {id:'dev-rationarium', type:'sous', parent:'developpements', x:955, y:50, etiq:['Rationarium'], etape:6},
+  {id:'dev-codicillus', type:'sous', parent:'developpements', x:980, y:170, etiq:['Codicillus'], etape:6},
+
+  {id:'contact', type:'majeur', x:622, y:120, icone:'enveloppe', etiq:['Contact'], etape:6}
 ];
 
 const TRANSVERSALES = [
@@ -252,7 +258,11 @@ const TRANSVERSALES = [
   {a:'c-data', b:'f-msic', n:2, t:'formation'},
   {a:'c-droit-social', b:'f-dtse', n:1, t:'formation'},
   {a:'f-memoire', b:'pub-communs', n:1, t:'filiation'},
-  {a:'f-memoire', b:'c-data', n:2, t:'filiation'}
+  {a:'f-memoire', b:'c-data', n:2, t:'filiation'},
+  {a:'dev-rationarium', b:'c-pilotage', n:1, t:'creation'},
+  {a:'dev-rationarium', b:'c-technique', n:2, t:'exercice'},
+  {a:'dev-codicillus', b:'c-data', n:1, t:'creation'},
+  {a:'dev-codicillus', b:'c-technique', n:2, t:'exercice'}
 ];
 
 const MOTS = {creation:'né à', reemploi:'repris à', exercice:'exercée à', formation:'nourrie par', filiation:'prolongé par'};
@@ -522,6 +532,10 @@ const CONTENU = {
     'pub-communs':{titre:'communs-numeriques.fr', meta:'Blog', points:['Communs numériques, souveraineté, administration.','Diffusion du mémoire de recherche.']},
     'pub-elegartech':{titre:'Newsletter ElegArtech', meta:'elegartech.substack.com', points:['Transformation numérique, IA en organisation, souveraineté.']}
   }},
+  developpements: {chapeau:"Deux applications conçues et développées hors cadre institutionnel. Elles prolongent des problèmes rencontrés en poste, le pilotage des ressources d’un côté, la fiabilité du patrimoine documentaire de l’autre.", sections:{
+    'dev-rationarium':{titre:'Rationarium', meta:'En développement actif · TypeScript, React, TanStack, PostgreSQL', points:['Pilotage des projets et des ressources en collectivité territoriale.','Une seule grille temporelle réconcilie tout ce qui occupe une personne, sur une organisation en directions, départements et services.','Architecte et développeur principal.']},
+    'dev-codicillus':{titre:'Codicillus', meta:'Dépôt privé · TypeScript, SvelteKit, PostgreSQL, Docker', points:['Base de connaissances documentaire interne, auto-hébergée.','Point d’entrée unique et cherchable, avec un signal de fraîcheur sur chaque note.','Le corpus se lit aussi comme un graphe de dépendances.']}
+  }},
   contact: {chapeau:"", sections:{
     'contact-mail':{titre:'contact@alexandre-berge.fr', meta:'Courriel', points:[]},
     'contact-linkedin':{titre:'linkedin.com/in/bergealexandre', meta:'LinkedIn', points:[]},
@@ -570,6 +584,18 @@ const DETAIL = {
     contexte:"Premier poste de management, et origine du fil conducteur : mesurer une activité avant de décider de son organisation.",
     blocs:[
       {titre:'Fondations', points:['Optimisation des processus logistiques et démarche d’amélioration continue.','Construction des premiers outils d’évaluation de l’activité : productivité rapportée aux ressources disponibles, benchmarking avec des services équivalents.','Objectivation des situations comme préalable aux décisions d’organisation, en substitution des appréciations a priori.']}
+    ]},
+  'dev-rationarium':{titre:'Rationarium', meta:'En développement actif · architecte et développeur principal',
+    contexte:"Pilotage des projets et des ressources en collectivité territoriale.",
+    blocs:[
+      {titre:'Le problème', points:['Le suivi de projet échoue rarement par manque d’outils, il échoue parce qu’il y en a trop.','Une seule grille temporelle réconcilie donc tout ce qui occupe une personne, congé, télétravail, tâche de projet, permanence et réunion, sur une organisation en directions, départements et services.']},
+      {titre:'Cadre et contraintes', points:['Outil interne, réseau fermé, bilingue et conforme RGAA.','Stack : TypeScript, React, TanStack, PostgreSQL, Prisma, Turborepo.','<a href="https://alexandre-berge.fr/rationarium/">Voir l’aperçu du produit et les écrans →</a>']}
+    ]},
+  'dev-codicillus':{titre:'Codicillus', meta:'Dépôt privé · base de connaissances auto-hébergée',
+    contexte:"Base de connaissances documentaire interne, auto-hébergée.",
+    blocs:[
+      {titre:'Le problème', points:['Un patrimoine éparpillé, procédures, cartographies en tableur, PDF et liens, remplacé par un point d’entrée unique et cherchable.','Chaque note affiche un signal de fraîcheur qui dit si elle est encore digne de confiance.']},
+      {titre:'Le corpus comme graphe', points:['Applications, serveurs, équipements et contacts reliés par des relations qualifiées.','Les dépendances et les points de défaillance unique se lisent directement.','Stack : TypeScript, SvelteKit, PostgreSQL, Drizzle, Docker.']}
     ]}
 };
 
