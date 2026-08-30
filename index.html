@@ -232,8 +232,10 @@ body.clavier .noeud:focus .disque-sous{stroke:var(--bleu);stroke-width:2}
 footer{
   padding:8px 30px 18px;display:flex;align-items:center;justify-content:space-between;
   gap:18px;font-size:12px;color:var(--ink-soft);
+  height:44px;flex:none;box-sizing:border-box;
 }
-#etat{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--sanguine);min-height:16px;flex:1;text-align:right}
+#etat{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--sanguine);flex:1;text-align:right;
+  height:18px;line-height:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* ---------- Écrans étroits ---------- */
 @media (max-width:1079px){
@@ -1580,8 +1582,11 @@ gNoeuds.addEventListener('keydown', ev => {
   if (g && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); activer(g.dataset.id); }
 });
 
-let attenteTaille = null;
-new ResizeObserver(() => {
+let attenteTaille = null, derniereTaille = null;
+new ResizeObserver(entrees => {
+  const r = entrees[0].contentRect;
+  if (derniereTaille && Math.abs(r.width - derniereTaille.w) < 4 && Math.abs(r.height - derniereTaille.h) < 4) return;
+  derniereTaille = {w:r.width, h:r.height};
   clearTimeout(attenteTaille);
   attenteTaille = setTimeout(() => {
     if (document.body.classList.contains('mode-liste')) return;
