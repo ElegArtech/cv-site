@@ -157,6 +157,8 @@ svg#scene text{-webkit-user-select:none;user-select:none}
 .icone-hub{stroke:var(--paper)}
 .etiq-majeur{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;fill:var(--ink);font-weight:500}
 .etiq-sous{font-size:10.5px;fill:var(--ink-soft)}
+.noeud .bague,.noeud .ombre,.noeud .relief,.noeud .icone{pointer-events:none}
+.cible{fill:none;pointer-events:all}
 .noeud{cursor:default}
 .noeud.cliquable{cursor:pointer}
 .noeud.saisi{cursor:grabbing}
@@ -232,10 +234,6 @@ footer{
   gap:18px;font-size:12px;color:var(--ink-soft);
 }
 #etat{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--sanguine);min-height:16px;flex:1;text-align:right}
-.legende{display:flex;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint)}
-.legende span{display:inline-flex;align-items:center;gap:6px}
-.legende i{width:22px;height:0;border-top:1.4px dashed var(--sanguine);display:inline-block}
-.legende i.n2{border-top:1.4px dotted var(--sanguine-clair)}
 
 /* ---------- Écrans étroits ---------- */
 @media (max-width:1079px){
@@ -256,7 +254,6 @@ footer{
     padding:14px 20px calc(18px + env(safe-area-inset-bottom));transform:translateY(16px);
   }
   .panneau-corps{padding-right:0}
-  .legende{display:none}
   footer{padding:6px 20px 14px}
   #etat{text-align:left}
   .contenu{padding-left:20px;padding-right:20px}
@@ -277,7 +274,23 @@ footer{
   .deplier,.evitement{display:none!important}
   .page-noeud{break-inside:avoid}
 }
+html.avant .sq{opacity:0;transform:translateY(9px)}
 </style>
+<script>
+/* Avant la première peinture : si l'apparition va être jouée, la colonne
+   d'identité part masquée. Sans ce garde-fou, la photo et le titre
+   s'affichaient une fraction de seconde avant d'être cachés puis rejoués. */
+(function () {
+  var d = document.documentElement, anime = !location.hash;
+  try {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) anime = false;
+    if (localStorage.getItem('cv-vue') === 'liste') anime = false;
+  } catch (e) {}
+  if (!anime) return;
+  d.className = 'avant';
+  setTimeout(function () { d.classList.remove('avant'); }, 6000);
+})();
+</script>
 </head>
 <body>
 <a class="evitement" href="#contenu">Aller au contenu du CV</a>
@@ -684,10 +697,6 @@ footer{
   </div>
 
   <footer class="js-seul">
-    <div class="legende" aria-hidden="true">
-      <span><i></i> lien de création</span>
-      <span><i class="n2"></i> lien d'exercice ou de réemploi</span>
-    </div>
     <div id="etat" role="status" aria-live="polite"></div>
   </footer>
 
@@ -734,7 +743,7 @@ const DX = 80;
 /* Pictogrammes en trait fin, tracés d'après le jeu Tabler (boîte 24 × 24). */
 const ICONES = {
   user:'<path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/>',
-  route:'<path d="M3 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/><path d="M17 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/><path d="M10.5 17h1.5a3 3 0 0 0 0 -6h-4a3 3 0 0 1 0 -6h1.5"/>',
+  timeline:'<path d="M4 16l6 -7l5 5l5 -6"/><path d="M4 16m-1.6 0a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0 -3.2 0"/><path d="M10 9m-1.6 0a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0 -3.2 0"/><path d="M15 14m-1.6 0a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0 -3.2 0"/><path d="M20 8m-1.6 0a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0 -3.2 0"/>',
   tools:'<path d="M3 21h4l13 -13a1.5 1.5 0 0 0 -4 -4l-13 13v4"/><path d="M14.5 5.5l4 4"/><path d="M12 8l-5 -5l-4 4l5 5"/><path d="M7 8l-1.5 1.5"/><path d="M16 12l5 5l-4 4l-5 -5"/><path d="M16 17l-1.5 1.5"/>',
   stack:'<path d="M12 4l-8 4l8 4l8 -4l-8 -4"/><path d="M4 12l8 4l8 -4"/><path d="M4 16l8 4l8 -4"/>',
   school:'<path d="M22 9l-10 -4l-10 4l10 4l10 -4v6"/><path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4"/>',
@@ -746,7 +755,7 @@ const ICONES = {
 const NOEUDS = [
   {id:'profil', type:'hub', x:560, y:420, r:34, icone:'user', etiq:['Profil'], etape:0},
 
-  {id:'parcours', type:'majeur', x:280, y:260, icone:'route', etiq:['Parcours'], long:'Parcours professionnel', etape:1},
+  {id:'parcours', type:'majeur', x:280, y:260, icone:'timeline', etiq:['Parcours'], long:'Parcours professionnel', etape:1},
   {id:'p-cpam92', type:'sous', parent:'parcours', x:425, y:195, etiq:['CPAM 92','Resp. informatique'], long:'Responsable du département informatique, CPAM des Hauts-de-Seine', etape:1},
   {id:'p-drsm', type:'sous', parent:'parcours', x:330, y:110, etiq:['DRSM Île-de-France','Resp. SI'], long:'Responsable du service informatique, DRSM Île-de-France puis CPAM de Paris', etape:1},
   {id:'p-charente-si', type:'sous', parent:'parcours', x:200, y:100, etiq:['CPAM Charente','Resp. informatique'], long:'Responsable informatique et pôle appui au pilotage, CPAM de la Charente', etape:1},
@@ -895,6 +904,7 @@ VISIBLES.forEach(n => {
   const classeDisque = n.type === 'hub' ? 'disque-hub' : n.type === 'majeur' ? 'disque-majeur' : 'disque-sous';
   if (n.type !== 'sous') {
     const bague = el('g', {class:'bague'});
+    bague.setAttribute('pointer-events', 'none');
     bague.appendChild(el('circle', {class:'anneau', r:n.r + 7}));
     for (let a = 45; a < 360; a += 90) {
       const rad = a * Math.PI / 180, ci = Math.cos(rad), si = Math.sin(rad);
@@ -902,6 +912,7 @@ VISIBLES.forEach(n => {
     }
     g.appendChild(bague);
   }
+  g.appendChild(el('circle', {class:'cible', r:n.r + (n.type === 'sous' ? 16 : 11)}));
   g.appendChild(el('circle', {class:'ombre', r:n.r, cy:2.5}));
   g.appendChild(el('circle', {class:classeDisque, r:n.r}));
   g.appendChild(el('path', {class:'relief', d:'M' + (-n.r + 1) + ' -1 A ' + (n.r - 1) + ' ' + (n.r - 1) + ' 0 0 1 ' + (n.r - 1) + ' -1'}));
@@ -992,8 +1003,9 @@ function cadrageBase() {
   if (petit()) return {cx:HUB.x, cy:HUB.y - 10, l:Math.min(l, 620)};
   return {cx:(BBOX.x0 + BBOX.x1) / 2, cy:(BBOX.y0 + BBOX.y1) / 2, l:l};
 }
-let tweenVue = null;
+let tweenVue = null, vueLibre = false;
 function recadrer(anime) {
+  vueLibre = false;
   svg.classList.toggle('petit', petit());
   const c = cadrageBase();
   if (!anime || doux()) { poserVue(c.cx, c.cy, c.l, true); return; }
@@ -1022,6 +1034,7 @@ function tousLesDoms() {
   return VISIBLES.map(n => n.dom).concat(ARETES.map(e => e.dom), TRANSVERSALES.map(e => e.dom));
 }
 function toutMontrer() {
+  document.documentElement.classList.remove('avant');
   minuteurs.forEach(clearTimeout); minuteurs.length = 0;
   introEnCours = false;
   SEQ.forEach(e => e.classList.remove('cache'));
@@ -1035,6 +1048,7 @@ function jouer() {
   svg.classList.remove('moment', 'fondu');
   const tout = tousLesDoms();
   tout.forEach(d => d.classList.add('cache'));
+  document.documentElement.classList.remove('avant');
   if (doux()) { toutMontrer(); return; }
   introEnCours = true;
   const paraitre = (dom, t) => minuteurs.push(setTimeout(() => dom.classList.remove('cache'), t));
@@ -1061,18 +1075,19 @@ function jouer() {
 
 function surligner(id) {
   if (!id) {
+    survole = null;
     svg.classList.remove('actif');
     document.querySelectorAll('.proche').forEach(e => e.classList.remove('proche'));
     etat.textContent = '';
     return;
   }
-  const proches = new Set([id].concat([].slice.call(VOISINS[id])));
+  const proches = new Set([id].concat(Array.from(VOISINS[id])));
   VISIBLES.forEach(n => n.dom.classList.toggle('proche', proches.has(n.id)));
   ARETES.forEach(e => e.dom.classList.toggle('proche', proches.has(e.a) && proches.has(e.b)));
   TRANSVERSALES.forEach(e => e.dom.classList.toggle('proche', e.a === id || e.b === id));
   svg.classList.add('actif');
   const n = TRANSVERSALES.filter(e => e.a === id || e.b === id).length;
-  etat.textContent = PAR_ID[id].etiq.join(' · ') + (n ? '  —  ' + n + ' lien' + (n > 1 ? 's' : '') + ' transversal' + (n > 1 ? 'aux' : '') : '');
+  etat.textContent = PAR_ID[id].etiq.join(' · ') + (n ? '  —  ' + n + (n > 1 ? ' liens transversaux' : ' lien transversal') : '');
 }
 
 gTrans.addEventListener('pointerover', ev => {
@@ -1087,13 +1102,22 @@ gTrans.addEventListener('pointerover', ev => {
   etat.textContent = e.titre;
 });
 gTrans.addEventListener('pointerout', () => { if (!saisi) surligner(null); });
+let survole = null;
+function survoler(id) {
+  if (id === survole) return;
+  survole = id;
+  surligner(id);
+}
 gNoeuds.addEventListener('pointerover', ev => {
   const g = ev.target.closest('.noeud');
-  if (g && !saisi && !ouvert) surligner(g.dataset.id);
+  if (!g || saisi || ouvert) return;
+  survoler(g.dataset.id);
 });
 gNoeuds.addEventListener('pointerout', ev => {
-  const g = ev.target.closest('.noeud');
-  if (g && !saisi) surligner(null);
+  if (saisi || ouvert) return;
+  const vers = ev.relatedTarget && ev.relatedTarget.closest ? ev.relatedTarget.closest('.noeud') : null;
+  if (vers) return;   /* on reste dans un nœud : le survol suivant s'en charge */
+  survoler(null);
 });
 
 /* ============================================================
@@ -1115,7 +1139,7 @@ svg.addEventListener('pointerdown', ev => {
   pointeurs.set(ev.pointerId, {x:ev.clientX, y:ev.clientY});
   if (pointeurs.size === 2) {
     annulerSaisie();
-    const v = [].slice.call(pointeurs.values());
+    const v = Array.from(pointeurs.values());
     pincee = {
       d0:Math.hypot(v[0].x - v[1].x, v[0].y - v[1].y) || 1,
       l0:vue.w,
@@ -1152,12 +1176,14 @@ svg.addEventListener('pointermove', ev => {
   if (pointeurs.has(ev.pointerId)) pointeurs.set(ev.pointerId, {x:ev.clientX, y:ev.clientY});
 
   if (geste === 'pincee' && pointeurs.size >= 2) {
-    const v = [].slice.call(pointeurs.values());
+    vueLibre = true;
+    const v = Array.from(pointeurs.values());
     const d = Math.hypot(v[0].x - v[1].x, v[0].y - v[1].y) || 1;
     poserVue(pincee.c0.x, pincee.c0.y, pincee.l0 * (pincee.d0 / d));
     return;
   }
   if (geste === 'pan' && pan) {
+    vueLibre = true;
     const k = echelle();
     if (Math.abs(ev.clientX - pan.sx) + Math.abs(ev.clientY - pan.sy) > 3) pan.bouge = true;
     vue.x = pan.vx - (ev.clientX - pan.sx) * k;
@@ -1226,6 +1252,7 @@ svg.addEventListener('pointerleave', ev => { if (geste === 'pincee') pointeurs.d
 svg.addEventListener('wheel', ev => {
   if (ouvert) return;
   ev.preventDefault();
+  vueLibre = true;
   const p = enUnites(ev);
   const f = Math.exp(ev.deltaY * .0012);
   const l = Math.min(Math.max(vue.w * f, L_MIN), L_MAX);
@@ -1235,11 +1262,7 @@ svg.addEventListener('wheel', ev => {
   borner(); appliquerVue();
 }, {passive:false});
 
-window.addEventListener('resize', () => {
-  if (document.body.classList.contains('mode-liste')) return;
-  if (ouvert) { calerPanneau(); return; }
-  poserVue(vue.x + vue.w / 2, vue.y + vue.h / 2, vue.w);
-});
+
 
 /* ============================================================
    7. Panneau : le contenu vient du document, jamais dupliqué
@@ -1556,6 +1579,17 @@ gNoeuds.addEventListener('keydown', ev => {
   const g = ev.target.closest('.noeud');
   if (g && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); activer(g.dataset.id); }
 });
+
+let attenteTaille = null;
+new ResizeObserver(() => {
+  clearTimeout(attenteTaille);
+  attenteTaille = setTimeout(() => {
+    if (document.body.classList.contains('mode-liste')) return;
+    if (ouvert) { calerPanneau(); return; }
+    if (vueLibre) poserVue(vue.x + vue.w / 2, vue.y + vue.h / 2, vue.w);
+    else recadrer(false);
+  }, 180);
+}).observe(svg.parentNode);
 
 let vueInitiale = 'graphe';
 try { if (localStorage.getItem('cv-vue') === 'liste') vueInitiale = 'liste'; } catch (e) {}
