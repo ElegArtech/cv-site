@@ -1,0 +1,763 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Graphe de navigation — prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E7E4DB;
+    --paper-deep:#DAD6CA;
+    --ink:#17191B;
+    --ink-soft:#5E5C55;
+    --ink-faint:#8E8B81;
+    --bleu:#1F4E5F;
+    --sanguine:#9C4A31;
+    --sanguine-clair:#B98170;
+  }
+  *{box-sizing:border-box}
+  body{-webkit-user-select:none;user-select:none}
+  svg text{-webkit-user-select:none;user-select:none}
+  html,body{height:100%}
+  body{
+    margin:0;
+    background:var(--paper);
+    background-image:radial-gradient(120% 90% at 50% 0%, #EFEDE6 0%, var(--paper) 45%, var(--paper-deep) 100%);
+    color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,sans-serif;
+    display:flex;flex-direction:column;overflow:hidden;
+  }
+  header{padding:22px 34px 0;display:flex;align-items:baseline;justify-content:space-between;gap:24px}
+  .marque{font-family:"IBM Plex Serif",Georgia,serif;font-size:15px;letter-spacing:.02em}
+  .mention{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
+  main{min-height:0;min-width:0;flex:1}
+  svg{width:100%;height:100%;display:block;touch-action:none}
+  footer{padding:10px 34px 22px;display:flex;align-items:center;justify-content:space-between;gap:24px;font-size:12px;color:var(--ink-soft)}
+  #etat{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.05em;color:var(--sanguine);min-height:16px;text-align:right;flex:1}
+  button{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);background:transparent;border:1px solid var(--ink-faint);border-radius:2px;padding:6px 12px;cursor:pointer}
+  button:hover{color:var(--ink);border-color:var(--ink)}
+  button:focus-visible{outline:2px solid var(--bleu);outline-offset:3px}
+  .noeud:focus{outline:none}
+  body.clavier .noeud:focus{outline:2px solid var(--bleu);outline-offset:3px}
+
+
+  .page{flex:1;min-height:0;display:flex;gap:8px;padding:26px 30px 0}
+  .identite{
+    position:relative;overflow:hidden;display:flex;flex-direction:column;gap:18px;
+    flex:0 0 25%;min-width:330px;padding-right:26px;border-right:1px solid rgba(23,25,27,.10);
+    transition:flex-basis .8s cubic-bezier(.2,.7,.3,1),min-width .8s cubic-bezier(.2,.7,.3,1),opacity .5s ease,padding .8s ease;
+  }
+  body.niveau3 .identite{flex-basis:0;min-width:0;opacity:0;padding-right:0;border-right-color:transparent}
+
+  .fantome{
+    position:absolute;left:-.06em;bottom:-.16em;z-index:0;pointer-events:none;
+    font-family:"IBM Plex Serif",Georgia,serif;font-size:min(23vh,180px);line-height:.8;
+    letter-spacing:-.03em;color:var(--ink);opacity:.045;white-space:nowrap;
+  }
+  .identite > *:not(.fantome){position:relative;z-index:1}
+  .surtitre{margin:0;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint)}
+  h1{margin:0;font-family:"IBM Plex Serif",Georgia,serif;font-weight:400;font-size:clamp(36px,3.3vw,56px);line-height:.98;letter-spacing:-.02em}
+  .fonction{margin:0;font-size:12px;letter-spacing:.03em;color:var(--bleu);font-weight:500}
+  .accroche{margin:0;font-size:13.5px;line-height:1.65;color:var(--ink-soft);max-width:34ch}
+  .metriques{margin:6px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:1px 18px}
+  .metriques div{padding-top:9px;border-top:1px solid rgba(23,25,27,.14)}
+  .metriques dt{font-family:"IBM Plex Mono",monospace;font-size:18px;color:var(--ink)}
+  .metriques dd{margin:2px 0 10px;font-size:11px;line-height:1.4;color:var(--ink-faint)}
+  .liens{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:7px 16px}
+  .liens a{font-size:12px;color:var(--ink-soft);text-decoration:none;border-bottom:1px solid rgba(23,25,27,.25);padding-bottom:2px}
+  .liens a:hover{color:var(--sanguine);border-bottom-color:var(--sanguine)}
+  .portrait{
+    margin-top:auto;margin-bottom:6px;margin-left:auto;width:118px;aspect-ratio:4/5;
+    border:1px solid var(--ink-faint);display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;
+    background:repeating-linear-gradient(135deg,rgba(31,78,95,.07) 0 1px,transparent 1px 9px);
+  }
+  .portrait span{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
+  .sq{transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.3,1)}
+  .sq.cache{opacity:0;transform:translateY(9px)}
+
+  main{position:relative}
+  .panneau{
+    position:absolute;top:0;right:0;bottom:0;left:38%;
+    display:flex;flex-direction:column;gap:14px;
+    padding:10px 4px 18px 30px;border-left:1px solid rgba(23,25,27,.10);
+    opacity:0;transform:translateX(14px);transition:opacity .55s ease,transform .55s cubic-bezier(.2,.7,.3,1);
+  }
+  .panneau.visible{opacity:1;transform:none}
+  .retour{align-self:flex-start}
+  .panneau-corps{overflow-y:auto;padding-right:22px}
+  .panneau h2{margin:0 0 6px;font-family:"IBM Plex Serif",Georgia,serif;font-weight:400;font-size:30px;letter-spacing:-.01em}
+  .panneau .chapeau{margin:0 0 22px;font-size:13.5px;line-height:1.65;color:var(--ink-soft)}
+  .section{padding:14px 0 16px;border-top:1px solid rgba(23,25,27,.13);transition:background .4s ease}
+  .section.vise{background:rgba(156,74,49,.07)}
+  .section h3{margin:0;font-size:14px;font-weight:500}
+  .section .meta{margin:3px 0 8px;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint)}
+  .panneau .meta-poste{margin:-2px 0 16px;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint)}
+  .section.ouvrable{cursor:pointer}
+  .section.ouvrable:hover h3{color:var(--sanguine)}
+  .fleche{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-left:10px}
+  .section.ouvrable:hover .fleche{color:var(--sanguine)}
+  .section ul{margin:0;padding-left:16px}
+  .section li{font-size:13px;line-height:1.6;color:var(--ink-soft);margin-bottom:4px}
+  .arete{stroke:var(--ink);fill:none;stroke-linecap:round}
+  .arete.dorsale{stroke-opacity:.52;stroke-width:2.1}
+  .arete.rameau{stroke-opacity:.34;stroke-width:1.3}
+  .arete.proche{stroke-opacity:.85}
+  .transversale{stroke:var(--sanguine);fill:none;cursor:pointer}
+  .transversale.niveau1{stroke-opacity:.42;stroke-width:1.2;stroke-dasharray:5 3.5}
+  .transversale.niveau2{stroke:var(--sanguine-clair);stroke-opacity:.62;stroke-width:.8;stroke-dasharray:2 3;stroke-linecap:round}
+  .transversale.proche{stroke-opacity:.92;stroke-width:1.6}
+  .moment .transversale{stroke-opacity:.85}
+  .moment .arete{stroke-opacity:.12}
+  .fondu .transversale,.fondu .arete{transition:stroke-opacity 1.6s ease}
+  .ombre{fill:var(--ink);opacity:.09}
+  .anneau{fill:none;stroke:var(--bleu);stroke-opacity:.30;stroke-width:.8}
+  .encoche{stroke:var(--bleu);stroke-opacity:.35;stroke-width:1;stroke-linecap:round}
+  .bague{transform-box:fill-box;transform-origin:center;transition:transform .35s cubic-bezier(.2,.7,.3,1)}
+  .noeud:hover .bague,.noeud.proche .bague{transform:scale(1.10)}
+  .relief{fill:none;stroke:#FFFFFF;stroke-opacity:.55;stroke-width:1.1}
+  .disque-majeur{fill:#DCE5E8;stroke:var(--bleu);stroke-width:1.2}
+  .disque-hub{fill:var(--bleu);stroke:var(--bleu);stroke-width:1.2}
+  .disque-sous{fill:var(--paper);stroke:var(--ink-faint);stroke-width:1}
+  .icone{fill:none;stroke:var(--bleu);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+  .icone-hub{stroke:var(--paper)}
+  .etiq-majeur{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;fill:var(--ink);font-weight:500}
+  .etiq-sous{font-size:10.5px;fill:var(--ink-soft)}
+  .noeud{cursor:default}
+  .noeud.cliquable{cursor:pointer}
+  .noeud.saisi{cursor:grabbing}
+  .voile.actif .noeud:not(.proche){opacity:.22}
+  .voile.actif .arete:not(.proche){stroke-opacity:.07}
+  .voile.actif .transversale:not(.proche){stroke-opacity:.09}
+  .noeud,.arete,.transversale{transition:opacity .3s ease,stroke-opacity .3s ease}
+  .cache{opacity:0}
+  .efface{opacity:0!important;pointer-events:none}
+  .muet text{opacity:0}
+  .noeud text{transition:opacity .35s ease}
+  .noeud.actif .disque-sous{fill:var(--sanguine);stroke:var(--sanguine)}
+  @media (prefers-reduced-motion:reduce){.noeud,.arete,.transversale{transition:none}}
+</style>
+
+<div class="page">
+  <aside class="identite">
+    <div class="fantome" aria-hidden="true">Berge</div>
+    <p class="surtitre sq" data-seq="0">alexandre-berge.fr</p>
+    <h1 class="sq" data-seq="1">Alexandre<br>Berge</h1>
+    <p class="fonction sq" data-seq="2">Directeur de programme · Transformation SI · Management de transition</p>
+    <p class="accroche sq" data-seq="3">Dix-huit ans de management dans la protection sociale, dont douze en opérations métier avant la bascule vers la direction des systèmes d'information. Un même fil depuis le début : concevoir les instruments qui rendent une activité lisible.</p>
+    <dl class="metriques sq" data-seq="4">
+      <div><dt>18 ans</dt><dd>de management</dd></div>
+      <div><dt>45</dt><dd>collaborateurs encadrés</dd></div>
+      <div><dt>1 400</dt><dd>postes utilisateurs</dd></div>
+      <div><dt>30 000</dt><dd>usages mensuels de depotdoc.fr</dd></div>
+    </dl>
+    <ul class="liens sq" data-seq="5">
+      <li><a href="#">Télécharger le CV</a></li>
+      <li><a href="#">LinkedIn</a></li>
+      <li><a href="#">communs-numeriques.fr</a></li>
+      <li><a href="#">ElegArtech</a></li>
+    </ul>
+    <div class="portrait sq" data-seq="6" aria-hidden="true"><span>Portrait</span></div>
+  </aside>
+
+  <main>
+    <div class="panneau" id="panneau" hidden>
+      <button class="retour" id="retour">← Retour au graphe</button>
+      <div class="panneau-corps" id="panneau-corps"></div>
+    </div>
+    <svg id="scene" viewBox="0 0 1440 840" preserveAspectRatio="xMidYMid meet" role="application" aria-label="Graphe de navigation du site"></svg>
+  </main>
+</div>
+
+<footer>
+  <div id="etat"></div>
+  <button id="rejouer">Rejouer</button>
+</footer>
+
+<script>
+const DX = 80;
+const ICONES = {
+  hub:'<circle cx="10" cy="7.5" r="3.2"/><path d="M4 17c0-3.3 2.7-5 6-5s6 1.7 6 5"/>',
+  route:'<polyline points="3,16 7,9 12,13 17,4"/><circle cx="3" cy="16" r="1.5"/><circle cx="17" cy="4" r="1.5"/>',
+  briques:'<rect x="2.6" y="11" width="7" height="6"/><rect x="10.4" y="11" width="7" height="6"/><rect x="6.5" y="4" width="7" height="6"/>',
+  barres:'<line x1="4" y1="17" x2="4" y2="10"/><line x1="8" y1="17" x2="8" y2="5"/><line x1="12" y1="17" x2="12" y2="12"/><line x1="16" y1="17" x2="16" y2="7.5"/>',
+  toque:'<polygon points="10,4 18.5,8 10,12 1.5,8"/><path d="M5.2 9.6v4.2s2 1.9 4.8 1.9 4.8-1.9 4.8-1.9V9.6"/>',
+  livre:'<path d="M10 6.4v10"/><path d="M10 6.4C8.1 5 5.7 4.6 3 4.8v10.3c2.7-.2 5.1.2 7 1.6"/><path d="M10 6.4c1.9-1.4 4.3-1.8 7-1.6v10.3c-2.7-.2-5.1.2-7 1.6"/>',
+  enveloppe:'<rect x="2.5" y="5.2" width="15" height="9.6" rx="1"/><polyline points="2.5,6.6 10,11.4 17.5,6.6"/>'
+};
+
+const NOEUDS = [
+  {id:'profil', type:'hub', x:560, y:420, r:34, icone:'hub', etiq:['Profil'], etape:0},
+
+  {id:'parcours', type:'majeur', x:280, y:260, icone:'route', etiq:['Parcours'], etape:1},
+  {id:'p-cpam92', type:'sous', parent:'parcours', x:425, y:195, etiq:['CPAM 92','Resp. informatique'], etape:1},
+  {id:'p-drsm', type:'sous', parent:'parcours', x:330, y:110, etiq:['DRSM Île-de-France','Resp. SI'], etape:1},
+  {id:'p-charente-si', type:'sous', parent:'parcours', x:200, y:100, etiq:['CPAM Charente','Resp. informatique'], etape:1},
+  {id:'p-charente-agence', type:'sous', parent:'parcours', x:110, y:180, etiq:['CPAM Charente','Resp. agence'], etape:1},
+  {id:'p-carsat', type:'sous', parent:'parcours', x:95, y:305, etiq:['CARSAT Centre','Resp. agences'], etape:1},
+  {id:'p-rsi', type:'sous', parent:'parcours', x:175, y:410, etiq:['RSI Poitou-Charentes','Manager logistique'], etape:1},
+
+  {id:'realisations', type:'majeur', x:400, y:640, icone:'briques', etiq:['Réalisations'], etape:2},
+  {id:'r-depotdoc', type:'sous', parent:'realisations', x:250, y:585, etiq:['depotdoc.fr'], etape:2},
+  {id:'r-cr-ca', type:'sous', parent:'realisations', x:240, y:690, etiq:['Comptes rendus de CA'], etape:2},
+  {id:'r-campagnes', type:'sous', parent:'realisations', x:300, y:755, etiq:['Campagnes de déploiement'], etape:2},
+  {id:'r-helpdesk', type:'sous', parent:'realisations', x:420, y:775, etiq:['Pilotage helpdesk'], etape:2},
+  {id:'r-ia-interne', type:'sous', parent:'realisations', x:525, y:700, etiq:['IA interne'], etape:2},
+  {id:'r-instruments', type:'sous', parent:'realisations', x:520, y:590, etiq:['Instruments de pilotage'], etape:2},
+
+  {id:'competences', type:'majeur', x:760, y:690, icone:'barres', etiq:['Compétences'], etape:3},
+  {id:'c-gouvernance', type:'sous', parent:'competences', x:655, y:760, etiq:['Direction et gouvernance'], etape:3},
+  {id:'c-pilotage', type:'sous', parent:'competences', x:760, y:792, etiq:['Pilotage et mesure'], etape:3},
+  {id:'c-ia', type:'sous', parent:'competences', x:872, y:775, etiq:['Intelligence artificielle'], etape:3},
+  {id:'c-technique', type:'sous', parent:'competences', x:925, y:690, etiq:['Architecture et développement'], etape:3},
+  {id:'c-data', type:'sous', parent:'competences', x:880, y:595, etiq:['Data et open source'], etape:3},
+  {id:'c-droit-social', type:'sous', parent:'competences', x:960, y:745, etiq:['Droit social'], etape:3},
+
+  {id:'formation', type:'majeur', x:960, y:500, icone:'toque', etiq:['Formation'], etape:4},
+  {id:'f-msic', type:'sous', parent:'formation', x:1075, y:450, etiq:['Master MSIC','Panthéon-Sorbonne'], etape:4},
+  {id:'f-memoire', type:'sous', parent:'formation', x:1000, y:370, etiq:['Mémoire','communs numériques'], etape:4},
+  {id:'f-dtse', type:'sous', parent:'formation', x:1060, y:580, etiq:['Master DTSE','Toulouse Capitole'], etape:4},
+
+  {id:'publications', type:'majeur', x:970, y:245, icone:'livre', etiq:['Publications'], etape:5},
+  {id:'pub-communs', type:'sous', parent:'publications', x:1090, y:205, etiq:['communs-numeriques.fr'], etape:5},
+  {id:'pub-elegartech', type:'sous', parent:'publications', x:1085, y:320, etiq:['Newsletter ElegArtech'], etape:5},
+
+  {id:'contact', type:'majeur', x:700, y:130, icone:'enveloppe', etiq:['Contact'], etape:6}
+];
+
+const TRANSVERSALES = [
+  {a:'r-depotdoc', b:'p-charente-si', n:1, t:'creation'},
+  {a:'r-cr-ca', b:'p-charente-si', n:1, t:'creation'},
+  {a:'r-ia-interne', b:'p-charente-si', n:1, t:'creation'},
+  {a:'r-campagnes', b:'p-drsm', n:1, t:'creation'},
+  {a:'r-campagnes', b:'p-cpam92', n:2, t:'reemploi'},
+  {a:'r-helpdesk', b:'p-cpam92', n:1, t:'creation'},
+  {a:'r-instruments', b:'p-rsi', n:1, t:'creation'},
+  {a:'r-instruments', b:'p-carsat', n:2, t:'reemploi'},
+  {a:'r-instruments', b:'p-charente-agence', n:2, t:'reemploi'},
+  {a:'r-instruments', b:'p-cpam92', n:2, t:'reemploi'},
+  {a:'c-gouvernance', b:'p-cpam92', n:1, t:'exercice'},
+  {a:'c-gouvernance', b:'p-drsm', n:2, t:'exercice'},
+  {a:'c-gouvernance', b:'f-msic', n:2, t:'formation'},
+  {a:'c-pilotage', b:'p-rsi', n:1, t:'creation'},
+  {a:'c-pilotage', b:'p-carsat', n:2, t:'exercice'},
+  {a:'c-pilotage', b:'p-charente-agence', n:2, t:'exercice'},
+  {a:'c-pilotage', b:'p-cpam92', n:2, t:'exercice'},
+  {a:'c-ia', b:'p-charente-si', n:1, t:'creation'},
+  {a:'c-ia', b:'p-drsm', n:2, t:'exercice'},
+  {a:'c-ia', b:'p-cpam92', n:2, t:'exercice'},
+  {a:'c-technique', b:'p-charente-si', n:1, t:'exercice'},
+  {a:'c-technique', b:'p-drsm', n:2, t:'exercice'},
+  {a:'c-technique', b:'p-cpam92', n:2, t:'exercice'},
+  {a:'c-data', b:'p-charente-si', n:1, t:'exercice'},
+  {a:'c-data', b:'f-msic', n:2, t:'formation'},
+  {a:'c-droit-social', b:'f-dtse', n:1, t:'formation'},
+  {a:'f-memoire', b:'pub-communs', n:1, t:'filiation'},
+  {a:'f-memoire', b:'c-data', n:2, t:'filiation'}
+];
+
+const MOTS = {creation:'né à', reemploi:'repris à', exercice:'exercée à', formation:'nourrie par', filiation:'prolongé par'};
+const PAR_ID = {};
+NOEUDS.forEach(n => { n.x += DX; n.r = n.r || (n.type === 'sous' ? 6.5 : 26); n.bx = n.x; n.by = n.y; PAR_ID[n.id] = n; });
+
+const ARETES = [];
+NOEUDS.forEach(n => {
+  if (n.type === 'majeur') ARETES.push({a:'profil', b:n.id, etape:n.etape, rang:'dorsale'});
+  if (n.type === 'sous') ARETES.push({a:n.parent, b:n.id, etape:n.etape, rang:'rameau'});
+});
+
+const VOISINS = {};
+NOEUDS.forEach(n => VOISINS[n.id] = new Set());
+ARETES.forEach(e => { VOISINS[e.a].add(e.b); VOISINS[e.b].add(e.a); });
+TRANSVERSALES.forEach(e => { VOISINS[e.a].add(e.b); VOISINS[e.b].add(e.a); });
+
+const svg = document.getElementById('scene');
+const etat = document.getElementById('etat');
+const NS = 'http://www.w3.org/2000/svg';
+const el = (nom, attrs) => { const e = document.createElementNS(NS, nom); for (const k in attrs) e.setAttribute(k, attrs[k]); return e; };
+const gAretes = el('g', {}), gTrans = el('g', {}), gNoeuds = el('g', {});
+svg.append(gAretes, gTrans, gNoeuds);
+svg.classList.add('voile');
+
+ARETES.forEach(e => { e.dom = el('line', {class:'arete ' + e.rang + ' cache'}); gAretes.appendChild(e.dom); });
+TRANSVERSALES.forEach((e, i) => {
+  e.titre = PAR_ID[e.a].etiq.join(' ') + ' — ' + MOTS[e.t] + ' — ' + PAR_ID[e.b].etiq.join(' ');
+  e.dom = el('path', {class:'transversale niveau' + e.n + ' cache', 'data-i':i});
+  const t = el('title'); t.textContent = e.titre; e.dom.appendChild(t);
+  gTrans.appendChild(e.dom);
+});
+
+function placerEtiquette(n) {
+  const ancre = n.type === 'sous' ? PAR_ID[n.parent] : (n.type === 'majeur' ? PAR_ID.profil : null);
+  let dx = 0, dy = 1;
+  if (ancre) { dx = n.bx - ancre.bx; dy = n.by - ancre.by; }
+  const largeur = Math.max(...n.etiq.map(t => t.length)) * 5.9;
+  const lignes = n.etiq.length;
+  let x, y, ancrage;
+  if (Math.abs(dx) > Math.abs(dy) * 1.15) {
+    ancrage = dx > 0 ? 'start' : 'end';
+    x = n.bx + (dx > 0 ? n.r + 11 : -(n.r + 11));
+    y = n.by + 4 - (lignes - 1) * 6;
+  } else {
+    ancrage = 'middle';
+    x = n.bx;
+    y = dy > 0 ? n.by + n.r + 17 : n.by - n.r - 11 - (lignes - 1) * 13;
+  }
+  if (ancrage === 'start' && x + largeur > 1420) { ancrage = 'end'; x = n.bx - n.r - 11; }
+  if (ancrage === 'end' && x - largeur < 20) { ancrage = 'start'; x = n.bx + n.r + 11; }
+  return {x, y, ancrage};
+}
+
+NOEUDS.forEach(n => {
+  const g = el('g', {class:'noeud cache' + (n.type === 'majeur' ? ' cliquable' : ''), 'data-id':n.id});
+  const classeDisque = n.type === 'hub' ? 'disque-hub' : n.type === 'majeur' ? 'disque-majeur' : 'disque-sous';
+  if (n.type !== 'sous') {
+    const bague = el('g', {class:'bague'});
+    bague.appendChild(el('circle', {class:'anneau', r:n.r + 7}));
+    for (let a = 45; a < 360; a += 90) {
+      const rad = a * Math.PI / 180, ci = Math.cos(rad), si = Math.sin(rad);
+      bague.appendChild(el('line', {class:'encoche', x1:ci * (n.r + 8.5), y1:si * (n.r + 8.5), x2:ci * (n.r + 12), y2:si * (n.r + 12)}));
+    }
+    g.appendChild(bague);
+  }
+  g.appendChild(el('circle', {class:'ombre', r:n.r, cy:2.5}));
+  g.appendChild(el('circle', {class:classeDisque, r:n.r}));
+  g.appendChild(el('path', {class:'relief', d:'M' + (-n.r + 1) + ' -1 A ' + (n.r - 1) + ' ' + (n.r - 1) + ' 0 0 1 ' + (n.r - 1) + ' -1'}));
+  if (n.icone) {
+    const gi = el('g', {class:'icone' + (n.type === 'hub' ? ' icone-hub' : ''), transform:'translate(-10 -10)'});
+    gi.innerHTML = ICONES[n.icone];
+    g.appendChild(gi);
+  }
+  const pos = placerEtiquette(n);
+  const txt = el('text', {class:n.type === 'sous' ? 'etiq-sous' : 'etiq-majeur', 'text-anchor':pos.ancrage, y:pos.y - n.by});
+  n.etiq.forEach((ligne, i) => {
+    const ts = el('tspan', {x:pos.x - n.bx, dy:i === 0 ? 0 : 13});
+    ts.textContent = ligne;
+    txt.appendChild(ts);
+  });
+  g.appendChild(txt);
+  if (n.type === 'majeur') { g.setAttribute('tabindex', '0'); g.setAttribute('role', 'link'); g.setAttribute('aria-label', n.etiq[0]); }
+  n.dom = g; n.domTexte = txt; n.pos = pos;
+  gNoeuds.appendChild(g);
+});
+
+const HUB = PAR_ID.profil;
+function dessiner() {
+  NOEUDS.forEach(n => n.dom.setAttribute('transform', 'translate(' + n.x + ' ' + n.y + ')'));
+  ARETES.forEach(e => {
+    const a = PAR_ID[e.a], b = PAR_ID[e.b];
+    const dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy) || 1;
+    const ux = dx / d, uy = dy / d;
+    e.dom.setAttribute('x1', a.x + ux * a.r); e.dom.setAttribute('y1', a.y + uy * a.r);
+    e.dom.setAttribute('x2', b.x - ux * b.r); e.dom.setAttribute('y2', b.y - uy * b.r);
+  });
+  TRANSVERSALES.forEach(e => {
+    const a = PAR_ID[e.a], b = PAR_ID[e.b];
+    const dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy) || 1;
+    const ux = dx / d, uy = dy / d;
+    const x1 = a.x + ux * a.r, y1 = a.y + uy * a.r, x2 = b.x - ux * b.r, y2 = b.y - uy * b.r;
+    const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+    const sens = (-uy * (mx - HUB.x) + ux * (my - HUB.y)) >= 0 ? 1 : -1;
+    const cx = mx - uy * d * .13 * sens, cy = my + ux * d * .13 * sens;
+    e.dom.setAttribute('d', 'M' + x1 + ' ' + y1 + ' Q' + cx + ' ' + cy + ' ' + x2 + ' ' + y2);
+  });
+}
+dessiner();
+
+const DEPART = 1450;
+const RETARDS = [0, 380, 1030, 1650, 2150, 2560, 2900, 3220].map(v => v + DEPART);
+const SEQ = [...document.querySelectorAll('.sq')];
+const minuteurs = [];
+function jouer() {
+  minuteurs.forEach(clearTimeout); minuteurs.length = 0;
+  etat.textContent = '';
+  SEQ.forEach(e => e.classList.add('cache'));
+  svg.classList.remove('moment', 'fondu');
+  const tout = [...NOEUDS.map(n => n.dom), ...ARETES.map(e => e.dom), ...TRANSVERSALES.map(e => e.dom)];
+  tout.forEach(d => d.classList.add('cache'));
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { tout.forEach(d => d.classList.remove('cache')); SEQ.forEach(e => e.classList.remove('cache')); return; }
+  const paraitre = (dom, t) => minuteurs.push(setTimeout(() => dom.classList.remove('cache'), t));
+  SEQ.forEach(e => paraitre(e, +e.dataset.seq * 200));
+  NOEUDS.forEach(n => {
+    const rang = NOEUDS.filter(m => m.etape === n.etape).indexOf(n);
+    paraitre(n.dom, RETARDS[n.etape] + rang * 75);
+  });
+  ARETES.forEach(e => {
+    const cible = PAR_ID[e.b];
+    const rang = NOEUDS.filter(m => m.etape === cible.etape).indexOf(cible);
+    paraitre(e.dom, RETARDS[cible.etape] + rang * 75 + 60);
+  });
+  TRANSVERSALES.forEach((e, i) => paraitre(e.dom, RETARDS[7] + i * 42));
+  const finTrame = RETARDS[7] + TRANSVERSALES.length * 42 + 200;
+  minuteurs.push(setTimeout(() => svg.classList.add('moment'), RETARDS[7] + 300));
+  minuteurs.push(setTimeout(() => { svg.classList.add('fondu'); svg.classList.remove('moment'); }, finTrame + 900));
+  minuteurs.push(setTimeout(() => svg.classList.remove('fondu'), finTrame + 2700));
+}
+function tout_montrer() {
+  minuteurs.forEach(clearTimeout); minuteurs.length = 0;
+  SEQ.forEach(e => e.classList.remove('cache'));
+  NOEUDS.forEach(n => n.dom.classList.remove('cache'));
+  ARETES.forEach(e => e.dom.classList.remove('cache'));
+  TRANSVERSALES.forEach(e => e.dom.classList.remove('cache'));
+  svg.classList.remove('moment', 'fondu');
+}
+jouer();
+document.getElementById('rejouer').addEventListener('click', ev => { ev.stopPropagation(); jouer(); });
+document.addEventListener('pointerdown', ev => { if (minuteurs.length && !ev.target.closest('#rejouer')) tout_montrer(); }, true);
+
+function surligner(id) {
+  if (!id) {
+    svg.classList.remove('actif');
+    document.querySelectorAll('.proche').forEach(e => e.classList.remove('proche'));
+    etat.textContent = '';
+    return;
+  }
+  const proches = new Set([id, ...VOISINS[id]]);
+  NOEUDS.forEach(n => n.dom.classList.toggle('proche', proches.has(n.id)));
+  ARETES.forEach(e => e.dom.classList.toggle('proche', proches.has(e.a) && proches.has(e.b)));
+  TRANSVERSALES.forEach(e => e.dom.classList.toggle('proche', e.a === id || e.b === id));
+  svg.classList.add('actif');
+  const n = TRANSVERSALES.filter(e => e.a === id || e.b === id).length;
+  etat.textContent = PAR_ID[id].etiq.join(' · ') + (n ? '  —  ' + n + ' lien' + (n > 1 ? 's' : '') + ' transversal' + (n > 1 ? 'aux' : '') : '');
+}
+
+gTrans.addEventListener('pointerover', ev => {
+  const p = ev.target.closest('.transversale'); if (!p || saisi || ouvert) return;
+  const e = TRANSVERSALES[+p.dataset.i];
+  const proches = new Set([e.a, e.b]);
+  NOEUDS.forEach(n => n.dom.classList.toggle('proche', proches.has(n.id)));
+  ARETES.forEach(x => x.dom.classList.remove('proche'));
+  TRANSVERSALES.forEach(x => x.dom.classList.toggle('proche', x === e));
+  svg.classList.add('actif');
+  etat.textContent = e.titre;
+});
+gTrans.addEventListener('pointerout', ev => { if (!saisi) surligner(null); });
+gNoeuds.addEventListener('pointerover', ev => { const g = ev.target.closest('.noeud'); if (g && !saisi && !ouvert) surligner(g.dataset.id); });
+gNoeuds.addEventListener('pointerout', ev => { const g = ev.target.closest('.noeud'); if (g && !saisi) surligner(null); });
+
+let saisi = null, attente = null, depart = null, retour = null;
+const point = ev => { const p = svg.createSVGPoint(); p.x = ev.clientX; p.y = ev.clientY; return p.matrixTransform(svg.getScreenCTM().inverse()); };
+
+gNoeuds.addEventListener('pointerdown', ev => {
+  const g = ev.target.closest('.noeud'); if (!g || ouvert) return;
+  const n = PAR_ID[g.dataset.id];
+  depart = point(ev);
+  attente = setTimeout(() => {
+    saisi = n; attente = null;
+    if (retour) { cancelAnimationFrame(retour); retour = null; }
+    surligner(null);
+    g.classList.add('saisi');
+    gNoeuds.setPointerCapture(ev.pointerId);
+  }, 220);
+});
+
+gNoeuds.addEventListener('pointermove', ev => {
+  if (!saisi) return;
+  const p = point(ev);
+  const dx = p.x - depart.x, dy = p.y - depart.y;
+  saisi.x = saisi.bx + dx; saisi.y = saisi.by + dy;
+  const premiers = VOISINS[saisi.id];
+  NOEUDS.forEach(n => {
+    if (n === saisi) return;
+    let k = 0;
+    if (premiers.has(n.id)) k = .34;
+    else { for (const v of premiers) if (VOISINS[v].has(n.id)) { k = .11; break; } }
+    n.x = n.bx + dx * k; n.y = n.by + dy * k;
+  });
+  dessiner();
+});
+
+function relacher(ev) {
+  if (attente) {
+    clearTimeout(attente); attente = null;
+    const g = ev.target.closest('.noeud');
+    if (g && PAR_ID[g.dataset.id].type === 'majeur') ouvrirNoeud(g.dataset.id);
+    return;
+  }
+  if (!saisi) return;
+  saisi.dom.classList.remove('saisi');
+  saisi = null;
+  const t0 = performance.now(), positions = NOEUDS.map(n => ({n, x:n.x, y:n.y}));
+  const pas = t => {
+    const k = Math.min(1, (t - t0) / 700), e = 1 - Math.pow(1 - k, 3);
+    positions.forEach(p => { p.n.x = p.x + (p.n.bx - p.x) * e; p.n.y = p.y + (p.n.by - p.y) * e; });
+    dessiner();
+    retour = k < 1 ? requestAnimationFrame(pas) : null;
+  };
+  retour = requestAnimationFrame(pas);
+}
+gNoeuds.addEventListener('pointerup', relacher);
+gNoeuds.addEventListener('pointercancel', relacher);
+
+const CONTENU = {
+  parcours: {chapeau:"Dix-huit ans de management, dont douze en opérations métier avant la bascule vers la direction des systèmes d'information.", sections:{
+    'p-cpam92':{titre:'Responsable du département informatique', meta:'CPAM des Hauts-de-Seine · 2026 → · 45 collaborateurs, 1 400 postes', points:['Direction de quatre services : développement, support, infrastructure, correspondants fonctionnels et data.','Trois outils internes livrés en six mois, dont le pilotage du helpdesk.','Backlog du helpdesk ramené de 775 à moins de 80 tickets en trois mois.','Gouvernance IA à trois niveaux et roadmap DSI 2026.']},
+    'p-drsm':{titre:'Responsable du service informatique', meta:'DRSM Île-de-France, puis CPAM de Paris · 2024 – 2025 · 24 collaborateurs', points:['Pilotage IT de la fusion régionale : 1 155 postes migrés, huit CPAM coordonnées, aucune interruption de service.','Mandat conduit en contexte d’absorption, avec maintien du niveau de service.','81 % de résolution en niveau 1 sur 8 500 tickets par an.']},
+    'p-charente-si':{titre:'Responsable informatique et pôle appui au pilotage', meta:'CPAM de la Charente · 2020 – 2024 · 10 collaborateurs, 400 postes', points:['Conception et déploiement de depotdoc.fr, adopté par 30 % du réseau national sans obligation d’usage.','Comptes rendus de conseil d’administration assistés par IA : délai ramené de trois semaines à trois jours.','Stratégie open source : déploiement de GLPI et Axelor.']},
+    'p-charente-agence':{titre:'Responsable d’agence', meta:'CPAM de la Charente · 2017 – 2020 · 25 collaborateurs', points:['Pôle régional traitant 1,3 million de feuilles de soins par an.','Tableau de bord individuel diffusé à chaque collaborateur et à l’encadrement.','Homogénéisation des pratiques sur l’ex-région Poitou-Charentes.']},
+    'p-carsat':{titre:'Responsable des agences d’Eure-et-Loir', meta:'CARSAT Centre Val de Loire · 2015 – 2017 · 20 collaborateurs', points:['Passage du guichet au rendez-vous, dix pour cent de productivité gagnés.','Outil de suivi qualité de la liquidation retraite déployé sur onze agences.','Guide du manager des structures retraite diffusé à tout l’organisme.']},
+    'p-rsi':{titre:'Manager du pôle logistique', meta:'RSI Poitou-Charentes · 2008 – 2015 · 5 collaborateurs', points:['Premiers outils d’évaluation de l’activité : productivité rapportée aux ressources.','Benchmarking avec des services équivalents.','Objectivation des situations comme préalable aux décisions d’organisation.']}
+  }},
+  realisations: {chapeau:"Des outils conçus, mis en production et repris ailleurs. Chacun est né dans un poste précis.", sections:{
+    'r-depotdoc':{titre:'depotdoc.fr', meta:'Né à la CPAM de la Charente', points:['Dépôt documentaire dématérialisé, 30 000 utilisations par mois.','Flux papier réduits de moitié.','Adopté par 30 % du réseau national sans obligation d’usage.']},
+    'r-cr-ca':{titre:'Comptes rendus de conseil d’administration', meta:'Né à la CPAM de la Charente', points:['Rédaction assistée par IA, institutionnalisée après validation de la direction.','Délai ramené de trois semaines à trois jours, premier jet en trois heures.','POC fondateur de la stratégie IA déployée ensuite.']},
+    'r-campagnes':{titre:'Gestion des campagnes de déploiement IT', meta:'Né à la DRSM, repris à la CPAM 92', points:['Éprouvé lors de la migration régionale de 1 155 postes.','Repris et reconstruit à la CPAM des Hauts-de-Seine.']},
+    'r-helpdesk':{titre:'Pilotage du helpdesk', meta:'Né à la CPAM des Hauts-de-Seine', points:['Lecture directe des indicateurs par les managers de proximité.','Prise en charge, résolution et taux de niveau 1.']},
+    'r-ia-interne':{titre:'IA interne', meta:'Née à la CPAM de la Charente', points:['Mise en œuvre d’une IA interne en RAG sur base de données graphe.','Intégration de l’assistance IA au développement dans l’équipe.']},
+    'r-instruments':{titre:'Instruments de pilotage', meta:'Nés au RSI, repris à chaque poste', points:['Premiers outils d’évaluation de l’activité en logistique.','Suivi qualité de la liquidation retraite sur onze agences.','Tableaux de bord individuels en agence, puis outils de pilotage IT.']}
+  }},
+  competences: {chapeau:"Chaque compétence est rattachée aux postes où elle s’est construite puis exercée.", sections:{
+    'c-gouvernance':{titre:'Direction et gouvernance', meta:'Exercée à la CPAM 92 et à la DRSM · nourrie par le Master MSIC', points:['Direction de programme, management de transition, vision produit.','Gouvernance SI, comitologie, roadmap, pilotage budgétaire.','Conduite du changement en contexte de fusion.']},
+    'c-pilotage':{titre:'Pilotage et mesure', meta:'Né au RSI · exercée à chaque poste', points:['KPI, tableaux de bord, management visuel du macro au micro.','Adéquation charge et ressources, benchmarking.','Objectivation des données face aux contestations.']},
+    'c-ia':{titre:'Intelligence artificielle', meta:'Née à la CPAM de la Charente · exercée à la DRSM et à la CPAM 92', points:['Stratégie IA et gouvernance des usages à plusieurs niveaux.','Acculturation et formation par cas d’usage sur trois organismes.','RAG, LLM, prompt engineering, développement assisté par IA.']},
+    'c-technique':{titre:'Architecture et développement', meta:'Exercée sur les trois postes informatiques', points:['VMware, Proxmox, Linux, virtualisation, clusters, haute disponibilité.','Symfony, PHP, Go, TypeScript, React, Python, SQL, CI/CD.','Pratiques ITIL 4, helpdesk multiniveaux, catalogue de services.']},
+    'c-data':{titre:'Data et open source', meta:'Exercée à la CPAM de la Charente · nourrie par le Master MSIC', points:['Business intelligence, gouvernance des données, cartographie applicative.','Bases de données graphe.','Stratégie open source, GLPI, Axelor, communs numériques.']},
+    'c-droit-social':{titre:'Droit social', meta:'Nourrie par le Master DTSE', points:['Droit et sciences du travail européen.','Dialogue social en contexte de réorganisation.']}
+  }},
+  formation: {chapeau:"Deux masters, et un mémoire de recherche qui prolonge le second dans une pratique éditoriale.", sections:{
+    'f-msic':{titre:'Master 2 Executive MSIC', meta:'Université Paris 1 Panthéon-Sorbonne · 2024 – 2025', points:['Management des systèmes d’information et des connaissances.']},
+    'f-memoire':{titre:'Mémoire de recherche', meta:'2025', points:['Les facteurs d’institutionnalisation des communs numériques au sein de l’administration.','Prolongé par le blog communs-numeriques.fr.']},
+    'f-dtse':{titre:'Master 2 DTSE', meta:'Université Toulouse 1 Capitole · 2013 – 2014', points:['Droit et sciences du travail européen.']}
+  }},
+  publications: {chapeau:"Deux espaces d’écriture, l’un sur les communs numériques, l’autre sur la transformation des organisations.", sections:{
+    'pub-communs':{titre:'communs-numeriques.fr', meta:'Blog', points:['Communs numériques, souveraineté, administration.','Diffusion du mémoire de recherche.']},
+    'pub-elegartech':{titre:'Newsletter ElegArtech', meta:'elegartech.substack.com', points:['Transformation numérique, IA en organisation, souveraineté.']}
+  }},
+  contact: {chapeau:"", sections:{
+    'contact-mail':{titre:'contact@alexandre-berge.fr', meta:'Courriel', points:[]},
+    'contact-linkedin':{titre:'linkedin.com/in/bergealexandre', meta:'LinkedIn', points:[]},
+    'contact-cv':{titre:'Télécharger le CV', meta:'PDF', points:['Paris 13e · mobilité Nouvelle-Aquitaine']}
+  }}
+};
+
+
+const DETAIL = {
+  'p-cpam92':{titre:'Responsable du département informatique', meta:'CPAM des Hauts-de-Seine · janvier 2026 → · 45 collaborateurs · 4 services · 1 400 postes',
+    contexte:"Direction d’un département de quarante-cinq personnes réparties en quatre services, sur un parc de mille quatre cents postes. Prise de fonction marquée par la structuration de la gouvernance et par l’accélération de la production applicative.",
+    blocs:[
+      {titre:'Direction et gouvernance', points:['Direction de quatre services : développement, support, infrastructure, correspondants fonctionnels et data décisionnelle.','Mise en place de la comitologie et élaboration de la roadmap DSI 2026.','Création d’un référentiel applicatif centralisé, avec cartographie et circuits de validation.']},
+      {titre:'Production applicative', points:['Pilotage du cycle de vie d’un portefeuille de plus de trente applications locales, et contribution aux programmes nationaux.','Trois outils internes livrés en production en six mois, dont le pilotage du helpdesk qui donne aux managers de proximité une lecture directe de leurs indicateurs.','Refonte complète de deux outils issus du poste précédent : les premières versions ont servi d’expression de besoin consolidée, puis la stack a été reconstruite sur les plans technique, économique et sécurité.','Business analyse consolidée et développement assisté par IA.']},
+      {titre:'Stratégie et acculturation IA', points:['Définition de la stratégie IA du département, avec cadrage des cas d’usage métiers et mutualisation inter-organismes.','Gouvernance à trois niveaux : comité stratégique, comité de priorisation décisionnaire, réseau de référents IA en service métier.','Ateliers d’acculturation auprès d’une cinquantaine de collaborateurs sur cinq services, avec effet observé sur la proposition de projets et le prototypage.','Projet de chatbot d’assistance documentaire en RAG, avancé et non finalisé.']},
+      {titre:'Support et infrastructure', points:['Refonte de l’organisation du helpdesk : backlog ramené de 775 tickets à moins de 80 en trois mois.','Architecture de quarante serveurs physiques et deux cent cinquante serveurs virtuels, en haute disponibilité, supervisée par PRTG.','Structuration du knowledge management : convergence des bases documentaires et capitalisation des savoirs critiques.']}
+    ]},
+  'p-drsm':{titre:'Responsable du service informatique', meta:'DRSM Île-de-France, puis CPAM de Paris · novembre 2024 – décembre 2025 · 24 collaborateurs · budget 800 K€',
+    contexte:"Mandat conduit en contexte d’absorption. La disparition des DRSM était actée publiquement dès la prise de poste, ce qui a fait de l’accompagnement des équipes une composante permanente du pilotage, au même titre que la migration technique.",
+    blocs:[
+      {titre:'Fusion régionale', points:['Pilotage IT de la fusion de la DRSM vers la CPAM : migration de 1 155 postes, coordination de huit CPAM, aucune interruption de service.','Accompagnement et réassurance des équipes sur toute la durée, avec projection sur leurs activités futures et maintien du niveau de service.']},
+      {titre:'Direction et portefeuille', points:['Direction de deux services : développement et infrastructure d’une part, support d’autre part.','Pilotage d’un portefeuille de quarante applications sur stack Symfony.','Helpdesk multiniveaux avec SLA contractualisés.']},
+      {titre:'Outils et pilotage', points:['Développement et mise en production de deux outils internes, repris ensuite à la CPAM des Hauts-de-Seine : la gestion des campagnes de déploiement IT, éprouvée lors de la migration régionale, et la gestion de projet et de planification.','Roadmap SI, nouvelle comitologie, qualification des KPI et création des outils de pilotage.','Ateliers d’acculturation IA auprès d’une quinzaine de collaborateurs de tous niveaux.']},
+      {titre:'Résultats et infrastructure', points:['81 % de résolution en niveau 1, délais moyens améliorés de 20 %, sur 8 500 tickets par an.','Vingt-quatre sites, cinquante-cinq machines virtuelles, six clusters, VMware, supervision Centreon, sauvegarde VEEAM.','Catalogue de services ITIL, cartographies applicatives et cartographie des compétences via base de données graphe.']}
+    ]},
+  'p-charente-si':{titre:'Responsable informatique et pôle appui au pilotage', meta:'CPAM de la Charente · septembre 2020 – octobre 2024 · 10 collaborateurs · 400 postes · 40 serveurs',
+    contexte:"Poste de bascule entre les fonctions métier et la direction des systèmes d’information. C’est là que sont nés depotdoc.fr, l’usage institutionnalisé de l’IA générative et la stratégie open source.",
+    blocs:[
+      {titre:'depotdoc.fr', points:['Conception et déploiement d’un dépôt documentaire dématérialisé.','Trente mille utilisations par mois et réduction de moitié des flux papier.','Adoption par 30 % du réseau national, sans aucune obligation d’usage.']},
+      {titre:'Innovation IA', points:['Rédaction des comptes rendus de conseil d’administration assistée par IA, institutionnalisée après validation de la direction : délai ramené de trois semaines à trois jours, premier jet en trois heures.','Ce POC est devenu le fondement de la stratégie IA déployée sur les postes suivants.','Mise en œuvre d’une IA interne en RAG sur base de données graphe.','Acculturation d’une trentaine de cadres, en groupes de dix au maximum, sur des cas d’usage tertiaires directs.','Intégration de l’assistance IA au développement dans l’équipe.']},
+      {titre:'Open source et données', points:['Déploiement de GLPI et d’Axelor, et réduction de la dépendance aux éditeurs.','Business intelligence, gouvernance des données et analyse des flux métiers.','Quarante serveurs Linux et Windows, migration vers AlmaLinux 9, haute disponibilité.']}
+    ]},
+  'p-charente-agence':{titre:'Responsable d’agence', meta:'CPAM de la Charente · 2017 – 2020 · 25 collaborateurs',
+    contexte:"Pilotage d’un pôle régional à fort volume, où l’instrument de mesure devient l’outil de management principal.",
+    blocs:[
+      {titre:'Périmètre', points:['Pôle régional traitant 1,3 million de feuilles de soins par an.','Service départemental des réclamations traitant seize mille sollicitations par an.']},
+      {titre:'Pilotage', points:['Conception d’outils de pilotage de la productivité et de la production à l’échelle des agences.','Tableau de bord individuel par collaborateur, diffusé à l’intéressé et à l’encadrement : management visuel du macro au micro, réactions correctives à l’initiative des agents, objectivation des données face aux contestations.','Homogénéisation des pratiques de traitement en entrée sur l’ex-région Poitou-Charentes, avec une réduction du flux global estimée entre trois et cinq pour cent.']}
+    ]},
+  'p-carsat':{titre:'Responsable des agences d’Eure-et-Loir', meta:'CARSAT Centre Val de Loire · 2015 – 2017 · 20 collaborateurs · multi-sites',
+    contexte:"Transformation du modèle d’accueil et diffusion des instruments de mesure à l’échelle d’un réseau d’agences retraite.",
+    blocs:[
+      {titre:'Transformation', points:['Passage du guichet au rendez-vous, avec un gain de dix pour cent de productivité.','Management multi-sites et conduite du changement auprès des équipes de terrain.']},
+      {titre:'Outils et diffusion', points:['Conception et déploiement d’un outil de suivi qualité de la liquidation retraite, sur onze agences et environ cent quatre-vingts collaborateurs.','Comitologie de pilotage de l’activité : adéquation charge et ressources, productivité, benchmarking.','Rédaction d’un guide du manager des structures retraite, déployé sur l’ensemble de l’organisme.']}
+    ]},
+  'p-rsi':{titre:'Manager du pôle logistique', meta:'RSI Poitou-Charentes · 2008 – 2015 · 5 collaborateurs',
+    contexte:"Premier poste de management, et origine du fil conducteur : mesurer une activité avant de décider de son organisation.",
+    blocs:[
+      {titre:'Fondations', points:['Optimisation des processus logistiques et démarche d’amélioration continue.','Construction des premiers outils d’évaluation de l’activité : productivité rapportée aux ressources disponibles, benchmarking avec des services équivalents.','Objectivation des situations comme préalable aux décisions d’organisation, en substitution des appréciations a priori.']}
+    ]}
+};
+
+let detailOuvert = null;
+
+function positionsColonne(id) {
+  const enfants = NOEUDS.filter(n => n.parent === id);
+  const cibles = {};
+  cibles[id] = {x:150, y:120};
+  const pasY = enfants.length > 5 ? 104 : 120;
+  const debutY = Math.max(300, 420 - (enfants.length - 1) * pasY / 2);
+  enfants.forEach((n, i) => cibles[n.id] = {x:150, y:debutY + i * pasY});
+  NOEUDS.forEach(n => { if (!cibles[n.id]) cibles[n.id] = {x:n.x, y:n.y}; });
+  return cibles;
+}
+
+function ouvrirDetail(cle) {
+  const d = DETAIL[cle]; if (!d) return;
+  detailOuvert = cle;
+  document.body.classList.add('niveau3');
+  const majeur = PAR_ID[ouvert], enfants = NOEUDS.filter(n => n.parent === ouvert);
+  majeur.dom.classList.add('muet');
+  enfants.forEach(n => { n.dom.classList.add('muet'); n.dom.classList.toggle('actif', n.id === cle); });
+  const cibles = {};
+  cibles[ouvert] = {x:62, y:88};
+  enfants.forEach((n, i) => cibles[n.id] = {x:62, y:190 + i * 74});
+  NOEUDS.forEach(n => { if (!cibles[n.id]) cibles[n.id] = {x:n.x, y:n.y}; });
+  calerPanneau(150);
+  suivrePanneau(1200);
+  animer(cibles, 750);
+  let html = '<h2>' + d.titre + '</h2><p class="meta-poste">' + d.meta + '</p><p class="chapeau">' + d.contexte + '</p>';
+  d.blocs.forEach(b => {
+    html += '<div class="section"><h3>' + b.titre + '</h3><ul>' + b.points.map(x => '<li>' + x + '</li>').join('') + '</ul></div>';
+  });
+  corps.scrollTop = 0;
+  corps.innerHTML = html;
+  document.getElementById('retour').textContent = '← Retour à ' + majeur.etiq[0];
+}
+
+function fermerDetail() {
+  if (!detailOuvert) return;
+  const majeur = PAR_ID[ouvert], enfants = NOEUDS.filter(n => n.parent === ouvert);
+  document.body.classList.remove('niveau3');
+  majeur.dom.classList.remove('muet');
+  enfants.forEach(n => n.dom.classList.remove('muet', 'actif'));
+  calerPanneau(400);
+  suivrePanneau(1200);
+  animer(positionsColonne(ouvert), 700);
+  corps.scrollTop = 0;
+  corps.innerHTML = htmlNoeud(ouvert);
+  document.getElementById('retour').textContent = '← Retour au graphe';
+  detailOuvert = null;
+}
+
+const panneau = document.getElementById('panneau');
+const corps = document.getElementById('panneau-corps');
+let ouvert = null, tween = null, bordVB = 400;
+
+function calerPanneau(vbX) {
+  if (vbX !== undefined) bordVB = vbX;
+  const ctm = svg.getScreenCTM(); if (!ctm) return;
+  const pt = svg.createSVGPoint(); pt.x = bordVB; pt.y = 0;
+  const x = pt.matrixTransform(ctm).x - svg.parentNode.getBoundingClientRect().left;
+  panneau.style.left = Math.max(0, x) + 'px';
+}
+window.addEventListener('resize', () => { if (ouvert) calerPanneau(); });
+
+let suivi = null;
+function suivrePanneau(duree) {
+  if (suivi) cancelAnimationFrame(suivi);
+  const t0 = performance.now();
+  const pas = t => {
+    calerPanneau();
+    suivi = (t - t0) < duree ? requestAnimationFrame(pas) : null;
+  };
+  suivi = requestAnimationFrame(pas);
+}
+
+function poserEtiquette(n, ancrage, dx, dy) {
+  const t = n.domTexte, lignes = n.etiq.length;
+  t.setAttribute('text-anchor', ancrage);
+  t.setAttribute('y', dy - (lignes - 1) * 6);
+  [...t.children].forEach(ts => ts.setAttribute('x', dx));
+}
+
+function animer(cibles, duree, apres) {
+  if (tween) cancelAnimationFrame(tween);
+  const t0 = performance.now(), depart = NOEUDS.map(n => ({n, x:n.x, y:n.y}));
+  const pas = t => {
+    const k = Math.min(1, (t - t0) / duree), e = 1 - Math.pow(1 - k, 3);
+    depart.forEach(d => {
+      const c = cibles[d.n.id]; if (!c) return;
+      d.n.x = d.x + (c.x - d.x) * e; d.n.y = d.y + (c.y - d.y) * e;
+    });
+    dessiner();
+    if (k < 1) tween = requestAnimationFrame(pas); else { tween = null; if (apres) apres(); }
+  };
+  tween = requestAnimationFrame(pas);
+}
+
+function htmlNoeud(id) {
+  const c = CONTENU[id];
+  let html = '<h2>' + PAR_ID[id].etiq[0] + '</h2>';
+  if (c && c.chapeau) html += '<p class="chapeau">' + c.chapeau + '</p>';
+  if (c) for (const cle in c.sections) {
+    const sec = c.sections[cle];
+    const dispo = DETAIL[cle] ? ' <span class="fleche">voir le détail →</span>' : '';
+    html += '<div class="section' + (DETAIL[cle] ? ' ouvrable' : '') + '" data-cle="' + cle + '"><h3>' + sec.titre + dispo + '</h3><p class="meta">' + sec.meta + '</p>';
+    if (sec.points.length) html += '<ul>' + sec.points.map(x => '<li>' + x + '</li>').join('') + '</ul>';
+    html += '</div>';
+  }
+  return html;
+}
+
+function ouvrirNoeud(id) {
+  if (ouvert) return;
+  ouvert = id;
+  surligner(null);
+  const majeur = PAR_ID[id];
+  const enfants = NOEUDS.filter(n => n.parent === id);
+  const gardes = new Set([id, ...enfants.map(n => n.id)]);
+
+  NOEUDS.forEach(n => n.dom.classList.toggle('efface', !gardes.has(n.id)));
+  ARETES.forEach(e => e.dom.classList.toggle('efface', !(gardes.has(e.a) && gardes.has(e.b))));
+  TRANSVERSALES.forEach(e => e.dom.classList.add('efface'));
+
+  const cibles = {};
+  cibles[id] = {x:150, y:120};
+  const pasY = enfants.length > 5 ? 104 : 120;
+  const hauteur = (enfants.length - 1) * pasY;
+  const debutY = Math.max(300, 420 - hauteur / 2);
+  enfants.forEach((n, i) => cibles[n.id] = {x:150, y:debutY + i * pasY});
+  NOEUDS.forEach(n => { if (!cibles[n.id]) cibles[n.id] = {x:n.x, y:n.y}; });
+
+  poserEtiquette(majeur, 'middle', 0, majeur.r + 28);
+  enfants.forEach(n => poserEtiquette(n, 'start', n.r + 14, 4));
+
+  calerPanneau(400);
+  suivrePanneau(1000);
+  animer(cibles, 850);
+  minuteurs.push(setTimeout(() => {
+    corps.innerHTML = htmlNoeud(id);
+    panneau.hidden = false;
+    requestAnimationFrame(() => panneau.classList.add('visible'));
+  }, 380));
+}
+
+function fermerNoeud() {
+  if (!ouvert) return;
+  if (detailOuvert) fermerDetail();
+  panneau.classList.remove('visible');
+  minuteurs.push(setTimeout(() => { panneau.hidden = true; }, 500));
+  const cibles = {};
+  NOEUDS.forEach(n => cibles[n.id] = {x:n.bx, y:n.by});
+  NOEUDS.forEach(n => poserEtiquette(n, n.pos.ancrage, n.pos.x - n.bx, n.pos.y - n.by));
+  animer(cibles, 750, () => {
+    NOEUDS.forEach(n => n.dom.classList.remove('efface'));
+    ARETES.forEach(e => e.dom.classList.remove('efface'));
+    TRANSVERSALES.forEach(e => e.dom.classList.remove('efface'));
+  });
+  NOEUDS.forEach(n => n.dom.classList.remove('efface'));
+  ARETES.forEach(e => e.dom.classList.remove('efface'));
+  ouvert = null;
+}
+
+document.getElementById('retour').addEventListener('click', () => { if (detailOuvert) fermerDetail(); else fermerNoeud(); });
+document.addEventListener('keydown', ev => { if (ev.key === 'Escape') { if (detailOuvert) fermerDetail(); else fermerNoeud(); } });
+
+gNoeuds.addEventListener('click', ev => {
+  const g = ev.target.closest('.noeud'); if (!g || !ouvert) return;
+  const cle = g.dataset.id;
+  if (DETAIL[cle]) { ouvrirDetail(cle); return; }
+  const cible = corps.querySelector('[data-cle="' + cle + '"]');
+  if (!cible) return;
+  cible.scrollIntoView({behavior:'smooth', block:'start'});
+  corps.querySelectorAll('.section').forEach(x => x.classList.remove('vise'));
+  cible.classList.add('vise');
+});
+
+corps.addEventListener('click', ev => {
+  const sec = ev.target.closest('.section.ouvrable'); if (!sec) return;
+  ouvrirDetail(sec.dataset.cle);
+});
+
+document.addEventListener('keydown', ev => { if (ev.key === 'Tab') document.body.classList.add('clavier'); });
+document.addEventListener('pointerdown', () => document.body.classList.remove('clavier'), true);
+gNoeuds.addEventListener('keydown', ev => {
+  const g = ev.target.closest('.noeud');
+  if (g && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); ouvrirNoeud(g.dataset.id); }
+});
+</script>

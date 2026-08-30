@@ -1,0 +1,29 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+*~
+
+# Éditeurs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Dépendances / build
+node_modules/
+dist/
+build/
+.cache/
+
+# Environnement
+.env
+.env.local
+*.log
+
+# Document de travail maître : ne pas publier (le dépôt est servi par GitHub Pages)
+CV_Alexandre_Berge_SOCLE.docx
+*.docx
+
+# Documents de travail maîtres (CV socle) : ne pas publier
+_BASE/

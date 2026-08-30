@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /rationarium/
+Disallow: /doc/
+
+Sitemap: https://alexandre-berge.fr/sitemap.xml
