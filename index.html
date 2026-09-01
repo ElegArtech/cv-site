@@ -958,13 +958,13 @@ const NOEUDS = [
   {id:'p-rsi', type:'sous', parent:'parcours', x:175, y:410, etiq:['RSI Poitou-Charentes','Manager logistique'], long:'Manager du pôle logistique, RSI Poitou-Charentes', etape:1},
 
   {id:'realisations', type:'majeur', x:370, y:620, icone:'tools', etiq:['Réalisations'], long:'Réalisations et outils conçus', retour:'aux réalisations', etape:2},
-  {id:'r-fusion', type:'sous', parent:'realisations', x:411, y:429, etiq:['Fusion régionale','DRSM vers CPAM'], long:'Fusion régionale DRSM vers CPAM, programme national TAM', etape:2},
-  {id:'r-depotdoc', type:'sous', parent:'realisations', x:225, y:560, etiq:['depotdoc.fr'], long:'Plateforme de dépôt de documents et de formulaires, 30 000 utilisations par mois', etape:2},
-  {id:'r-cr-ca', type:'sous', parent:'realisations', x:205, y:665, etiq:['Comptes rendus de CA'], long:"Rédaction des comptes rendus de conseil d'administration assistée par IA", etape:2},
-  {id:'r-campagnes', type:'sous', parent:'realisations', x:245, y:760, etiq:['Campagnes de déploiement'], long:'Outil de gestion des campagnes de déploiement IT', etape:2},
-  {id:'r-helpdesk', type:'sous', parent:'realisations', x:360, y:800, etiq:['Pilotage helpdesk'], long:'Outil de pilotage du helpdesk pour les managers de proximité', etape:2},
-  {id:'r-ia-interne', type:'sous', parent:'realisations', x:475, y:775, etiq:['IA interne'], long:'IA interne en RAG sur base de données graphe', etape:2},
-  {id:'r-instruments', type:'sous', parent:'realisations', x:530, y:660, etiq:['Instruments de pilotage'], long:"Outils d'évaluation et tableaux de bord de l'activité métier", etape:2},
+  {id:'r-fusion', type:'sous', parent:'realisations', x:545, y:605, etiq:['Fusion régionale','DRSM vers CPAM'], long:'Fusion régionale DRSM vers CPAM, programme national TAM', etape:2},
+  {id:'r-depotdoc', type:'sous', parent:'realisations', x:221, y:571, etiq:['depotdoc.fr'], long:'Plateforme de dépôt de documents et de formulaires, 30 000 utilisations par mois', etape:2},
+  {id:'r-cr-ca', type:'sous', parent:'realisations', x:205, y:667, etiq:['Comptes rendus de CA'], long:"Rédaction des comptes rendus de conseil d'administration assistée par IA", etape:2},
+  {id:'r-campagnes', type:'sous', parent:'realisations', x:248, y:763, etiq:['Campagnes de déploiement'], long:'Outil de gestion des campagnes de déploiement IT', etape:2},
+  {id:'r-helpdesk', type:'sous', parent:'realisations', x:350, y:799, etiq:['Pilotage helpdesk'], long:'Outil de pilotage du helpdesk pour les managers de proximité', etape:2},
+  {id:'r-ia-interne', type:'sous', parent:'realisations', x:456, y:786, etiq:['IA interne'], long:'IA interne en RAG sur base de données graphe', etape:2},
+  {id:'r-instruments', type:'sous', parent:'realisations', x:515, y:700, etiq:['Instruments de pilotage'], long:"Outils d'évaluation et tableaux de bord de l'activité métier", etape:2},
 
   /* Grappe recomposée : sept sous-nœuds, étiquettes sur deux lignes.
      L'étiquette du majeur est forcée à gauche, sinon elle se pose sur ses propres rameaux. */
@@ -1002,6 +1002,10 @@ const NOEUDS = [
 /* n : 1 = lien de création, 2 = lien d'exercice, de réemploi ou de formation */
 const TRANSVERSALES = [
   {a:'r-fusion', b:'p-drsm', n:1, t:'creation'},
+  {a:'r-campagnes', b:'r-fusion', n:2, t:'exercice', mot:'éprouvé lors de'},
+  {a:'c-gouvernance', b:'r-fusion', n:2, t:'exercice', mot:'exercée sur'},
+  {a:'c-technique', b:'r-fusion', n:2, t:'exercice', mot:'exercée sur'},
+  {a:'c-support', b:'r-fusion', n:2, t:'exercice', mot:'exercé sur'},
   {a:'r-depotdoc', b:'p-charente-si', n:1, t:'creation'},
   {a:'r-cr-ca', b:'p-charente-si', n:1, t:'creation'},
   {a:'r-ia-interne', b:'p-charente-si', n:1, t:'creation'},
@@ -1051,6 +1055,7 @@ const TRANSVERSALES = [
   {a:'c-gouvernance', b:'f-dtse', n:2, t:'formation'},
   {a:'f-memoire', b:'f-msic', n:1, t:'issu'},
   {a:'f-memoire', b:'pub-communs', n:1, t:'filiation'},
+  {a:'c-km', b:'pub-elegartech', n:2, t:'filiation'},
   {a:'f-memoire', b:'c-opensource', n:2, t:'filiation'},
   {a:'dev-rationarium', b:'c-pilotage', n:1, t:'creation'},
   {a:'dev-rationarium', b:'c-technique', n:2, t:'exercice'},
