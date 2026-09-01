@@ -424,28 +424,34 @@ html.avant .sq{opacity:0;transform:translateY(9px)}
         <h3>Responsable informatique et pôle appui au pilotage</h3>
         <p class="meta">CPAM de la Charente · 2020 – 2024 · 10 collaborateurs en direct · 400 postes</p>
         <ul class="resume">
-          <li>Conception et déploiement de depotdoc.fr, adopté par 30 % du réseau national sans obligation d'usage.</li>
+          <li>Conception et déploiement de depotdoc.fr, utilisé par plus de 20 % du réseau des CPAM sans obligation d'usage.</li>
           <li>Comptes rendus de conseil d'administration assistés par IA : délai ramené de trois semaines à trois jours.</li>
           <li>Stratégie open source : déploiement de GLPI et Axelor.</li>
         </ul>
         <div class="detail">
-          <p class="contexte">Poste de bascule entre les fonctions métier et la direction des systèmes d'information. C'est là que sont nés depotdoc.fr, l'usage institutionnalisé de l'IA générative et la stratégie open source. Équipe de dix personnes encadrées en direct, structurée autour d'un rôle de lead technique sans responsabilité hiérarchique.</p>
+          <p class="contexte">Poste de bascule entre les fonctions métier et la direction des systèmes d'information, à double périmètre : le service informatique et le pôle Appui au pilotage. C'est là que sont nés depotdoc.fr, l'usage institutionnalisé de l'IA générative et la stratégie open source. Équipe de dix personnes encadrées en direct, structurée autour d'un rôle de lead technique sans responsabilité hiérarchique.</p>
           <section class="bloc"><h4>depotdoc.fr</h4><ul>
-            <li>Conception et déploiement d'un dépôt documentaire dématérialisé.</li>
+            <li>Conception et déploiement de bout en bout d'une plateforme de dépôt de documents et d'envoi de formulaires, ouverte aux assurés, aux entreprises, aux partenaires et aux professionnels de santé.</li>
+            <li>Déploiement à l'échelle nationale en instances dédiées, une par organisme : plus de 20 % du réseau des CPAM utilisateur, sans aucune obligation d'usage, la plateforme restant éditée et hébergée par la CPAM de la Charente.</li>
             <li>Trente mille utilisations par mois et réduction de moitié des flux papier.</li>
-            <li>Adoption par 30 % du réseau national, sans aucune obligation d'usage.</li>
+            <li>Exploitation assurée pour l'ensemble des caisses utilisatrices : supervision des instances, communication d'incident et de maintenance, mesure d'audience auto-hébergée sans traceur tiers. Le service est toujours en production.</li>
           </ul></section>
           <section class="bloc"><h4>Innovation IA</h4><ul>
             <li>Rédaction des comptes rendus de conseil d'administration assistée par IA, institutionnalisée après validation de la direction : délai ramené de trois semaines à trois jours, premier jet en trois heures.</li>
             <li>Ce POC est devenu le fondement de la stratégie IA déployée sur les postes suivants.</li>
             <li>Mise en œuvre d'une IA interne en RAG sur base de données graphe.</li>
-            <li>Acculturation d'une trentaine de cadres, en groupes de dix au maximum, sur des cas d'usage tertiaires directs.</li>
+            <li>Acculturation d'une trentaine de cadres, portée par la direction, en groupes de dix au maximum : synthèses, supports de présentation, exploitation de données.</li>
             <li>Intégration de l'assistance IA au développement dans l'équipe.</li>
           </ul></section>
-          <section class="bloc"><h4>Open source et données</h4><ul>
+          <section class="bloc"><h4>Pôle appui au pilotage</h4><ul>
+            <li>Second périmètre du poste, conduit en parallèle du service informatique.</li>
+            <li>Outils décisionnels et business intelligence.</li>
+            <li>Gouvernance des données et analyse des flux métiers.</li>
+          </ul></section>
+          <section class="bloc"><h4>Open source et infrastructure</h4><ul>
             <li>Déploiement de GLPI et d'Axelor, et réduction de la dépendance aux éditeurs.</li>
-            <li>Business intelligence, gouvernance des données et analyse des flux métiers.</li>
-            <li>Quarante serveurs Linux et Windows, migration vers AlmaLinux 9, haute disponibilité.</li>
+            <li>Migration du parc complet de Windows 7 vers Windows 10, soit quatre cents postes.</li>
+            <li>Quarante serveurs Linux et Windows, migration vers AlmaLinux 9, haute disponibilité 24/7.</li>
           </ul></section>
         </div>
       </article>
@@ -523,10 +529,12 @@ html.avant .sq{opacity:0;transform:translateY(9px)}
         <h3>depotdoc.fr</h3>
         <p class="meta">Né à la CPAM de la Charente</p>
         <ul class="resume">
-          <li>Dépôt documentaire dématérialisé, 30 000 utilisations par mois.</li>
-          <li>Flux papier réduits de moitié.</li>
-          <li>Adopté par 30 % du réseau national sans obligation d'usage.</li>
+          <li>Plateforme de dépôt de documents et d'envoi de formulaires, ouverte aux assurés, aux entreprises, aux partenaires et aux professionnels de santé.</li>
+          <li>Déployée en instances dédiées, une par organisme, sur plus de 20 % du réseau des CPAM, sans obligation d'usage.</li>
+          <li>30 000 utilisations par mois, flux papier réduits de moitié.</li>
+          <li>Éditée et hébergée par la CPAM de la Charente, toujours en production aujourd'hui.</li>
         </ul>
+        <ul class="actions"><li><a href="https://depotdoc.fr" rel="noopener">Ouvrir depotdoc.fr</a></li></ul>
       </article>
 
       <article class="fiche" id="r-cr-ca">
@@ -856,7 +864,7 @@ const NOEUDS = [
   {id:'p-rsi', type:'sous', parent:'parcours', x:175, y:410, etiq:['RSI Poitou-Charentes','Manager logistique'], long:'Manager du pôle logistique, RSI Poitou-Charentes', etape:1},
 
   {id:'realisations', type:'majeur', x:370, y:620, icone:'tools', etiq:['Réalisations'], long:'Réalisations et outils conçus', retour:'aux réalisations', etape:2},
-  {id:'r-depotdoc', type:'sous', parent:'realisations', x:225, y:560, etiq:['depotdoc.fr'], long:'Dépôt documentaire dématérialisé, 30 000 utilisations par mois', etape:2},
+  {id:'r-depotdoc', type:'sous', parent:'realisations', x:225, y:560, etiq:['depotdoc.fr'], long:'Plateforme de dépôt de documents et de formulaires, 30 000 utilisations par mois', etape:2},
   {id:'r-cr-ca', type:'sous', parent:'realisations', x:205, y:665, etiq:['Comptes rendus de CA'], long:"Rédaction des comptes rendus de conseil d'administration assistée par IA", etape:2},
   {id:'r-campagnes', type:'sous', parent:'realisations', x:245, y:760, etiq:['Campagnes de déploiement'], long:'Outil de gestion des campagnes de déploiement IT', etape:2},
   {id:'r-helpdesk', type:'sous', parent:'realisations', x:360, y:800, etiq:['Pilotage helpdesk'], long:'Outil de pilotage du helpdesk pour les managers de proximité', etape:2},
