@@ -604,15 +604,6 @@ html.avant .sq{opacity:0;transform:translateY(9px)}
         <ul class="actions"><li><a href="https://depotdoc.fr" rel="noopener">Ouvrir depotdoc.fr</a></li></ul>
       </article>
 
-      <article class="fiche" id="r-cr-ca">
-        <h3>Automatisation — Comptes rendus de conseil d'administration</h3>
-        <p class="meta">Née à la CPAM de la Charente</p>
-        <ul class="resume">
-          <li>Rédaction assistée par IA, institutionnalisée après validation de la direction.</li>
-          <li>Délai ramené de trois semaines à trois jours, premier jet en trois heures.</li>
-          <li>POC fondateur de la stratégie IA déployée ensuite.</li>
-        </ul>
-      </article>
 
       <article class="fiche" id="r-campagnes">
         <h3>Développement — Gestion des campagnes de déploiement IT</h3>
@@ -638,6 +629,8 @@ html.avant .sq{opacity:0;transform:translateY(9px)}
         <p class="meta">Née à la CPAM de la Charente</p>
         <ul class="resume">
           <li>Mise en œuvre d'une IA interne en RAG sur base de données graphe.</li>
+          <li>Premier cas d'usage : la rédaction des comptes rendus de conseil d'administration, institutionnalisée après validation de la direction — trois semaines ramenées à trois jours, premier jet en trois heures.</li>
+          <li>Ce cas d'usage a fondé la stratégie IA déployée sur les postes suivants.</li>
           <li>Intégration de l'assistance IA au développement dans l'équipe.</li>
         </ul>
       </article>
@@ -958,13 +951,12 @@ const NOEUDS = [
   {id:'p-rsi', type:'sous', parent:'parcours', x:175, y:410, etiq:['RSI Poitou-Charentes','Manager logistique'], long:'Manager du pôle logistique, RSI Poitou-Charentes', etape:1},
 
   {id:'realisations', type:'majeur', x:370, y:620, icone:'tools', etiq:['Réalisations'], long:'Réalisations et outils conçus', retour:'aux réalisations', etape:2},
-  {id:'r-fusion', type:'sous', parent:'realisations', x:545, y:605, etiq:['Fusion régionale','DRSM vers CPAM'], long:'Fusion régionale DRSM vers CPAM, programme national TAM', etape:2},
-  {id:'r-depotdoc', type:'sous', parent:'realisations', x:221, y:571, etiq:['depotdoc.fr'], long:'Plateforme de dépôt de documents et de formulaires, 30 000 utilisations par mois', etape:2},
-  {id:'r-cr-ca', type:'sous', parent:'realisations', x:205, y:667, etiq:['Comptes rendus de CA'], long:"Rédaction des comptes rendus de conseil d'administration assistée par IA", etape:2},
-  {id:'r-campagnes', type:'sous', parent:'realisations', x:248, y:763, etiq:['Campagnes de déploiement'], long:'Outil de gestion des campagnes de déploiement IT', etape:2},
-  {id:'r-helpdesk', type:'sous', parent:'realisations', x:350, y:799, etiq:['Pilotage helpdesk'], long:'Outil de pilotage du helpdesk pour les managers de proximité', etape:2},
-  {id:'r-ia-interne', type:'sous', parent:'realisations', x:456, y:786, etiq:['IA interne'], long:'IA interne en RAG sur base de données graphe', etape:2},
-  {id:'r-instruments', type:'sous', parent:'realisations', x:515, y:700, etiq:['Instruments de pilotage'], long:"Outils d'évaluation et tableaux de bord de l'activité métier", etape:2},
+  {id:'r-fusion', type:'sous', parent:'realisations', x:543, y:589, etiq:['Fusion régionale','DRSM vers CPAM'], long:'Fusion régionale DRSM vers CPAM, programme national TAM', etape:2},
+  {id:'r-depotdoc', type:'sous', parent:'realisations', x:215, y:593, etiq:['depotdoc.fr'], long:'Plateforme de dépôt de documents et de formulaires, 30 000 utilisations par mois', etape:2},
+  {id:'r-campagnes', type:'sous', parent:'realisations', x:207, y:714, etiq:['Campagnes de déploiement'], long:'Outil de gestion des campagnes de déploiement IT', etape:2},
+  {id:'r-helpdesk', type:'sous', parent:'realisations', x:308, y:789, etiq:['Pilotage helpdesk'], long:'Outil de pilotage du helpdesk pour les managers de proximité', etape:2},
+  {id:'r-ia-interne', type:'sous', parent:'realisations', x:434, y:796, etiq:['IA interne'], long:'IA interne en RAG sur base de données graphe, et premiers cas d\'usage', etape:2},
+  {id:'r-instruments', type:'sous', parent:'realisations', x:513, y:703, etiq:['Instruments de pilotage'], long:"Outils d'évaluation et tableaux de bord de l'activité métier", etape:2},
 
   /* Grappe recomposée : sept sous-nœuds, étiquettes sur deux lignes.
      L'étiquette du majeur est forcée à gauche, sinon elle se pose sur ses propres rameaux. */
@@ -1007,7 +999,6 @@ const TRANSVERSALES = [
   {a:'c-technique', b:'r-fusion', n:2, t:'exercice', mot:'exercée sur'},
   {a:'c-support', b:'r-fusion', n:2, t:'exercice', mot:'exercé sur'},
   {a:'r-depotdoc', b:'p-charente-si', n:1, t:'creation'},
-  {a:'r-cr-ca', b:'p-charente-si', n:1, t:'creation'},
   {a:'r-ia-interne', b:'p-charente-si', n:1, t:'creation'},
   {a:'r-campagnes', b:'p-drsm', n:1, t:'creation'},
   {a:'r-campagnes', b:'p-cpam92', n:2, t:'reemploi'},
