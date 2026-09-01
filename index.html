@@ -647,26 +647,18 @@ html.avant .sq{opacity:0;transform:translateY(9px)}
       <p class="chapeau">Les compétences sont rattachées aux postes où elles se sont construites puis exercées. Les familles du CV sont indiquées sous chaque intitulé.</p>
 
       <article class="fiche" id="c-gouvernance">
-        <h3>Direction et gouvernance</h3>
-        <p class="meta">Exercées à la CPAM 92 et à la DRSM · nourries par le Master MSIC</p>
-        <p class="familles">Famille : direction et gouvernance.</p>
+        <h3>Direction, gouvernance et conduite du changement</h3>
+        <p class="meta">Exercées sur chaque poste de management · nourries par les masters MSIC et DTSE</p>
+        <p class="familles">Familles : direction et gouvernance ; transformation et conduite du changement ; droit social.</p>
         <ul class="resume">
           <li>Direction de programme, management de transition, vision produit.</li>
           <li>Gouvernance SI, comitologie, roadmap, pilotage budgétaire.</li>
-          <li>Direction de quatre services et quarante-cinq collaborateurs à la CPAM des Hauts-de-Seine.</li>
+          <li>Fusion régionale TAM : accompagnement des équipes en contexte d'absorption, sur toute la durée du mandat.</li>
+          <li>Abandon de l'accueil au guichet à la CARSAT, management visuel par tableau de bord individuel en agence.</li>
+          <li>Droit et sciences du travail européen, dialogue social en contexte de réorganisation.</li>
         </ul>
       </article>
 
-      <article class="fiche" id="c-transformation">
-        <h3>Transformation et conduite du changement</h3>
-        <p class="meta">Exercées sur chaque poste de management</p>
-        <p class="familles">Famille : transformation et conduite du changement.</p>
-        <ul class="resume">
-          <li>Fusion régionale TAM : accompagnement des équipes en contexte d'absorption, sur toute la durée du mandat.</li>
-          <li>Abandon de l'accueil au guichet à la CARSAT, management visuel par tableau de bord individuel en agence.</li>
-          <li>Acculturation à l'IA générative conduite sur trois organismes.</li>
-        </ul>
-      </article>
 
       <article class="fiche" id="c-pilotage">
         <h3>Pilotage et mesure</h3>
@@ -757,15 +749,6 @@ html.avant .sq{opacity:0;transform:translateY(9px)}
         </ul>
       </article>
 
-      <article class="fiche" id="c-droit-social">
-        <h3>Droit social</h3>
-        <p class="meta">Nourri par le Master DTSE</p>
-        <p class="familles">Famille : droit social, dialogue social.</p>
-        <ul class="resume">
-          <li>Droit et sciences du travail européen.</li>
-          <li>Dialogue social en contexte de réorganisation.</li>
-        </ul>
-      </article>
     </section>
 
     <section class="page-noeud" id="formation" data-icone="school" aria-labelledby="t-formation">
@@ -973,18 +956,16 @@ const NOEUDS = [
 
   /* Grappe recomposée : sept sous-nœuds, étiquettes sur deux lignes.
      L'étiquette du majeur est forcée à gauche, sinon elle se pose sur ses propres rameaux. */
-  {id:'competences', type:'majeur', x:760, y:682, icone:'stack', etiq:['Compétences'], long:'Compétences', retour:'aux compétences', etape:3, etiquette:{ancrage:'end', dx:-37, dy:4}},
-  {id:'c-gouvernance', type:'sous', parent:'competences', x:661, y:742, etiq:['Direction et','gouvernance'], long:'Direction et gouvernance', etape:3},
-  {id:'c-pilotage', type:'sous', parent:'competences', x:708, y:786, etiq:['Pilotage','et mesure'], long:'Instruments de pilotage, KPI, tableaux de bord, appui au pilotage', etape:3},
-  {id:'c-ia', type:'sous', parent:'competences', x:831, y:777, etiq:['Intelligence','artificielle'], long:'Intelligence artificielle', etape:3},
-  {id:'c-technique', type:'sous', parent:'competences', x:878, y:663, etiq:['Architecture et','développement'], long:'Architecture et infrastructure ; développement applicatif', etape:3},
-  {id:'c-data', type:'sous', parent:'competences', x:857, y:603, etiq:['Data et','décisionnel'], long:'Data et décisionnel', etape:3},
-  {id:'c-km', type:'sous', parent:'competences', x:770, y:799, etiq:['Knowledge','management'], long:'Knowledge management et capitalisation', etape:3},
-  {id:'c-securite', type:'sous', parent:'competences', x:794, y:593, etiq:['Sécurité et','conformité'], long:'Sécurité des systèmes d\'information, PSSI, RGPD', etape:3},
-  {id:'c-support', type:'sous', parent:'competences', x:679, y:605, etiq:['Support et','exploitation'], long:'Support et services, ITIL, helpdesk multiniveaux', etape:3},
-  {id:'c-opensource', type:'sous', parent:'competences', x:648, y:672, etiq:['Open source et','souveraineté'], long:'Open source et souveraineté', etape:3},
-  {id:'c-transformation', type:'sous', parent:'competences', x:735, y:567, etiq:['Transformation et','conduite du changement'], long:'Transformation et conduite du changement', etape:3},
-  {id:'c-droit-social', type:'sous', parent:'competences', x:871, y:727, etiq:['Droit social'], long:'Droit social, dialogue social', etape:3},
+  {id:'competences', type:'majeur', x:760, y:680, icone:'stack', etiq:['Compétences'], long:'Compétences', retour:'aux compétences', etape:3, etiquette:{ancrage:'end', dx:-37, dy:4}},
+  {id:'c-gouvernance', type:'sous', parent:'competences', x:639, y:739, etiq:['Direction et','gouvernance'], long:'Direction, gouvernance et conduite du changement', etape:3},
+  {id:'c-pilotage', type:'sous', parent:'competences', x:680, y:789, etiq:['Pilotage','et mesure'], long:'Instruments de pilotage, KPI, tableaux de bord, appui au pilotage', etape:3},
+  {id:'c-ia', type:'sous', parent:'competences', x:857, y:774, etiq:['Intelligence','artificielle'], long:'Intelligence artificielle', etape:3},
+  {id:'c-technique', type:'sous', parent:'competences', x:893, y:654, etiq:['Architecture et','développement'], long:'Architecture et infrastructure ; développement applicatif', etape:3},
+  {id:'c-data', type:'sous', parent:'competences', x:866, y:596, etiq:['Data et','décisionnel'], long:'Data et décisionnel', etape:3},
+  {id:'c-km', type:'sous', parent:'competences', x:739, y:813, etiq:['Knowledge','management'], long:'Knowledge management et capitalisation', etape:3},
+  {id:'c-securite', type:'sous', parent:'competences', x:815, y:557, etiq:['Sécurité et','conformité'], long:'Sécurité des systèmes d\'information, PSSI, RGPD', etape:3},
+  {id:'c-support', type:'sous', parent:'competences', x:803, y:808, etiq:['Support et','exploitation'], long:'Support et services, ITIL, helpdesk multiniveaux', etape:3},
+  {id:'c-opensource', type:'sous', parent:'competences', x:889, y:718, etiq:['Open source et','souveraineté'], long:'Open source et souveraineté', etape:3},
 
   {id:'formation', type:'majeur', x:960, y:500, icone:'school', etiq:['Formation'], long:'Formation universitaire', retour:'à la formation', etape:4},
   {id:'f-msic', type:'sous', parent:'formation', x:1075, y:450, etiq:['Master MSIC','Panthéon-Sorbonne'], long:"Master 2 Executive management des systèmes d'information et des connaissances", etape:4},
@@ -1049,13 +1030,12 @@ const TRANSVERSALES = [
   {a:'c-opensource', b:'p-charente-si', n:1, t:'exercice'},
   {a:'c-opensource', b:'p-cpam92', n:2, t:'exercice'},
   {a:'c-opensource', b:'f-msic', n:2, t:'formation'},
-  {a:'c-transformation', b:'p-drsm', n:1, t:'exercice'},
-  {a:'c-transformation', b:'p-carsat', n:2, t:'exercice'},
-  {a:'c-transformation', b:'p-charente-agence', n:2, t:'exercice'},
+  {a:'c-gouvernance', b:'p-carsat', n:2, t:'exercice'},
+  {a:'c-gouvernance', b:'p-charente-agence', n:2, t:'exercice'},
   {a:'c-securite', b:'p-charente-si', n:1, t:'exercice'},
   {a:'c-securite', b:'p-drsm', n:2, t:'exercice'},
   {a:'c-securite', b:'p-cpam92', n:2, t:'exercice'},
-  {a:'c-droit-social', b:'f-dtse', n:1, t:'formation'},
+  {a:'c-gouvernance', b:'f-dtse', n:2, t:'formation'},
   {a:'f-memoire', b:'f-msic', n:1, t:'issu'},
   {a:'f-memoire', b:'pub-communs', n:1, t:'filiation'},
   {a:'f-memoire', b:'c-opensource', n:2, t:'filiation'},
