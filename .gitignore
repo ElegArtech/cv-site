@@ -12,6 +12,7 @@ desktop.ini
 
 # Dépendances / build
 node_modules/
+__pycache__/
 dist/
 build/
 .cache/

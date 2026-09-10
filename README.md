@@ -56,6 +56,16 @@ python3 -m http.server 8000
 
 L'ouverture directe en `file://` fonctionne aussi, les polices restant locales.
 
+## Validation
+
+Le contrôle structurel ne demande aucune dépendance. Il vérifie l'unicité des
+identifiants, la correspondance entre nœuds et fiches, les arêtes du graphe et
+les cibles des liens locaux. Il est aussi exécuté automatiquement sur GitHub.
+
+```bash
+python3 scripts/check-site.py
+```
+
 ## Déploiement
 
 Publié par GitHub Pages depuis la racine de `main`. Un push sur `main` met le

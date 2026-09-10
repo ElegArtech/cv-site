@@ -334,14 +334,14 @@ html.avant .sq{opacity:0;transform:translateY(9px)}
         <li><a href="https://elegartech.substack.com" rel="me noopener">ElegArtech</a></li>
       </ul>
       <div class="portrait sq" data-seq="6">
-        <img src="assets/portrait-alexandre-berge.webp" width="1100" height="1100" alt="Portrait d'Alexandre Berge" decoding="async">
+        <img src="assets/portrait-alexandre-berge.webp" width="1100" height="1100" alt="Portrait d'Alexandre Berge" loading="lazy" decoding="async">
       </div>
     </aside>
 
     <main>
       <svg id="scene" viewBox="0 0 1440 840" preserveAspectRatio="xMidYMid meet" role="application" aria-label="Graphe de navigation du curriculum vitæ"></svg>
       <div class="panneau" id="panneau" hidden>
-        <button class="retour" id="retour">← Retour au graphe</button>
+        <button type="button" class="retour" id="retour">← Retour au graphe</button>
         <div class="panneau-corps" id="panneau-corps"></div>
       </div>
     </main>
@@ -872,7 +872,7 @@ html.avant .sq{opacity:0;transform:translateY(9px)}
       <p class="chapeau">Ouvert à un poste de direction ou à une mission de management de transition.</p>
       <article class="fiche" id="contact-actions">
         <h3>Alexandre Berge</h3>
-        <p class="meta">Paris 13<sup>e</sup> · mobilité Nouvelle-Aquitaine</p>
+        <p class="meta">Paris 13<sup>e</sup> · mobilité nationale</p>
         <ul class="actions">
           <li><a href="mailto:contact@alexandre-berge.fr">contact@alexandre-berge.fr</a></li>
           <li><a href="https://www.linkedin.com/in/bergealexandre" rel="me noopener">linkedin.com/in/bergealexandre</a></li>
@@ -897,7 +897,7 @@ html.avant .sq{opacity:0;transform:translateY(9px)}
   "givenName":"Alexandre",
   "familyName":"Berge",
   "url":"https://alexandre-berge.fr/",
-  "image":"https://alexandre-berge.fr/assets/photo_alex.png",
+  "image":"https://alexandre-berge.fr/assets/portrait-alexandre-berge.webp",
   "email":"mailto:contact@alexandre-berge.fr",
   "jobTitle":"Responsable du département informatique",
   "description":"Directeur de programme, transformation SI et IA, management de transition. Dix-huit ans de management dans la protection sociale.",
@@ -1090,6 +1090,9 @@ const contenu = document.getElementById('contenu');
 const HUB = PAR_ID.profil;
 const doux = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const petit = () => !window.matchMedia('(min-width: 1080px)').matches;
+const decoderFragment = valeur => {
+  try { return decodeURIComponent(valeur); } catch (e) { return valeur; }
+};
 
 const el = (nom, attrs) => {
   const e = document.createElementNS(NS, nom);
@@ -1098,6 +1101,8 @@ const el = (nom, attrs) => {
 };
 
 const gAretes = el('g', {}), gTrans = el('g', {}), gNoeuds = el('g', {});
+gAretes.setAttribute('aria-hidden', 'true');
+gTrans.setAttribute('aria-hidden', 'true');
 svg.append(gAretes, gTrans, gNoeuds);
 svg.classList.add('voile');
 
@@ -1105,7 +1110,7 @@ ARETES.forEach(e => { e.dom = el('line', {class:'arete ' + e.rang + ' cache'}); 
 
 TRANSVERSALES.forEach((e, i) => {
   e.titre = PAR_ID[e.a].etiq.join(' ') + ' — ' + (e.mot || MOTS[e.t]) + ' — ' + PAR_ID[e.b].etiq.join(' ');
-  e.dom = el('path', {class:'transversale niveau' + e.n + ' cache', 'data-i':i});
+  e.dom = el('path', {class:'transversale niveau' + e.n + ' cache', 'data-i':i, 'aria-hidden':'true'});
   const t = el('title'); t.textContent = e.titre; e.dom.appendChild(t);
   gTrans.appendChild(e.dom);
 });
@@ -1155,7 +1160,7 @@ VISIBLES.forEach(n => {
     g.appendChild(gi);
   }
   const pos = placerEtiquette(n);
-  const txt = el('text', {class:n.type === 'sous' ? 'etiq-sous' : 'etiq-majeur', 'text-anchor':pos.ancrage, y:pos.y - n.by});
+  const txt = el('text', {id:'libelle-' + n.id, class:n.type === 'sous' ? 'etiq-sous' : 'etiq-majeur', 'text-anchor':pos.ancrage, y:pos.y - n.by});
   n.etiq.forEach((ligne, i) => {
     const ts = el('tspan', {x:pos.x - n.bx, dy:i === 0 ? 0 : 13});
     ts.textContent = ligne;
@@ -1163,12 +1168,14 @@ VISIBLES.forEach(n => {
   });
   g.appendChild(txt);
   const infobulle = el('title');
+  infobulle.id = 'description-' + n.id;
   infobulle.textContent = n.long && n.long !== n.etiq.join(' ') ? n.etiq.join(' · ') + ' — ' + n.long : n.etiq.join(' · ');
   g.appendChild(infobulle);
   if (n.type !== 'hub') {
     g.setAttribute('tabindex', '0');
     g.setAttribute('role', 'link');
-    g.setAttribute('aria-label', 'Ouvrir ' + (n.long || n.etiq.join(' · ')));
+    g.setAttribute('aria-labelledby', txt.id);
+    g.setAttribute('aria-describedby', infobulle.id);
   }
   n.dom = g; n.domTexte = txt; n.pos = pos;
   gNoeuds.appendChild(g);
@@ -1272,6 +1279,7 @@ function toutMontrer() {
   introEnCours = false;
   SEQ.forEach(e => e.classList.remove('cache'));
   tousLesDoms().forEach(d => d.classList.remove('cache'));
+  VISIBLES.forEach(n => { if (n.type !== 'hub' && !n.dom.classList.contains('efface')) n.dom.setAttribute('tabindex', '0'); });
   svg.classList.remove('moment', 'fondu');
 }
 function jouer() {
@@ -1281,6 +1289,7 @@ function jouer() {
   svg.classList.remove('moment', 'fondu');
   const tout = tousLesDoms();
   tout.forEach(d => d.classList.add('cache'));
+  VISIBLES.forEach(n => { if (n.type !== 'hub') n.dom.setAttribute('tabindex', '-1'); });
   document.documentElement.classList.remove('avant');
   if (doux()) { toutMontrer(); return; }
   introEnCours = true;
@@ -1502,6 +1511,7 @@ svg.addEventListener('wheel', ev => {
    ============================================================ */
 
 let ouvert = null, detailOuvert = null, tween = null, bordVB = 400;
+let dernierNoeudActif = null;
 
 const aDetail = id => {
   const f = document.getElementById(id);
@@ -1626,7 +1636,11 @@ function ouvrirNoeud(id) {
 
   const enfants = VISIBLES.filter(n => n.parent === id);
   const gardes = new Set([id].concat(enfants.map(n => n.id)));
-  VISIBLES.forEach(n => n.dom.classList.toggle('efface', !gardes.has(n.id)));
+  VISIBLES.forEach(n => {
+    const efface = !gardes.has(n.id);
+    n.dom.classList.toggle('efface', efface);
+    if (n.type !== 'hub') n.dom.setAttribute('tabindex', efface ? '-1' : '0');
+  });
   ARETES.forEach(e => e.dom.classList.toggle('efface', !(gardes.has(e.a) && gardes.has(e.b))));
   TRANSVERSALES.forEach(e => e.dom.classList.add('efface'));
   marquerNoeuds();
@@ -1642,6 +1656,7 @@ function ouvrirNoeud(id) {
   }
   panneau.hidden = false;
   requestAnimationFrame(() => panneau.classList.add('visible'));
+  if (document.body.classList.contains('clavier')) requestAnimationFrame(() => retour.focus());
   etat.textContent = PAR_ID[id].etiq[0];
 }
 
@@ -1689,14 +1704,20 @@ function fermerDetail() {
 
 function fermerNoeud(immediat) {
   if (!ouvert) return;
+  const restaurer = dernierNoeudActif && PAR_ID[dernierNoeudActif];
+  dernierNoeudActif = null;
   if (detailOuvert) fermerDetail();
   ouvert = null;
   panneau.classList.remove('visible', 'niveau3');
   document.body.classList.remove('niveau3');
   const rendre = () => {
-    VISIBLES.forEach(n => n.dom.classList.remove('efface', 'muet', 'actif'));
+    VISIBLES.forEach(n => {
+      n.dom.classList.remove('efface', 'muet', 'actif');
+      if (n.type !== 'hub') n.dom.setAttribute('tabindex', '0');
+    });
     ARETES.forEach(e => e.dom.classList.remove('efface'));
     TRANSVERSALES.forEach(e => e.dom.classList.remove('efface'));
+    if (restaurer && document.body.classList.contains('clavier')) restaurer.dom.focus();
   };
   if (immediat) { panneau.hidden = true; } else {
     minuteurs.push(setTimeout(() => { panneau.hidden = true; }, 500));
@@ -1731,7 +1752,7 @@ function viserListe(cle) {
 }
 
 function router() {
-  const cle = decodeURIComponent((location.hash || '').replace(/^#/, ''));
+  const cle = decoderFragment((location.hash || '').replace(/^#/, ''));
   if (document.body.classList.contains('mode-liste')) { viserListe(cle); return; }
   const n = cle ? PAR_ID[cle] : null;
   const maj = n ? (n.type === 'majeur' ? n.id : n.parent) : null;
@@ -1749,6 +1770,7 @@ function activer(id) {
   const n = PAR_ID[id];
   if (!n) return;
   if (n.type === 'hub') { if (ouvert) aller(''); return; }
+  dernierNoeudActif = id;
   aller(id);
 }
 
@@ -1792,12 +1814,28 @@ bRejoue.addEventListener('click', ev => { ev.stopPropagation(); if (ouvert) alle
 
 /* Repli du détail dans la vue liste */
 equiper(contenu);
+contenu.querySelectorAll('.fiche').forEach(f => {
+  const b = f.querySelector('.deplier'), detail = f.querySelector('.detail');
+  if (!b || !detail) return;
+  detail.id = f.id + '-detail';
+  b.setAttribute('aria-expanded', 'false');
+  b.setAttribute('aria-controls', detail.id);
+});
 contenu.addEventListener('click', ev => {
   const b = ev.target.closest('.deplier');
   if (!b) return;
   const f = b.closest('.fiche');
   const deploye = f.classList.toggle('deploye');
   b.textContent = deploye ? 'Replier le détail ↑' : 'Voir le détail →';
+  b.setAttribute('aria-expanded', deploye ? 'true' : 'false');
+});
+
+/* Le lien d'évitement ouvre le document avant d'y placer le focus. */
+document.querySelector('.evitement').addEventListener('click', ev => {
+  ev.preventDefault();
+  poserMode('liste');
+  contenu.setAttribute('tabindex', '-1');
+  contenu.focus();
 });
 
 /* Passage au niveau 3 depuis le panneau */
@@ -1813,7 +1851,10 @@ retour.addEventListener('click', () => { aller(detailOuvert ? ouvert : ''); });
    ============================================================ */
 
 document.addEventListener('keydown', ev => {
-  if (ev.key === 'Tab') document.body.classList.add('clavier');
+  if (ev.key === 'Tab') {
+    document.body.classList.add('clavier');
+    if (introEnCours || svg.querySelector('.noeud.cache')) toutMontrer();
+  }
   if (ev.key === 'Escape' && ouvert) { ev.preventDefault(); aller(detailOuvert ? ouvert : ''); }
 });
 document.addEventListener('pointerdown', ev => {
@@ -1847,8 +1888,8 @@ poserMode(vueInitiale, true);
 
 requestAnimationFrame(() => {
   recadrer(false);
-  const cible = decodeURIComponent((location.hash || '').replace(/^#/, ''));
-  if (vueInitiale === 'graphe' && !PAR_ID[cible]) jouer(); else toutMontrer();
+  const cible = decoderFragment((location.hash || '').replace(/^#/, ''));
+  if (vueInitiale === 'graphe' && !PAR_ID[cible] && !document.body.classList.contains('clavier')) jouer(); else toutMontrer();
   router();
   if (petit() && !ouvert) {
     etat.textContent = 'Glissez pour explorer · pincez pour zoomer';
