@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Codicillus — Vos connaissances. Vivantes.</title>
+  <meta name="description" content="Codicillus est une base de connaissances auto-hébergée où chaque note indique si elle est encore digne de confiance.">
+  <meta name="theme-color" content="#123426">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#contenu">Aller au contenu</a>
+
+  <header class="topbar">
+    <a class="brand" href="#accueil" aria-label="Codicillus, accueil">
+      <span class="brand-mark" aria-hidden="true">C</span>
+      <span>Codicillus</span>
+    </a>
+    <nav aria-label="Navigation principale">
+      <a href="#vivacite">La vivacité</a>
+      <a href="#registres">Les registres</a>
+      <a href="#graphe">Le graphe</a>
+    </nav>
+    <a class="top-cta" href="https://github.com/ElegArtech/codicillus" rel="noopener">Voir le projet <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main id="contenu">
+    <section class="hero" id="accueil">
+      <div class="hero-copy reveal">
+        <p class="eyebrow">Base de connaissances auto-hébergée</p>
+        <h1>La documentation dont vous savez <em>si vous pouvez vous servir.</em></h1>
+        <p class="lead">Codicillus rend la fiabilité documentaire visible au premier regard. Chaque note porte sa date de vérification, sa durée de validité et le bon niveau d’attention.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#vivacite">Éprouver la vivacité <span aria-hidden="true">↓</span></a>
+          <a class="text-link" href="#principe">Comprendre le principe <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+
+      <div class="hero-stage reveal" aria-label="Aperçu d’une note Codicillus">
+        <div class="stage-glow" aria-hidden="true"></div>
+        <article class="note-window">
+          <div class="window-bar">
+            <div class="mini-brand"><span>C</span> Codicillus</div>
+            <div class="crumb">Infrastructure <b>›</b> Sauvegardes <b>›</b></div>
+            <span class="window-action">Modifier</span>
+          </div>
+          <div class="note-shell">
+            <aside class="side-tree" aria-hidden="true">
+              <span class="tree-label">UNIVERS</span>
+              <b>⌄ Infrastructure</b>
+              <span>⌄ Sauvegardes</span>
+              <span>⌄ Exploitation</span>
+              <strong>Restaurer PostgreSQL</strong>
+              <span>Politique de sauvegarde</span>
+              <span>Fiche BKP-01</span>
+            </aside>
+            <div class="note-page">
+              <div class="register-tabs"><b>Référence</b><span>Opérationnel</span></div>
+              <div class="fresh-line state-ajour">
+                <span class="glyph" aria-hidden="true"></span><strong>À jour</strong>
+                <span>Vérifiée aujourd’hui</span><span>Prochaine vérification dans 90 jours</span>
+              </div>
+              <p class="doc-label">NOTE TECHNIQUE</p>
+              <h2>Restaurer une sauvegarde PostgreSQL</h2>
+              <div class="chips"><span>PostgreSQL</span><span>Sauvegarde</span><span>Procédure</span></div>
+              <div class="doc-rule"><i></i><span>⌁</span><i></i></div>
+              <p class="doc-intro">Procédure de restauration, contrôles d’intégrité et retour en service.</p>
+              <h3><small>01</small> Prérequis système</h3>
+              <div class="code-line"><span>bash</span><code>pg_restore --clean --if-exists</code></div>
+            </div>
+          </div>
+        </article>
+        <div class="trust-card">
+          <p>VIVACITÉ · RÉFÉRENCE</p>
+          <strong><span class="glyph" aria-hidden="true"></span> À jour</strong>
+          <span>Vérifiée aujourd’hui</span>
+          <div class="mini-timeline"><i></i><b></b><em></em></div>
+          <div class="timeline-labels"><span>vérifiée</span><span>aujourd’hui</span><span>échéance</span></div>
+        </div>
+      </div>
+
+      <div class="scroll-cue" aria-hidden="true"><span></span> défiler pour suivre la note</div>
+    </section>
+
+    <section class="manifesto" id="principe">
+      <p class="eyebrow reveal">Le problème n’est pas de stocker</p>
+      <h2 class="reveal">Une note n’est pas utile parce qu’elle existe.<br><em>Elle l’est si l’on peut encore lui faire confiance.</em></h2>
+      <div class="manifesto-grid">
+        <p class="big-stat reveal"><b>5</b><span>états explicites,<br>du fiable à l’obsolète</span></p>
+        <p class="manifesto-copy reveal">Dans la plupart des outils, la documentation vieillit en silence. Codicillus traite le temps comme une donnée de premier ordre : une vérification, une validité propre à chaque registre, une échéance lisible partout.</p>
+      </div>
+    </section>
+
+    <section class="lab" id="vivacite">
+      <div class="section-head reveal">
+        <p class="eyebrow">01 · La vivacité</p>
+        <h2>Faites voyager cette note dans le temps.</h2>
+        <p>La forme, le libellé et l’information temporelle disent la même chose. Déplacez le curseur : l’attention augmente sans ambiguïté.</p>
+      </div>
+
+      <div class="lab-grid reveal">
+        <div class="lab-control">
+          <div class="control-top"><span>Temps écoulé depuis l’échéance</span><output id="day-output" for="day-range">− 67 jours</output></div>
+          <input id="day-range" type="range" min="-67" max="110" value="-67" aria-label="Temps écoulé depuis l’échéance">
+          <div class="range-labels"><span>Vérifiée</span><span>Échéance</span><span>+ 110 jours</span></div>
+          <button class="verify-button" id="verify-button" type="button"><span aria-hidden="true">✓</span> Marquer comme vérifiée</button>
+          <p class="control-hint">Un clic relance le cycle du registre courant.</p>
+        </div>
+
+        <article class="live-note state-ajour" id="live-note" aria-live="polite">
+          <div class="live-note-top"><span class="doc-type">NOTE · INFRASTRUCTURE</span><span>•••</span></div>
+          <h3>Politique de sauvegarde</h3>
+          <p>Règles de conservation, tests de restauration et responsabilités d’exploitation.</p>
+          <div class="live-status" id="live-status">
+            <span class="status-glyph glyph" aria-hidden="true"></span>
+            <strong id="status-label">À jour</strong>
+            <span id="status-detail">Prochaine vérification dans 67 jours</span>
+          </div>
+          <div class="status-rail"><i id="rail-fill"></i><b id="rail-now"></b><em></em></div>
+          <div class="live-meta"><span>Vérifiée le <b id="verified-date">11 sept. 2026</b></span><span>Validité : 90 jours</span></div>
+        </article>
+      </div>
+
+      <div class="states" aria-label="Les cinq états de vivacité">
+        <button class="state-chip active" data-day="-67" data-state="ajour"><span class="glyph"></span><b>À jour</b><small>67 j restants</small></button>
+        <button class="state-chip" data-day="-6" data-state="bientot"><span class="glyph"></span><b>Bientôt</b><small>6 j restants</small></button>
+        <button class="state-chip" data-day="4" data-state="averifier"><span class="glyph"></span><b>À vérifier</b><small>4 j de retard</small></button>
+        <button class="state-chip" data-day="21" data-state="arevoir"><span class="glyph"></span><b>À revoir</b><small>21 j de retard</small></button>
+        <button class="state-chip" data-day="110" data-state="obsolete"><span class="glyph"></span><b>Obsolète</b><small>110 j de retard</small></button>
+      </div>
+    </section>
+
+    <section class="registers" id="registres">
+      <div class="section-head light reveal">
+        <p class="eyebrow">02 · Deux registres</p>
+        <h2>Le fond pour comprendre.<br>Le geste pour agir.</h2>
+        <p>Une même note porte deux lectures et deux cycles de vivacité indépendants.</p>
+      </div>
+      <div class="register-demo reveal">
+        <div class="register-switch" role="tablist" aria-label="Registre présenté">
+          <button class="active" role="tab" aria-selected="true" data-register="reference">Référence</button>
+          <button role="tab" aria-selected="false" data-register="operationnel">Opérationnel</button>
+        </div>
+        <div class="register-content" id="register-content">
+          <div class="page-number">01</div>
+          <div>
+            <p class="doc-type" id="register-kicker">CONTEXTE ET PRINCIPES</p>
+            <h3 id="register-title">Comprendre l’architecture de sauvegarde</h3>
+            <p id="register-copy">Le registre de référence rassemble les choix, les dépendances et les raisons qui rendent la procédure intelligible dans la durée.</p>
+          </div>
+          <div class="register-state state-ajour" id="register-state"><span class="glyph"></span><div><b id="register-label">À jour</b><small id="register-time">vérifié il y a 3 jours</small></div></div>
+        </div>
+        <div class="register-lines" aria-hidden="true"><i></i><i></i><i></i></div>
+      </div>
+    </section>
+
+    <section class="graph-section" id="graphe">
+      <div class="section-head reveal">
+        <p class="eyebrow">03 · Un corpus relié</p>
+        <h2>La connaissance a une structure.<br>Codicillus la rend navigable.</h2>
+      </div>
+      <div class="graph-wrap reveal">
+        <div class="hierarchy">
+          <p class="eyebrow">Du général au précis</p>
+          <ol>
+            <li><span>01</span><b>Univers</b><small>Infrastructure</small></li>
+            <li><span>02</span><b>Domaine</b><small>Sauvegardes</small></li>
+            <li><span>03</span><b>Dossier</b><small>Exploitation</small></li>
+            <li><span>04</span><b>Note</b><small>Restaurer PostgreSQL</small></li>
+          </ol>
+        </div>
+        <div class="knowledge-graph" aria-label="Exemple de graphe de connaissances">
+          <svg viewBox="0 0 760 430" role="img" aria-label="Relations entre applications, serveurs, équipements et contacts">
+            <g class="edges">
+              <path d="M380 215 L178 110 M380 215 L610 92 M380 215 L616 330 M380 215 L174 340 M178 110 L610 92 M174 340 L616 330"/>
+              <path class="edge-accent" d="M178 110 L380 215 L616 330"/>
+            </g>
+            <g class="node node-main" tabindex="0"><circle cx="380" cy="215" r="58"/><text x="380" y="210">PostgreSQL</text><text class="node-sub" x="380" y="231">application</text></g>
+            <g class="node" tabindex="0"><circle cx="178" cy="110" r="48"/><text x="178" y="106">srv-db-01</text><text class="node-sub" x="178" y="126">serveur</text></g>
+            <g class="node" tabindex="0"><circle cx="610" cy="92" r="44"/><text x="610" y="88">BKP-01</text><text class="node-sub" x="610" y="108">équipement</text></g>
+            <g class="node" tabindex="0"><circle cx="616" cy="330" r="50"/><text x="616" y="326">Alexandre</text><text class="node-sub" x="616" y="346">administre</text></g>
+            <g class="node" tabindex="0"><circle cx="174" cy="340" r="44"/><text x="174" y="336">Sauvegarde</text><text class="node-sub" x="174" y="356">dépend de</text></g>
+            <text class="relation" x="260" y="145">hébergée par</text><text class="relation" x="500" y="268">administrée par</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing">
+      <div class="closing-inner reveal">
+        <p class="eyebrow">Vos connaissances. Vivantes.</p>
+        <h2>Retrouver une note est utile.<br><em>Savoir qu’elle est fiable change tout.</em></h2>
+        <p>Codicillus remet les usagers aux commandes de leur patrimoine documentaire.</p>
+        <a class="button button-light" href="https://github.com/ElegArtech/codicillus" rel="noopener">Découvrir le projet sur GitHub <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="closing-orbit" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    </section>
+  </main>
+
+  <footer>
+    <a class="brand footer-brand" href="#accueil"><span class="brand-mark">C</span><span>Codicillus</span></a>
+    <p>Base de connaissances documentaire interne · auto-hébergée</p>
+    <a href="https://alexandre-berge.fr" rel="noopener">Un projet d’Alexandre Berge <span aria-hidden="true">↗</span></a>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
