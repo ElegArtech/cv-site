@@ -69,7 +69,7 @@
       button.classList.toggle('active', buttonIndex === index);
       button.setAttribute('aria-pressed', String(buttonIndex === index && zoom));
     });
-    tooltipIndex.textContent = String(index + 1).padStart(2, '0');
+    tooltipIndex.textContent = screens[current].count.slice(0, 2);
     tooltipTitle.textContent = point.title;
     tooltipCopy.textContent = point.copy;
     tooltip.classList.toggle('left', point.x > 62);
