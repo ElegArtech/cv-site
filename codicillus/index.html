@@ -101,8 +101,39 @@
               <b id="tour-counter">01 / 03</b>
             </div>
             <div class="tour-canvas">
-              <img id="tour-image" src="assets/ecran-accueil.png" alt="Tableau de bord de Codicillus">
-              <div class="tour-focus" id="tour-focus"><span>Le corpus entier, en un regard</span></div>
+              <div class="demo-app" id="demo-app" aria-label="Démonstration de l’interface Codicillus">
+                <aside class="demo-sidebar">
+                  <div class="demo-brand"><img src="assets/logo.png" alt=""><b>Codicillus</b></div>
+                  <div class="demo-search">Rechercher… <kbd>⌘ K</kbd></div>
+                  <p>UNIVERS</p>
+                  <ul>
+                    <li><i></i><b>Gouvernance</b><small>18</small></li>
+                    <li><i></i><b>Applications</b><small>31</small></li>
+                    <li class="open"><i></i><b>Infrastructure</b><small>24</small></li>
+                    <li class="child">Sauvegardes</li>
+                    <li class="child active">Plan de continuité d’activité</li>
+                    <li><i></i><b>Données &amp; BI</b><small>16</small></li>
+                  </ul>
+                </aside>
+                <div class="demo-workspace" id="demo-workspace">
+                  <div class="demo-header"><span>Accueil</span><button type="button">+ Créer</button></div>
+                  <div class="demo-dashboard">
+                    <h3>Votre documentation, aujourd’hui.</h3>
+                    <p class="demo-lead">89 notes dans quatre univers.</p>
+                    <div class="demo-wide-search">Rechercher une note, une fiche, un signet…</div>
+                    <section class="demo-watch">
+                      <p>À SURVEILLER</p>
+                      <div><span class="dot soon"></span><b>3 notes arrivent bientôt à échéance</b><small>Vérification prévue dans les 10 prochains jours</small></div>
+                      <div><span class="dot review"></span><b>2 notes nécessitent votre attention</b><small>Leur période de validité est dépassée</small></div>
+                      <aside><strong>84</strong><span>notes à jour</span></aside>
+                    </section>
+                    <div class="demo-lists">
+                      <section><p>RÉCEMMENT CONSULTÉES</p><b>Plan de continuité d’activité</b><b>Référentiel des KPI</b><b>Cartographie applicative</b></section>
+                      <section><p>VOS UNIVERS</p><b>Gouvernance <small>18 notes</small></b><b>Applications <small>31 notes</small></b><b>Infrastructure <small>24 notes</small></b></section>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </figure>
         </div>
