@@ -9,6 +9,7 @@
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="tour.css">
+  <link rel="stylesheet" href="visualisations.css">
 </head>
 <body>
   <a class="skip" href="#contenu">Aller au contenu</a>
@@ -22,7 +23,7 @@
       <a href="#produit">Le produit</a>
       <a href="#vivacite">La vivacité</a>
       <a href="#registres">Les registres</a>
-      <a href="#graphe">Le graphe</a>
+      <a href="#graphe">Les visualisations</a>
     </nav>
     <a class="top-cta" href="https://github.com/ElegArtech/codicillus" rel="noopener">Voir le projet <span aria-hidden="true">↗</span></a>
   </header>
@@ -225,35 +226,60 @@
       </div>
     </section>
 
-    <section class="graph-section" id="graphe">
-      <div class="section-head reveal">
-        <p class="eyebrow">03 · Un corpus relié</p>
-        <h2>La connaissance a une structure.<br>Codicillus la rend navigable.</h2>
+    <section class="visualisations" id="graphe">
+      <div class="viz-intro reveal">
+        <p class="eyebrow">03 · Trois lectures du corpus</p>
+        <h2>Voir les liens.<br>Comprendre les dépendances.<br><em>Retrouver le chemin.</em></h2>
+        <p>Une seule représentation ne peut pas répondre à toutes les questions. Codicillus change de point de vue sans changer de corpus.</p>
       </div>
-      <div class="graph-wrap reveal">
-        <div class="hierarchy">
-          <p class="eyebrow">Du général au précis</p>
-          <ol>
-            <li><span>01</span><b>Univers</b><small>Infrastructure</small></li>
-            <li><span>02</span><b>Domaine</b><small>Sauvegardes</small></li>
-            <li><span>03</span><b>Dossier</b><small>Exploitation</small></li>
-            <li><span>04</span><b>Note</b><small>Restaurer PostgreSQL</small></li>
-          </ol>
+
+      <div class="viz-stage reveal">
+        <div class="viz-sidebar">
+          <p class="viz-label">Choisir la question</p>
+          <div class="viz-tabs" role="tablist" aria-label="Visualisation présentée">
+            <button class="active" type="button" role="tab" aria-selected="true" data-viz="graphe">
+              <span>01</span><b>Cartographie</b><small>Qu’est-ce qui est relié&nbsp;?</small>
+            </button>
+            <button type="button" role="tab" aria-selected="false" data-viz="modelisation">
+              <span>02</span><b>Modélisation</b><small>Qu’est-ce qui dépend de quoi&nbsp;?</small>
+            </button>
+            <button type="button" role="tab" aria-selected="false" data-viz="carte-mentale">
+              <span>03</span><b>Carte mentale</b><small>Où vit la connaissance&nbsp;?</small>
+            </button>
+          </div>
+
+          <div class="viz-story" aria-live="polite">
+            <p id="viz-question">Observer le voisinage d’une note</p>
+            <h3 id="viz-title">Les relations deviennent un territoire.</h3>
+            <p id="viz-copy">Les liens déclarés, les mentions déduites, les familles sémantiques et la vivacité composent une carte exploratoire du corpus.</p>
+            <ul id="viz-insights"><li>Repérer les notes isolées</li><li>Lire les familles de connaissances</li><li>Suivre un lien jusqu’à sa source</li></ul>
+          </div>
         </div>
-        <div class="knowledge-graph" aria-label="Exemple de graphe de connaissances">
-          <svg viewBox="0 0 760 430" role="img" aria-label="Relations entre applications, serveurs, équipements et contacts">
-            <g class="edges">
-              <path d="M380 215 L178 110 M380 215 L610 92 M380 215 L616 330 M380 215 L174 340 M178 110 L610 92 M174 340 L616 330"/>
-              <path class="edge-accent" d="M178 110 L380 215 L616 330"/>
-            </g>
-            <g class="node node-main" tabindex="0"><circle cx="380" cy="215" r="58"/><text x="380" y="210">PostgreSQL</text><text class="node-sub" x="380" y="231">application</text></g>
-            <g class="node" tabindex="0"><circle cx="178" cy="110" r="48"/><text x="178" y="106">srv-db-01</text><text class="node-sub" x="178" y="126">serveur</text></g>
-            <g class="node" tabindex="0"><circle cx="610" cy="92" r="44"/><text x="610" y="88">BKP-01</text><text class="node-sub" x="610" y="108">équipement</text></g>
-            <g class="node" tabindex="0"><circle cx="616" cy="330" r="50"/><text x="616" y="326">Alexandre</text><text class="node-sub" x="616" y="346">administre</text></g>
-            <g class="node" tabindex="0"><circle cx="174" cy="340" r="44"/><text x="174" y="336">Sauvegarde</text><text class="node-sub" x="174" y="356">dépend de</text></g>
-            <text class="relation" x="260" y="145">hébergée par</text><text class="relation" x="500" y="268">administrée par</text>
-          </svg>
-        </div>
+
+        <figure class="viz-window">
+          <div class="viz-window-bar">
+            <span></span><span></span><span></span>
+            <p><i></i> Vue réelle · corpus Infrastructure</p>
+            <b id="viz-count">01 / 03</b>
+          </div>
+          <div class="viz-screen">
+            <img id="viz-image" src="assets/visualisation-graphe.png" alt="Cartographie réelle du domaine Infrastructure dans Codicillus">
+            <div class="viz-reticle" id="viz-reticle" style="--x:68%;--y:49%" aria-hidden="true"><i></i><i></i></div>
+            <div class="viz-callout" id="viz-callout"><span>Point de lecture</span><b>Une relation sélectionnée révèle immédiatement son voisinage.</b></div>
+          </div>
+          <figcaption>
+            <div id="viz-metrics"><span><b>11</b> notes visibles</span><span><b>9</b> relations déclarées</span><span><b>3</b> relations déduites</span></div>
+            <small>Capture de l’application réelle</small>
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="viz-synthesis reveal" aria-label="Les trois niveaux de lecture">
+        <article><span>01</span><div><b>Relier</b><p>La cartographie explore les proximités et les familles.</p></div></article>
+        <i aria-hidden="true">→</i>
+        <article><span>02</span><div><b>Comprendre</b><p>La modélisation expose les chaînes de dépendance.</p></div></article>
+        <i aria-hidden="true">→</i>
+        <article><span>03</span><div><b>Ranger</b><p>La carte mentale révèle l’arborescence du corpus.</p></div></article>
       </div>
     </section>
 
@@ -276,5 +302,6 @@
 
   <script src="script.js"></script>
   <script src="tour.js"></script>
+  <script src="visualisations.js"></script>
 </body>
 </html>
