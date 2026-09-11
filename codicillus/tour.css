@@ -75,6 +75,30 @@
   color: var(--green);
   font: 400 .62rem var(--mono);
 }
+.tour-browser-nav {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.tour-browser-nav button {
+  width: 25px;
+  height: 25px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  color: var(--green);
+  background: transparent;
+  border: 1px solid #d7ddd8;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: color .18s ease, background .18s ease, transform .18s ease;
+}
+.tour-browser-nav button:hover,
+.tour-browser-nav button:focus-visible {
+  color: #fff;
+  background: var(--green);
+  transform: translateY(-1px);
+}
 .tour-canvas {
   position: relative;
   aspect-ratio: 1.86;
@@ -94,11 +118,115 @@
   height: 100%;
   object-fit: cover;
   object-position: left top;
-  transition: opacity .28s ease, transform .7s cubic-bezier(.2, .8, .2, 1);
+  transition: opacity .28s ease, transform .7s cubic-bezier(.2, .8, .2, 1), filter .28s ease;
 }
 .tour-canvas img.changing {
   opacity: .12;
   transform: scale(1.015);
+}
+.tour-canvas img.zoomed { transform: scale(1.42); }
+
+.tour-hotspots {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  transition: opacity .24s ease;
+}
+.tour-hotspots.changing,
+.tour-hotspots.zoomed { opacity: 0; pointer-events: none; }
+.tour-hotspots button {
+  position: absolute;
+  width: 31px;
+  height: 31px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  color: #fff;
+  background: var(--green);
+  border: 2px solid rgba(255, 255, 255, .95);
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(31, 90, 60, .32), 0 7px 18px rgba(18, 52, 38, .2);
+  cursor: zoom-in;
+  transform: translate(-50%, -50%);
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+.tour-hotspots button::after {
+  position: absolute;
+  inset: -8px;
+  content: "";
+  border: 1px solid rgba(31, 90, 60, .35);
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(.65);
+  transition: opacity .22s ease, transform .22s ease;
+}
+.tour-hotspots button span {
+  font: 600 .55rem var(--mono);
+  pointer-events: none;
+}
+.tour-hotspots button:hover,
+.tour-hotspots button:focus-visible,
+.tour-hotspots button.active {
+  z-index: 2;
+  background: #123426;
+  box-shadow: 0 0 0 7px rgba(31, 90, 60, .14), 0 9px 22px rgba(18, 52, 38, .28);
+  transform: translate(-50%, -50%) scale(1.08);
+}
+.tour-hotspots button:hover::after,
+.tour-hotspots button:focus-visible::after,
+.tour-hotspots button.active::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.tour-tooltip {
+  position: absolute;
+  z-index: 4;
+  right: 18px;
+  bottom: 18px;
+  width: min(330px, 44%);
+  display: grid;
+  grid-template-columns: 35px 1fr;
+  gap: 13px;
+  padding: 16px 18px;
+  color: #fff;
+  background: rgba(18, 52, 38, .96);
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 7px;
+  box-shadow: 0 16px 42px rgba(18, 34, 28, .26);
+  backdrop-filter: blur(10px);
+  transition: right .3s ease, left .3s ease, transform .3s ease;
+}
+.tour-tooltip.left { right: auto; left: 18px; }
+.tour-tooltip > span {
+  color: var(--green-bright);
+  font: 400 .72rem var(--mono);
+}
+.tour-tooltip b {
+  display: block;
+  margin-bottom: 5px;
+  font: 600 .82rem var(--sans);
+}
+.tour-tooltip p {
+  margin: 0;
+  color: rgba(255, 255, 255, .68);
+  font-size: .7rem;
+  line-height: 1.45;
+}
+.tour-reset {
+  position: absolute;
+  z-index: 5;
+  top: 14px;
+  right: 14px;
+  padding: 8px 11px;
+  color: var(--green);
+  background: rgba(252, 251, 248, .94);
+  border: 1px solid var(--green);
+  border-radius: 5px;
+  box-shadow: 0 6px 18px rgba(18, 52, 38, .14);
+  font-size: .68rem;
+  font-weight: 600;
+  cursor: zoom-out;
 }
 
 .tour-steps { padding: 12vh 0; }
@@ -222,7 +350,19 @@
   .tour-intro { margin-bottom: 65px; }
   .tour-intro h2 { font-size: 2.8rem; }
   .tour-browser { height: 38px; }
+  .tour-browser-nav button { width: 22px; height: 22px; }
   .tour-screen-wrap { top: 60px; }
+  .tour-hotspots button { width: 25px; height: 25px; }
+  .tour-tooltip {
+    right: 9px;
+    bottom: 9px;
+    width: calc(100% - 18px);
+    grid-template-columns: 28px 1fr;
+    padding: 11px 12px;
+  }
+  .tour-tooltip.left { right: 9px; left: auto; }
+  .tour-tooltip p { display: none; }
+  .tour-canvas img.zoomed { transform: scale(1.7); }
   .tour-step {
     min-height: 78vh;
     padding-top: 38vh;

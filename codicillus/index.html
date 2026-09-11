@@ -98,10 +98,20 @@
             <div class="tour-browser">
               <span></span><span></span><span></span>
               <p>codicillus.local</p>
-              <b id="tour-counter">01 / 03</b>
+              <div class="tour-browser-nav" aria-label="Changer d’écran">
+                <button id="tour-prev" type="button" aria-label="Écran précédent">←</button>
+                <b id="tour-counter">01 / 03</b>
+                <button id="tour-next" type="button" aria-label="Écran suivant">→</button>
+              </div>
             </div>
             <div class="tour-canvas">
               <img id="tour-image" src="assets/interface-accueil.png" alt="Accueil de Codicillus avec le corpus de démonstration neutre">
+              <div class="tour-hotspots" id="tour-hotspots" aria-label="Points d’intérêt de l’écran"></div>
+              <aside class="tour-tooltip" id="tour-tooltip" aria-live="polite">
+                <span id="tour-tooltip-index">01</span>
+                <div><b id="tour-tooltip-title">Le rail documentaire</b><p id="tour-tooltip-copy">L’arborescence Univers › Domaine › Dossier › Note reste présente pendant toute la navigation.</p></div>
+              </aside>
+              <button class="tour-reset" id="tour-reset" type="button" hidden>Vue entière</button>
             </div>
           </figure>
         </div>
