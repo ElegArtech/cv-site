@@ -1,0 +1,32 @@
+/* SPDX-License-Identifier: MIT — see ../LICENSE and ../LICENSING.md. */
+.gallery-tab {
+  font-size:14px;font-weight:600;padding:10px 18px;border-radius:3px;
+  border:1px solid #D5D8DE;background:#FFFFFF;color:#5B6270;cursor:pointer;
+  transition:background .15s ease,color .15s ease,border-color .15s ease;
+}
+.gallery-tab[aria-pressed="true"] {border-color:#1B2A9B;background:#1B2A9B;color:#FFFFFF}
+.gallery-tab:focus-visible {outline:2px solid #1B2A9B;outline-offset:3px}
+[data-hovertrans] {transition:transform .22s ease,box-shadow .22s ease}
+.hover-1:hover, .hover-1:focus-visible {color:#14161C !important}
+.hover-2:hover, .hover-2:focus-visible {color:#14161C !important}
+.hover-3:hover, .hover-3:focus-visible {color:#14161C !important}
+.hover-4:hover, .hover-4:focus-visible {color:#14161C !important}
+.hover-5:hover, .hover-5:focus-visible {background:#121D75 !important}
+.hover-6:hover, .hover-6:focus-visible {transform:translateY(-2px) !important;box-shadow:0 8px 20px rgba(0,0,0,.3) !important}
+.hover-7:hover, .hover-7:focus-visible {background:rgba(143,169,255,.14) !important}
+.hover-8:hover, .hover-8:focus-visible {transform:translateY(-4px) !important;box-shadow:0 12px 28px rgba(20,22,28,.09) !important}
+.hover-9:hover, .hover-9:focus-visible {transform:translateY(-4px) !important;box-shadow:0 12px 28px rgba(20,22,28,.09) !important}
+.hover-10:hover, .hover-10:focus-visible {transform:translateY(-4px) !important;box-shadow:0 12px 28px rgba(20,22,28,.09) !important}
+.hover-11:hover, .hover-11:focus-visible {transform:translateX(6px) !important}
+.hover-12:hover, .hover-12:focus-visible {transform:translateX(6px) !important}
+.hover-13:hover, .hover-13:focus-visible {transform:translateX(6px) !important}
+.hover-14:hover, .hover-14:focus-visible {transform:translateX(6px) !important}
+.hover-15:hover, .hover-15:focus-visible {transform:translateX(6px) !important}
+.hover-16:hover, .hover-16:focus-visible {transform:translateX(6px) !important}
+.hover-17:hover, .hover-17:focus-visible {transform:translateY(-4px) !important;box-shadow:0 12px 28px rgba(20,22,28,.09) !important}
+.hover-18:hover, .hover-18:focus-visible {transform:translateY(-4px) !important;box-shadow:0 12px 28px rgba(20,22,28,.09) !important}
+.hover-19:hover, .hover-19:focus-visible {transform:translateY(-4px) !important;box-shadow:0 12px 28px rgba(20,22,28,.09) !important}
+.hover-20:hover, .hover-20:focus-visible {transform:translateY(-4px) !important;box-shadow:0 12px 28px rgba(20,22,28,.09) !important}
+.hover-21:hover, .hover-21:focus-visible {transform:translateY(-4px) !important;box-shadow:0 12px 28px rgba(20,22,28,.09) !important}
+.hover-22:hover, .hover-22:focus-visible {transform:translateY(-4px) !important;box-shadow:0 12px 28px rgba(20,22,28,.09) !important}
+.hover-23:hover, .hover-23:focus-visible {transform:translateY(-2px) !important;box-shadow:0 10px 24px rgba(0,0,0,.3) !important}

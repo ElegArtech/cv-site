@@ -19,7 +19,8 @@ build/
 
 # Environnement
 .env
-.env.local
+.env.*
+!.env.example
 *.log
 
 # Document de travail maître : ne pas publier (le dépôt est servi par GitHub Pages)
